@@ -1,6 +1,8 @@
 # Gestor de Cartera Web3
 
-Este proyecto tiene como objetivo desarrollar un gestor de cartera al estilo de Exodus para criptomonedas, utilizando tecnologías Web3. La aplicación contará con un frontend sencillo y un backend robusto que interactuará con la blockchain.
+Este proyecto tiene como objetivo desarrollar un gestor de cartera para criptomonedas, utilizando tecnologías Web3. La aplicación contará con un frontend sencillo y un backend robusto que interactuará con la blockchain.
+
+Se ha usado ChatGPT para diseñar una estructura del proyecto
 
 ## Contenidos
 - [Planificación y Diseño](#planificación-y-diseño)
@@ -10,10 +12,23 @@ Este proyecto tiene como objetivo desarrollar un gestor de cartera al estilo de 
 - [Despliegue y Mantenimiento](#despliegue-y-mantenimiento)
 - [Herramientas y Tecnologías](#herramientas-y-tecnologías)
 
-## Planificación y Diseño
-### Tareas
-- **Definición de requerimientos**: Identificación de funcionalidades clave, incluyendo soporte de múltiples criptomonedas, transacciones, visualización de balances, y más.
+## Planificación y Diseño (Reunion del Sabado)
+
+### Requerimientos
+
+- **Git**: Tener instalado git en el pc (https://git-scm.com/downloads), En el link esta la descarga de mac y de windows
+- **Extension Git VSCODE**: Instalar la extensión de github en VSCODE (Git Extension Pack, gitignore, git History)
+- **Extension docker VSCODE**: Instalar la extensión de VSCODE (Docker, Docker compose, Docker explorer, Docker Extension Pack, Docker Run)
+- **Tener cuenta de Github**: Crear una cuenta de github si no la teneis ya y loguearos en vscode con la cuenta
+- **Instalar Docker Desktop**: Instalar docker Desktop en el pc (https://www.docker.com/products/docker-desktop/)
+
+(Cualquier duda instalando las aplicaciones preguntad a manu por whatsapp)
+
+### Tareas a discutir en la reunion
+
+- **Definición de requerimientos**: Identificación de funcionalidades clave, incluyendo soporte de múltiples criptomonedas, transacciones, visualización de balances, y más. 
 - **Arquitectura del sistema**: Diseño de la arquitectura general, incluyendo microservicios para el backend y patrones de diseño para el frontend.
+- **Explicacion de git y github**: Se realizará una explicación por videoconferencia para explicar la forma de trabajar, el uso de git y github y el metodo de revisión del código.
 
 ### Responsable
 - Líder del proyecto
@@ -56,8 +71,8 @@ Este proyecto tiene como objetivo desarrollar un gestor de cartera al estilo de 
 - DevOps / Ingeniero de mantenimiento
 
 ## Herramientas y Tecnologías
-- **Backend**: Python, Flask/FastAPI, Web3.py
-- **Frontend**: React, Vue.js
-- **Base de datos**: PostgreSQL, MongoDB
-- **Pruebas**: pytest, Selenium
-- **Despliegue**: Docker, AWS/GCP
+- **Backend**: Python, FastAPI, Web3.py
+- **Frontend**: React, Vue.js, angular, o el lenguaje que decidamos usar en la reunion
+- **Base de datos**: MySQL (En caso de que decidamos usar una base de datos)
+- **Pruebas**: Pendiente de decidir (pytest, Selenium)
+- **Despliegue**: Docker, Docker-Compose
