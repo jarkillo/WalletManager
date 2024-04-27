@@ -11,6 +11,17 @@ from config.blockchain import get_web3
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
+# Crear un handler de consola y establecer el nivel
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+
+# Crear y establecer el formato del log
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+console_handler.setFormatter(formatter)
+
+# Añadir el handler al logger
+logger.addHandler(console_handler)
+
 
 # Cargamos el archivo token.env que contiene las variables de entorno para mas seguridad
 logger.info("Cargando variables de entorno...")
