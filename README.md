@@ -42,7 +42,7 @@ Se ha usado ChatGPT para diseñar una estructura del proyecto
 
 ### Responsables
 - Desarrollador Backend 1: API y lógica de negocio.
-- Desarrollador Backend 2: Integración de blockchain y medidas de seguridad.
+- Desarrollador Backend 2: Medidas de seguridad.
 
 ## Frontend
 ### Tareas
