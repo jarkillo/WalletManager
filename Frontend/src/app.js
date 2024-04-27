@@ -1,15 +1,25 @@
-import React from 'react';
-import WalletInfo from './components/WalletInfo';
-import SendTransaction from './components/SendTransaction';
+import logo from './logo.svg';
+import './App.css';
 
 function App() {
-    return (
-        <div>
-            <h1>Wallet Manager</h1>
-            <WalletInfo />
-            <SendTransaction />
-        </div>
-    );
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
+  );
 }
 
 export default App;
