@@ -35,3 +35,12 @@ Method: Selecciona GET como el método HTTP desde el menú desplegable.
 URL: Escribe la URL del endpoint para enviar transacciones.http://localhost:8000/wallet/balance/{address}
 
 Donde {address} va la id de la wallet
+
+Probar transferir y recibir Ethereum en redes de prueba sin gastar dinero.
+Los "Grifos" (Faucets) te permiten solicitar token grátis
+Faucets para la red "Sepolia":
+https://faucets.chain.link 
+Requiere login con Twitter
+https://sepoliafaucet.com
+Más con cuenta gratuita de Alchemy
+https://www.infura.io/faucet 
