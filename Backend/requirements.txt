@@ -1,0 +1,6 @@
+web3
+fastapi
+uvicorn
+web3.auto
+pydantic
+python-dotenv
