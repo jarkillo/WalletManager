@@ -1,0 +1,22 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Folders de configuración
+token.env
+.env
+
+# Carpetas específicas de IDEs/Editors
+.vscode/
+
+# Carpetas específicas de OS
+.DS_Store
+Thumbs.db
+
+# Archivos de logs
+logs/
+*.log
+
+# Archivos de configuración local
+config.json
