@@ -13,3 +13,12 @@ services:
       - ./token.env
 
     restart: unless-stopped
+
+  frontend:
+    build: ./Frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./Frontend/src:/app/src
+    environment:
+      - REACT_APP_BACKEND_URL=http://localhost:8000
