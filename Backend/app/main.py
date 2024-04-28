@@ -6,6 +6,22 @@ import os
 import logging
 from utils.wallet import create_wallet, send_transaction, get_balance
 from config.blockchain import get_web3
+from fastapi.middleware.cors import CORSMiddleware
+
+# Inicialización de la aplicación FastAPI
+app = FastAPI()
+
+# Configura el middleware CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",  # Acceso desde el navegador en el host
+        "http://frontend:3000"    # Acceso desde el servicio en Docker (si fuera necesario)
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite todos los métodos
+    allow_headers=["*"],  # Permite todos los encabezados
+)
 
 # Inicializamos el logger
 logger = logging.getLogger(__name__)
@@ -23,6 +39,7 @@ console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
 
+
 # Cargamos el archivo token.env que contiene las variables de entorno para mas seguridad
 logger.info("Cargando variables de entorno...")
 load_dotenv('token.env')
@@ -36,8 +53,7 @@ infura_project_id = os.getenv('INFURA_PROJECT_ID')
 # Variable global que almacena la conexión web3
 w3 = get_web3(infura_project_id)
 
-# Inicialización de la aplicación FastAPI
-app = FastAPI()
+
 
 # Modelo de Pydantic para validar la estructura de la entrada de datos de la transacción
 class Transaction(BaseModel):

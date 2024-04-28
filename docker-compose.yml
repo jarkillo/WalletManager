@@ -12,6 +12,8 @@ services:
     env_file:
       - ./token.env
 
+    networks:
+      - app-network
     restart: unless-stopped
 
   frontend:
@@ -22,3 +24,12 @@ services:
       - ./Frontend/src:/app/src
     environment:
       - REACT_APP_BACKEND_URL=http://localhost:8000
+    networks:
+      - app-network
+
+    restart: unless-stopped
+
+networks:
+  app-network:
+
+
