@@ -100,7 +100,7 @@ async def api_send_transaction(transaction: Transaction):
 
 # Endpoint para consultar el saldo de una wallet
 @app.get("/wallet/balance/{address}")
-async def api_get_balance(address: str, network: str = 'testnet'):
+async def api_get_balance(address: str, network: str = 'sepolia'):
     logger.info("Consultando el saldo de una wallet en la red: " + network)
     balance = get_balance(address, network)
     return {"balance": balance}

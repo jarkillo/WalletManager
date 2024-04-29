@@ -10,12 +10,41 @@ h2 {
   text-align: center;
 }
 
-/* Contenedor para cualquier sección que incluya un saldo o título */
-.saldo-container {
+/* Contenedor para cualquier sección que incluya saldo */
+.saldo-block {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 500px;
   text-align: center;
-  /* Centrar texto para la etiqueta del saldo */
-  margin-top: 20px;
-  /* Dar algo de margen superior para separar del resto */
+}
+
+.form-saldo {
+  margin-bottom: 20px;
+}
+
+.form-saldo label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.form-saldo input {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+.saldo-resultado {
+  font-size: 1.2em;
+  color: #333;
+  margin-top: 15px;
+  /* Ajustar según sea necesario */
 }
 
 form {

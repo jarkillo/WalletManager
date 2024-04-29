@@ -4,9 +4,14 @@ import axios from 'axios';
 function InformacionCartera() {
     const [saldo, setSaldo] = useState('');
     const [direccionCartera, setDireccionCartera] = useState('');
+    const [network, setNetwork] = useState('sepolia');
 
     const manejarCambioClavePrivada = (evento) => {
         setDireccionCartera(evento.target.value);
+    };
+
+    const manejarCambioRed = (evento) => {
+        setNetwork(evento.target.value);
     };
 
     const manejarEnvio = (evento) => {
@@ -40,17 +45,25 @@ function InformacionCartera() {
     };
 
     return (
-        <div className="saldo-container">
+        <div className="saldo-block">
             <h2>Saldo de la Cartera</h2>
-            <p>Saldo: {saldo} ETH</p>
-            <form onSubmit={manejarEnvio}>
+            <form onSubmit={manejarEnvio} className="form-saldo">
+                <label>
+                    Red:
+                    <select value={network} onChange={manejarCambioRed}>
+                        <option value="sepolia">Sepolia</option>
+                        <option value="mainnet">Mainnet</option>
+                    </select>
+                </label>
                 <label>
                     Wallet:
                     <input type="text" value={direccionCartera} onChange={manejarCambioClavePrivada} />
                 </label>
-                <button type="submit">Enviar</button>
+                <button type="submit">Consultar Saldo</button>
             </form>
-
+            {saldo && (
+                <p className="saldo-resultado">Saldo: {saldo} ETH</p>
+            )}
         </div>
     );
 }
