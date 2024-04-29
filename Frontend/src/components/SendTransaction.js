@@ -6,14 +6,17 @@ function SendTransaction() {
     const [privateKey, setPrivateKey] = useState('');
     const [toAddress, setToAddress] = useState('');
     const [amount, setAmount] = useState('');
-    const [transactionResult, setTransactionResult] = useState('');
+    const [transactionHash, setTransactionHash] = useState(''); // Estado para almacenar solo el hash
+    const [transactionMessage, setTransactionMessage] = useState(''); // Estado para el mensaje
     const [isLoading, setIsLoading] = useState(false);
+
+    const isValidHash = (hash) => /^0x([A-Fa-f0-9]{64})$/.test(hash);
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
         if (!privateKey || !toAddress || !amount) {
-            setTransactionResult('Please fill all fields correctly.');
+            setTransactionMessage('Por favor, rellena todos los campos correctamente.');
             return;
         }
 
@@ -25,11 +28,12 @@ function SendTransaction() {
             amount: parseFloat(amount)
         })
             .then(response => {
-                setTransactionResult(`Transacción completada correctamente, el hash de la transferencia es: ${response.data.transaction_hash}`);
+                setTransactionHash(response.data.transaction_hash);
+                setTransactionMessage('Transacción completada correctamente.');
             })
             .catch(error => {
-                const errorMessage = error.response?.data?.detail || 'Unknown error';
-                setTransactionResult('Transaction failed: ' + errorMessage);
+                const errorMessage = error.response?.data?.detail || 'Error desconocido';
+                setTransactionMessage('Error en la transacción: ' + errorMessage);
                 console.error('Error sending transaction:', error);
             })
             .finally(() => {
@@ -39,7 +43,7 @@ function SendTransaction() {
 
     return (
         <form onSubmit={handleSubmit}>
-            <h2>Send Transaction</h2>
+            <h2>Realizar Transferencia</h2>
             <label>
                 Red:
                 <select value={network} onChange={e => setNetwork(e.target.value)}>
@@ -61,12 +65,17 @@ function SendTransaction() {
             </label>
             <button type="submit" disabled={isLoading}>Enviar</button>
             {isLoading && <p>Enviando la transacción...</p>}
-            <div className="result-container">
-                <p>La transacción se ha completado correctamente. El hash de la transacción es: {transactionResult}</p>
-                <a href={`https://explorer.network.io/tx/${transactionResult}`} target="_blank" rel="noopener noreferrer">
-                    Ver transacción
-                </a>
-            </div>
+
+            {transactionMessage && (
+                <div className="result-container">
+                    <p>{transactionMessage}</p>
+                    {isValidHash(transactionHash) && (
+                        <p><a href={`https://${network}.etherscan.io/tx/${transactionHash}`} target="_blank" rel="noopener noreferrer">
+                            Ver transacción
+                        </a></p>
+                    )}
+                </div>
+            )}
         </form>
     );
 }
