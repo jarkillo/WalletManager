@@ -1,9 +1,15 @@
 from web3 import Web3, exceptions
+from config.blockchain import get_web3
 
-def create_wallet(w3):
+def create_wallet(network: str):
     """
     Crea una nueva wallet Ethereum y devuelve su dirección y clave privada.
+
+    Parámetros:
+        network (str): Nombre de la red Ethereum a la que se conectará la wallet.   
+
     """
+    w3 = get_web3(network)
     account = w3.eth.account.create()
     return {
         "address": account.address,
@@ -11,7 +17,7 @@ def create_wallet(w3):
     }
 
 
-def send_transaction(from_private_key, to_address, amount, w3):
+def send_transaction(from_private_key: str, to_address: str, amount: float, network: str):
     """
     Envía una transacción de Ethereum y devuelve el hash de la transacción.
     
@@ -19,9 +25,17 @@ def send_transaction(from_private_key, to_address, amount, w3):
         from_private_key (str): Clave privada del remitente.
         to_address (str): Dirección del destinatario.
         amount (float): Cantidad de ether a enviar.
-        w3 (Web3): Instancia de Web3.
+        network (str): Nombre de la red Ethereum a la que se conectará la wallet.
+
     """
     try:
+        w3 = get_web3(network)
+    
+    except ConnectionError as e:
+        raise Exception(f"Error al conectar con la red Ethereum: {str(e)}")
+    
+    try:
+        
         # Crear una instancia de la cuenta con la clave privada
         account = w3.eth.account.from_key(from_private_key)
         
@@ -49,21 +63,38 @@ def send_transaction(from_private_key, to_address, amount, w3):
 
         # Devolvemos el hash de la transacción
         return w3.to_hex(tx_hash)
+    
     except exceptions.Web3Exception as e:
         raise Exception(f"Error al enviar la transacción: {str(e)}")
 
-def get_balance(address,w3):
+def get_balance(address: str, network: str):
     """
     Consulta el saldo total de una dirección Ethereum y devuelve el saldo en ether.
+
+    Parámetros:
+
+        address (str): Dirección Ethereum cuyo saldo se está consultando.
+        network (str): Nombre de la red Ethereum a la que se conectará la wallet.
+
     """
+    try:
+        w3 = get_web3(network)
+    except  ConnectionError as e:
+        raise Exception(f"Error al conectar con la red Ethereum: {str(e)}")
+    
     if not w3.is_address(address):
         raise ValueError("Invalid Ethereum address")
-    balance = w3.eth.get_balance(address)
+    try:
+        balance = w3.eth.get_balance(address)
+    
+    except exceptions.Web3Exception as e:
+        raise Exception(f"Error al consultar el saldo: {str(e)}")
+    
     return w3.from_wei(balance, 'ether')
 
 # Funcion para obtener el saldo de un token ERC-20 (PENDIENTE DE HACER BIEN Y CONFIGURAR EL ENDPOINT)
 
-def get_token_balance(token_address, wallet_address, w3):
+def get_token_balance(token_address, wallet_address, network: str):
     """
     Consulta el saldo de un token ERC-20 para una dirección específica.
 
@@ -72,6 +103,12 @@ def get_token_balance(token_address, wallet_address, w3):
         wallet_address (str): La dirección de la cartera cuyo saldo de token se está consultando.
         w3 (Web3): Instancia de Web3.
     """
+
+    try:
+        w3 = get_web3(network)
+    except  ConnectionError as e:
+        raise Exception(f"Error al conectar con la red Ethereum: {str(e)}")
+
     # ABI mínimo requerido para consultar el saldo de un token ERC-20
     token_abi = [
         {

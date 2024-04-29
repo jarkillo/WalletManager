@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from dotenv import load_dotenv
 import os
 import logging
-from utils.wallet import create_wallet, send_transaction, get_balance
+from utils.wallet import create_wallet, send_transaction, get_balance, get_token_balance
 from config.blockchain import get_web3
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -49,32 +49,49 @@ load_dotenv('token.env')
 logger.info("Leyendo el project ID...")
 infura_project_id = os.getenv('INFURA_PROJECT_ID')
 
-
-# Variable global que almacena la conexión web3
-w3 = get_web3(infura_project_id)
-
-
-
 # Modelo de Pydantic para validar la estructura de la entrada de datos de la transacción
 class Transaction(BaseModel):
     from_private_key: str
     to_address: str
     amount: float
+    network: str  # Agregamos el campo de la red para poder seleccionarlo en la API
 
 # Endpoint para crear una nueva wallet
 @app.post("/wallet/create")
-async def api_create_wallet():
-    logger.info("Creando una nueva wallet...")
-    wallet = create_wallet(w3)
+
+async def api_create_wallet(network: str = 'testnet'):
+    '''Crea una nueva wallet en la red especificada y devuelve su dirección y clave privada.
+    
+    Parámetros:
+        network (str): Nombre de la red Ethereum a la que se conectará la wallet.
+        '''
+
+    logger.info("Creando una nueva wallet en la red: " + network)
+    # llamamos a la función create_wallet del módulo wallet.py
+    wallet = create_wallet(network)
+
     return wallet
 
 # Endpoint para enviar una transacción
 @app.post("/wallet/transfer")
 async def api_send_transaction(transaction: Transaction):
-    logger.info("Enviando una transacción...")
+    '''Envía una transacción de Ethereum y devuelve el hash de la transacción.
+
+    Parámetros:
+        from_private_key (str): Clave privada del remitente.
+        to_address (str): Dirección del destinatario.
+        amount (float): Cantidad de ether a enviar.
+        network (str): Nombre de la red Ethereum a la que se conectará la wallet.
+    '''
+    logger.info("Enviando una transacción en la red: " + transaction.network)
     try:
         # Intenta realizar la transacción y devuelve el hash de la transacción
-        tx_hash = send_transaction(transaction.from_private_key, transaction.to_address, transaction.amount,w3)
+        tx_hash = send_transaction(
+            transaction.from_private_key,
+            transaction.to_address,
+            transaction.amount,
+            transaction.network
+        )
         return {"transaction_hash": tx_hash}
     
     except Exception as e:
@@ -83,9 +100,9 @@ async def api_send_transaction(transaction: Transaction):
 
 # Endpoint para consultar el saldo de una wallet
 @app.get("/wallet/balance/{address}")
-async def api_get_balance(address: str):
-    logger.info("Consultando el saldo de una wallet...")
-    balance = get_balance(address,w3)
+async def api_get_balance(address: str, network: str = 'testnet'):
+    logger.info("Consultando el saldo de una wallet en la red: " + network)
+    balance = get_balance(address, network)
     return {"balance": balance}
 
 # Para ejecutar la API, usar en consola:

@@ -1,70 +1,22 @@
-# Getting Started with Create React App
+Aqui va a ir todo el contenido del frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+De momento voy a hacer un frontend simple, con GPT y React y una biblioteca de JS
 
-## Available Scripts
+App.js
 
-In the project directory, you can run:
+Importaciones: Se importa React y dos componentes: WalletInfo y SendTransaction
+Función App: Este es el componente principal de la aplicación React. Retorna un elemento JSX que incluye un título (h1) y los dos componentes importados.
+JSX: Es una sintaxis que parece HTML y permite escribir estructura de elementos dentro del código JavaScript. React transforma este JSX en código que maneja el DOM (Document Object Model) del navegador.
 
-### `npm start`
+WalletInfo.js
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+useState: Un Hook de React que permite tener estado en un componente funcional. Aquí, useState('') inicializa balance como un string vacío.
+useEffect: Un Hook que maneja efectos secundarios en componentes funcionales. Se ejecuta después de que el componente se monta y cada vez que se actualiza, dependiendo de su lista de dependencias (aquí está vacía, así que solo se ejecuta una vez después del montaje inicial).
+axios.get: Hace una solicitud GET HTTP usando axios a la API para obtener el saldo de la wallet. Al completarse exitosamente, actualiza el estado balance con el resultado.
+JSX en return: Retorna un elemento con el título y el saldo actual.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+SendTransaction.js
+useState: Se usa para mantener el estado local para la dirección de destino (toAddress), la cantidad (amount) y el resultado de la transacción (transactionResult).
+handleSubmit: Función que se llama cuando el formulario se envía. Previene el comportamiento por defecto del formulario (recargar la página), hace una solicitud POST para enviar la transacción, y maneja la respuesta o errores.
+Formulario JSX: Define un formulario que recoge la dirección y la cantidad para la transacción, y muestra el resultado de la transacción después de enviarla.

@@ -1,38 +1,57 @@
 .App {
   text-align: center;
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Asegurarse de que todos los encabezados estén centrados */
+h1,
+h2 {
+  text-align: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Contenedor para cualquier sección que incluya un saldo o título */
+.saldo-container {
+  text-align: center;
+  /* Centrar texto para la etiqueta del saldo */
+  margin-top: 20px;
+  /* Dar algo de margen superior para separar del resto */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+form {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 90%;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+select {
+  width: calc(100% - 20px);
+  /* Restar el padding para que no sobresalga */
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  /* Asegurarse de que el padding no afecte al ancho total */
+}
+
+button {
+  background-color: #4CAF50;
   color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button:hover {
+  background-color: #45a049;
 }

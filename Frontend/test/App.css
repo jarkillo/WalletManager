@@ -1,0 +1,131 @@
+.App {
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+  /* Agregar un poco de padding al contenedor principal */
+}
+
+.App-header {
+  background-color: #20232a;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(12px + 2vmin);
+  color: white;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+  animation: App-logo-spin infinite 20s linear;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-link {
+  color: #61dafb;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out;
+}
+
+.App-link:hover,
+.App-link:focus {
+  color: #21a1f1;
+  text-decoration: underline;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Estilos adicionales para los formularios */
+form {
+  background-color: #fff;
+  /* Fondo blanco para los formularios */
+  border-radius: 8px;
+  /* Bordes redondeados */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  /* Sombra sutil */
+  padding: 20px;
+  width: 90%;
+  max-width: 500px;
+  /* Ancho máximo para que no sea demasiado grande en pantallas grandes */
+  margin: 20px auto;
+  /* Centrar el formulario horizontalmente y añadir margen vertical */
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+select {
+  width: 100%;
+  /* Ocupará el 100% del contenedor padre */
+  padding: 10px;
+  margin-bottom: 15px;
+  /* Dar un margen entre elementos */
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  /* Un borde sutil */
+  box-sizing: border-box;
+  /* Importante para incluir el padding y border en el ancho total */
+}
+
+/* Estilo para el contenedor del mensaje de resultado */
+.result-container {
+  background-color: #e7f4e4;
+  /* Un color de fondo suave para el resultado */
+  border-radius: 5px;
+  /* Bordes redondeados para el contenedor del resultado */
+  padding: 10px 15px;
+  /* Algo de padding para no tocar los bordes */
+  word-wrap: break-word;
+  /* Asegura que el contenido se ajuste al contenedor */
+  margin-top: 15px;
+  /* Margen superior */
+  max-width: 100%;
+  /* Limita el ancho al contenedor padre */
+}
+
+/* Si deseas que el hash de la transacción parezca un enlace, puedes agregar */
+.result-container a {
+  color: #4CAF50;
+  /* Color para los enlaces */
+  text-decoration: none;
+  /* No subrayado */
+  font-weight: bold;
+  /* Negrita */
+}
+
+.result-container a:hover {
+  text-decoration: underline;
+  /* Subrayado al pasar el mouse */
+}
+
+button {
+  background-color: #4CAF50;
+  /* Un color verde para el botón */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #45a049;
+  /* Un tono más oscuro de verde al pasar el ratón */
+}

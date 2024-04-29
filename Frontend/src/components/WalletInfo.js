@@ -40,8 +40,9 @@ function InformacionCartera() {
     };
 
     return (
-        <div>
+        <div className="saldo-container">
             <h2>Saldo de la Cartera</h2>
+            <p>Saldo: {saldo} ETH</p>
             <form onSubmit={manejarEnvio}>
                 <label>
                     Wallet:
@@ -49,7 +50,7 @@ function InformacionCartera() {
                 </label>
                 <button type="submit">Enviar</button>
             </form>
-            <p>Saldo: {saldo} ETH</p>
+
         </div>
     );
 }

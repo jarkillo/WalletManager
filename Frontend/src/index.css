@@ -5,9 +5,18 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #f4f4f8;
+  /* Un fondo claro pero que no sea completamente blanco */
+  color: #333;
+  /* Un color de texto que no sea completamente negro para reducir el contraste duro */
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+  background-color: #eee;
+  /* Fondo para bloques de código */
+  padding: 5px;
+  border-radius: 5px;
+  /* Bordes redondeados para bloques de código */
 }
