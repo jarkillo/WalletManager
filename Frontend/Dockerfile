@@ -1,7 +1,7 @@
-# Specify a base image
+# Usar una imagen base con Node.js
 FROM node:14-alpine
 
-# Set the working directory
+# Establecer el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
 # Add `/app/node_modules/.bin` to $PATH

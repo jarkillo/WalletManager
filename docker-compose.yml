@@ -22,8 +22,12 @@ services:
       - "3000:3000"
     volumes:
       - ./Frontend/src:/app/src
+      - /app/node_modules
     environment:
       - REACT_APP_BACKEND_URL=http://localhost:8000
+
+    depends_on:
+      - backend
     networks:
       - app-network
 

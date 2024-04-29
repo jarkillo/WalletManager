@@ -1,20 +1,22 @@
 from web3 import Web3, exceptions
 from config.blockchain import get_web3
 
-def create_wallet(network: str):
-    """
-    Crea una nueva wallet Ethereum y devuelve su dirección y clave privada.
+# Comento la funcion de crear wallet, ya que ahora es innecesaria puesto que se crea en cliente.
 
-    Parámetros:
-        network (str): Nombre de la red Ethereum a la que se conectará la wallet.   
+# def create_wallet(network: str):
+#     """
+#     Crea una nueva wallet Ethereum y devuelve su dirección y clave privada.
 
-    """
-    w3 = get_web3(network)
-    account = w3.eth.account.create()
-    return {
-        "address": account.address,
-        "private_key": account._private_key.hex()
-    }
+#     Parámetros:
+#         network (str): Nombre de la red Ethereum a la que se conectará la wallet.   
+
+#     """
+#     w3 = get_web3(network)
+#     account = w3.eth.account.create()
+#     return {
+#         "address": account.address,
+#         "private_key": account._private_key.hex()
+#     }
 
 
 def send_transaction(from_private_key: str, to_address: str, amount: float, network: str):

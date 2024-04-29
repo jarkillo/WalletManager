@@ -56,21 +56,23 @@ class Transaction(BaseModel):
     amount: float
     network: str  # Agregamos el campo de la red para poder seleccionarlo en la API
 
-# Endpoint para crear una nueva wallet
-@app.post("/wallet/create")
+# Endpoint para crear una nueva wallet (SE HA COMENTADO YA QUE AHORA SE CREA DESDE CLIENTE, NO ES NECESARIO.) 
+# Esta linea esta pendiente de borrarse
 
-async def api_create_wallet(network: str = 'testnet'):
-    '''Crea una nueva wallet en la red especificada y devuelve su dirección y clave privada.
+# @app.post("/wallet/create")
+
+# async def api_create_wallet(network: str = 'sepolia'):
+#     '''Crea una nueva wallet en la red especificada y devuelve su dirección y clave privada.
     
-    Parámetros:
-        network (str): Nombre de la red Ethereum a la que se conectará la wallet.
-        '''
+#     Parámetros:
+#         network (str): Nombre de la red Ethereum a la que se conectará la wallet.
+#         '''
 
-    logger.info("Creando una nueva wallet en la red: " + network)
-    # llamamos a la función create_wallet del módulo wallet.py
-    wallet = create_wallet(network)
+#     logger.info("Creando una nueva wallet en la red: " + network)
+#     # llamamos a la función create_wallet del módulo wallet.py
+#     wallet = create_wallet(network)
 
-    return wallet
+#     return wallet
 
 # Endpoint para enviar una transacción
 @app.post("/wallet/transfer")
