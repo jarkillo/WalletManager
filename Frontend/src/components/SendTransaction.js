@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { ethers } from 'ethers';
-
+import { ethers, parseEther } from 'ethers'; // Asegúrate de importar parseEther directamente si está disponible en el export
 
 function SendTransaction() {
     const [network, setNetwork] = useState('sepolia');
     const [privateKey, setPrivateKey] = useState('');
     const [toAddress, setToAddress] = useState('');
     const [amount, setAmount] = useState('');
-    const [transactionHash, setTransactionHash] = useState(''); // Estado para almacenar solo el hash
-    const [transactionMessage, setTransactionMessage] = useState(''); // Estado para el mensaje
+    const [transactionHash, setTransactionHash] = useState('');
+    const [transactionMessage, setTransactionMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const isValidHash = (hash) => /^0x([A-Fa-f0-9]{64})$/.test(hash);
@@ -22,22 +21,19 @@ function SendTransaction() {
             return;
         }
 
-
         setIsLoading(true);
-        const provider = new ethers.providers.JsonRpcProvider(`${process.env.REACT_APP_BACKEND_URL}/rpc/${network}`);
+        const provider = new ethers.BrowserProvider(window.ethereum);
         const wallet = new ethers.Wallet(privateKey, provider);
 
         const transaction = {
             nonce: await provider.getTransactionCount(wallet.address, 'latest'),
             to: toAddress,
-            value: ethers.utils.parseEther(amount.toString()),
+            value: parseEther(amount.toString()), // Usar parseEther importado
             gasPrice: await provider.getGasPrice(),
         };
 
-        // Estimación del gas limit
         transaction.gasLimit = await provider.estimateGas(transaction);
 
-        // Enviamos la transacción firmada al backend
         try {
             const signedTransaction = await wallet.signTransaction(transaction);
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/wallet/transfer`, {
@@ -79,7 +75,6 @@ function SendTransaction() {
             </label>
             <button type="submit" disabled={isLoading}>Enviar</button>
             {isLoading && <p>Enviando la transacción...</p>}
-
             {transactionMessage && (
                 <div className="result-container">
                     <p>{transactionMessage}</p>
@@ -95,4 +90,5 @@ function SendTransaction() {
 }
 
 export default SendTransaction;
+
 
