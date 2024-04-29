@@ -1,106 +1,77 @@
-# Importamos librerías necesarias para el funcionamiento de la API
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from dotenv import load_dotenv
-import os
-import logging
-from utils.wallet import create_wallet, send_transaction, get_balance, get_token_balance
-from config.blockchain import get_web3
+from pydantic import BaseModel, ValidationError, validator
 from fastapi.middleware.cors import CORSMiddleware
+import logging
+from dotenv import load_dotenv
+from utils.wallet import send_transaction, get_balance, get_web3
 
+# Cargar variables de entorno desde el archivo .env
+load_dotenv('token.env')
 
-# Inicialización de la aplicación FastAPI
+# Configuración de la aplicación FastAPI
 app = FastAPI()
 
-# Configura el middleware CORS
+# Configuración del CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:3000",  # Acceso desde el navegador en el host
-        "http://frontend:3000"    # Acceso desde el servicio en Docker (si fuera necesario)
+        "http://localhost:3000",  # Local development
+        "http://frontend:3000"    # Docker service
     ],
     allow_credentials=True,
-    allow_methods=["*"],  # Permite todos los métodos
-    allow_headers=["*"],  # Permite todos los encabezados
+    allow_methods=["*"],
+    allow_headers=["*"]
 )
 
-# Inicializamos el logger
+# Configuración de Logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
 
-# Crear un handler de consola y establecer el nivel
-console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.INFO)
+# Verificar la conexión inicial a Infura
+def verify_infura_connection():
+    try:
+        w3 = get_web3('mainnet')  # Usando mainnet para prueba de conexión
+        if not w3.is_connected():
+            raise ConnectionError("No se pudo conectar con Infura")
+        logger.info("Conexión con Infura verificada con éxito.")
+    except Exception as e:
+        logger.critical(f"Fallo en la conexión inicial a Infura: {e}")
+        raise e
 
-# Crear y establecer el formato del log
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-console_handler.setFormatter(formatter)
+verify_infura_connection()
 
-# Añadir el handler al logger
-logger.addHandler(console_handler)
-
-
-
-# Cargamos el archivo token.env que contiene las variables de entorno para mas seguridad
-logger.info("Cargando variables de entorno...")
-load_dotenv('token.env')
-
-
-# Leer la API Key de Infura desde las variables de entorno
-logger.info("Leyendo el project ID...")
-infura_project_id = os.getenv('INFURA_PROJECT_ID')
-
-# Modelo de Pydantic para validar la estructura de la entrada de datos de la transacción
+# Modelos Pydantic
 class Transaction(BaseModel):
     signed_transaction: str
     network: str
 
-# Endpoint para crear una nueva wallet (SE HA COMENTADO YA QUE AHORA SE CREA DESDE CLIENTE, NO ES NECESARIO.) 
-# Esta linea esta pendiente de borrarse
+    @validator('signed_transaction')
+    def validate_transaction(cls, value):
+        if not value.startswith('0x'):
+            raise ValueError('La transacción firmada debe comenzar con 0x')
+        return value
 
-# @app.post("/wallet/create")
-
-# async def api_create_wallet(network: str = 'sepolia'):
-#     '''Crea una nueva wallet en la red especificada y devuelve su dirección y clave privada.
-    
-#     Parámetros:
-#         network (str): Nombre de la red Ethereum a la que se conectará la wallet.
-#         '''
-
-#     logger.info("Creando una nueva wallet en la red: " + network)
-#     # llamamos a la función create_wallet del módulo wallet.py
-#     wallet = create_wallet(network)
-
-#     return wallet
-
-# Endpoint para enviar una transacción
+# Endpoints
 @app.post("/wallet/transfer")
-async def api_send_transaction(signed_transaction: str, network: str):
-    '''Envía una transacción de Ethereum y devuelve el hash de la transacción.
-
-    Parámetros:
-        from_private_key (str): Clave privada del remitente.
-        to_address (str): Dirección del destinatario.
-        amount (float): Cantidad de ether a enviar.
-        network (str): Nombre de la red Ethereum a la que se conectará la wallet.
-    '''
-    logger.info("Publicando una transacción en la red: " + network)
+async def api_send_transaction(transaction: Transaction):
+    logger.info(f"Publicando una transacción en la red: {transaction.network}")
     try:
-        # Intenta realizar la transacción y devuelve el hash de la transacción
-        tx_hash = send_transaction(signed_transaction, network)
-
+        tx_hash = send_transaction(transaction.signed_transaction, transaction.network)
         return {"transaction_hash": tx_hash}
-    
     except Exception as e:
-        # Si ocurre un error, devuelve un mensaje de error con estado HTTP 400
+        logger.error(f"Error al enviar la transacción: {str(e)}")
         raise HTTPException(status_code=400, detail=str(e))
 
-# Endpoint para consultar el saldo de una wallet
 @app.get("/wallet/balance/{address}")
-async def api_get_balance(address: str, network: str = 'sepolia'):
-    logger.info("Consultando el saldo de una wallet en la red: " + network)
-    balance = get_balance(address, network)
-    return {"balance": balance}
+async def api_get_balance(address: str, network: str = 'mainnet'):
+    logger.info(f"Consultando el saldo para {address} en la red {network}")
+    try:
+        balance = get_balance(address, network)
+        return {"balance": balance}
+    except Exception as e:
+        logger.error(f"Error al consultar el saldo: {str(e)}")
+        raise HTTPException(status_code=400, detail=str(e))
 
-# Para ejecutar la API, usar en consola:
-# uvicorn main.py:app --reload
+# Punto de entrada para verificar la conexión al iniciar el servidor
+if __name__ == "__main__":
+    verify_infura_connection()

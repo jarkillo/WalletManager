@@ -14,19 +14,23 @@ function CrearCartera() {
         const wallet = ethers.Wallet.createRandom();
         const data = {
             address: wallet.address,
-            privateKey: wallet.private_key
+            privateKey: wallet.privateKey // Corregimos aquí: privateKey en lugar de private_key
         };
         setWalletData(data);
     };
 
     const descargarClavePrivada = () => {
-        const blob = new Blob([`Address: ${walletData.address}\nPrivate Key: ${walletData.privateKey}`], { type: 'text/plain;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'cartera.txt';
-        link.click();
-        URL.revokeObjectURL(url);
+        if (walletData) {
+            const blob = new Blob([`Address: ${walletData.address}\nPrivate Key: ${walletData.privateKey}`], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'cartera.txt';
+            document.body.appendChild(link); // Añade el enlace al documento
+            link.click(); // Simula un clic para iniciar la descarga
+            document.body.removeChild(link); // Elimina el enlace del documento
+            URL.revokeObjectURL(url); // Libera el objeto URL
+        }
     };
 
     return (

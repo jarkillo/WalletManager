@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { ethers, parseEther } from 'ethers'; // Asegúrate de importar parseEther directamente si está disponible en el export
+import { ethers, parseEther } from 'ethers';
 
 function SendTransaction() {
     const [network, setNetwork] = useState('sepolia');
@@ -10,10 +10,9 @@ function SendTransaction() {
     const [transactionHash, setTransactionHash] = useState('');
     const [transactionMessage, setTransactionMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [estimatedGas, setEstimatedGas] = useState('');
 
-    const isValidHash = (hash) => /^0x([A-Fa-f0-9]{64})$/.test(hash);
-
-    const handleSubmit = async (event) => {
+    const handleEstimate = async (event) => {
         event.preventDefault();
 
         if (!privateKey || !toAddress || !amount) {
@@ -25,26 +24,59 @@ function SendTransaction() {
         const provider = new ethers.BrowserProvider(window.ethereum);
         const wallet = new ethers.Wallet(privateKey, provider);
 
-        const transaction = {
-            nonce: await provider.getTransactionCount(wallet.address, 'latest'),
-            to: toAddress,
-            value: parseEther(amount.toString()), // Usar parseEther importado
-            gasPrice: await provider.getGasPrice(),
-        };
+        try {
+            const transactionDetails = {
+                to: toAddress,
+                value: parseEther(amount.toString()),
+                from: wallet.address // Necesario para la estimación del gas
+            };
 
-        transaction.gasLimit = await provider.estimateGas(transaction);
+            const estimatedGasLimit = await provider.estimateGas(transactionDetails);
+            const feeData = await provider.getFeeData();
+
+            setEstimatedGas(`Estimated Gas: ${estimatedGasLimit.toString()}, Max Priority Fee Per Gas: ${feeData.maxPriorityFeePerGas.toString()}, Max Fee Per Gas: ${feeData.maxFeePerGas.toString()}`);
+            setTransactionMessage('Presiona enviar para completar la transacción');
+        } catch (error) {
+            setTransactionMessage('Error al estimar el gas: ' + error.message);
+            console.error('Error estimating gas:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleSendTransaction = async () => {
+        setIsLoading(true);
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const wallet = new ethers.Wallet(privateKey, provider);
 
         try {
+            const transaction = {
+                nonce: await provider.getTransactionCount(wallet.address, 'latest'),
+                gasLimit: await provider.estimateGas({
+                    to: toAddress,
+                    value: parseEther(amount.toString()),
+                }),
+                to: toAddress,
+                value: parseEther(amount.toString()),
+                chainId: network === 'sepolia' ? 11155111 : 1 // Sepolia Chain ID or Mainnet
+            };
+
+            const feeData = await provider.getFeeData();
+            transaction.maxPriorityFeePerGas = feeData.maxPriorityFeePerGas;
+            transaction.maxFeePerGas = feeData.maxFeePerGas;
+
             const signedTransaction = await wallet.signTransaction(transaction);
+
+            // Enviar la transacción firmada al backend
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/wallet/transfer`, {
-                network: network,
-                signed_transaction: signedTransaction
+                signed_transaction: signedTransaction,
+                network
             });
             setTransactionHash(response.data.transaction_hash);
             setTransactionMessage('Transacción completada correctamente.');
         } catch (error) {
             const errorMessage = error.response?.data?.detail || 'Error desconocido';
-            setTransactionMessage('Error en la transacción: ' + errorMessage);
+            setTransactionMessage('Error al enviar la transacción: ' + errorMessage);
             console.error('Error sending transaction:', error);
         } finally {
             setIsLoading(false);
@@ -52,7 +84,7 @@ function SendTransaction() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleEstimate}>
             <h2>Realizar Transferencia</h2>
             <label>
                 Red:
@@ -73,12 +105,18 @@ function SendTransaction() {
                 Cantidad (ETH):
                 <input type="number" value={amount} onChange={e => setAmount(e.target.value)} />
             </label>
-            <button type="submit" disabled={isLoading}>Enviar</button>
-            {isLoading && <p>Enviando la transacción...</p>}
+            <button type="submit" disabled={isLoading}>Estimar Gas</button>
+            {isLoading && <p>Calculando...</p>}
+            {!isLoading && estimatedGas && (
+                <div>
+                    <p>{estimatedGas}</p>
+                    <button type="button" onClick={handleSendTransaction}>Enviar Transacción</button>
+                </div>
+            )}
             {transactionMessage && (
                 <div className="result-container">
                     <p>{transactionMessage}</p>
-                    {isValidHash(transactionHash) && (
+                    {transactionHash && (
                         <p><a href={`https://${network}.etherscan.io/tx/${transactionHash}`} target="_blank" rel="noopener noreferrer">
                             Ver transacción
                         </a></p>
@@ -90,5 +128,7 @@ function SendTransaction() {
 }
 
 export default SendTransaction;
+
+
 
 

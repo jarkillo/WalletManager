@@ -2,42 +2,20 @@ from web3 import Web3, exceptions
 from config.blockchain import get_web3
 from hexbytes import HexBytes
 
-# Comento la funcion de crear wallet, ya que ahora es innecesaria puesto que se crea en cliente.
-
-# def create_wallet(network: str):
-#     """
-#     Crea una nueva wallet Ethereum y devuelve su dirección y clave privada.
-
-#     Parámetros:
-#         network (str): Nombre de la red Ethereum a la que se conectará la wallet.   
-
-#     """
-#     w3 = get_web3(network)
-#     account = w3.eth.account.create()
-#     return {
-#         "address": account.address,
-#         "private_key": account._private_key.hex()
-#     }
-
-
 def send_transaction(signed_transaction: str, network: str):
     """
     Envía una transacción de Ethereum y devuelve el hash de la transacción.
-    
-    Parámetros:
-        from_private_key (str): Clave privada del remitente.
-        to_address (str): Dirección del destinatario.
-        amount (float): Cantidad de ether a enviar.
-        network (str): Nombre de la red Ethereum a la que se conectará la wallet.
-
     """
     try:
         w3 = get_web3(network)
-        tx_hash = w3.eth.send_raw_transaction(HexBytes(signed_transaction))
-        return {"transaction_hash": w3.toHex(tx_hash)}
+        # Asegúrate de convertir la cadena hexadecimal a bytes
+        tx_hash = w3.eth.send_raw_transaction(bytes.fromhex(signed_transaction.strip('0x')))
+        # Correctamente convertir tx_hash a hexadecimal
+        return Web3.toHex(tx_hash)
     
     except Exception as e:
         raise Exception(f"Error al enviar la transacción: {str(e)}")
+
 
 
 

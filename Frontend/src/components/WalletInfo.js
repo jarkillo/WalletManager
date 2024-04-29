@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { isAddress } from 'ethers'; // Asegúrate de tener esta importación si estás usando la función isAddress de ethers
 
 function InformacionCartera() {
-    const [saldo, setSaldo] = useState('');
+    const [saldo, setSaldo] = useState(null); // Cambiado a null como valor inicial para claridad
     const [direccionCartera, setDireccionCartera] = useState('');
     const [network, setNetwork] = useState('sepolia');
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const manejarCambioClavePrivada = (evento) => {
         setDireccionCartera(evento.target.value);
@@ -16,32 +19,27 @@ function InformacionCartera() {
 
     const manejarEnvio = (evento) => {
         evento.preventDefault();
-        obtenerSaldo();
+        if (isAddress(direccionCartera)) {
+            obtenerSaldo();
+        } else {
+            setError('La dirección ingresada no es una dirección Ethereum válida.');
+        }
     };
 
     const obtenerSaldo = () => {
-        if (direccionCartera) {
-            axios.get(`${process.env.REACT_APP_BACKEND_URL}/wallet/balance/${direccionCartera}`)
-                .then(respuesta => {
-                    console.log("Datos de la respuesta:", respuesta.data);
-                    setSaldo(respuesta.data.balance);  // Asegúrate de usar la clave correcta aquí
-                })
-                .catch(error => {
-                    console.error('Error al obtener el saldo:', error);
-                    if (error.response) {
-                        // Maneja respuestas fuera del rango de 2xx
-                        console.log("Datos:", error.response.data);
-                        console.log("Estado:", error.response.status);
-                        console.log("Cabeceras:", error.response.headers);
-                    } else if (error.request) {
-                        // La solicitud fue hecha pero no se recibió respuesta
-                        console.log("Request:", error.request);
-                    } else {
-                        // Algo más causó el error
-                        console.log('Error', error.message);
-                    }
-                });
-        }
+        setIsLoading(true);
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/wallet/balance/${direccionCartera}`)
+            .then(respuesta => {
+                setSaldo(respuesta.data.balance); // Asegúrate de usar la clave correcta aquí
+                setError('');
+            })
+            .catch(error => {
+                console.error('Error al obtener el saldo:', error);
+                setError('Error al obtener el saldo. Verifica la red y la dirección.');
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
     };
 
     return (
@@ -59,9 +57,11 @@ function InformacionCartera() {
                     Wallet:
                     <input type="text" value={direccionCartera} onChange={manejarCambioClavePrivada} />
                 </label>
-                <button type="submit">Consultar Saldo</button>
+                <button type="submit" disabled={isLoading}>Consultar Saldo</button>
             </form>
-            {saldo && (
+            {isLoading && <p>Cargando...</p>}
+            {error && <p className="error">{error}</p>}
+            {saldo !== null && !error && (
                 <p className="saldo-resultado">Saldo: {saldo} ETH</p>
             )}
         </div>
@@ -69,7 +69,4 @@ function InformacionCartera() {
 }
 
 export default InformacionCartera;
-
-
-
 
