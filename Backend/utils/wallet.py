@@ -19,7 +19,7 @@ from config.blockchain import get_web3
 #     }
 
 
-def send_transaction(from_private_key: str, to_address: str, amount: float, network: str):
+def send_transaction(signed_transaction: str, network: str):
     """
     Envía una transacción de Ethereum y devuelve el hash de la transacción.
     
@@ -32,42 +32,13 @@ def send_transaction(from_private_key: str, to_address: str, amount: float, netw
     """
     try:
         w3 = get_web3(network)
+        tx_hash = w3.eth.send_raw_transaction(Web3.toBytes(hexstr=signed_transaction))
+        return {"transaction_hash": w3.toHex(tx_hash)}
     
-    except ConnectionError as e:
-        raise Exception(f"Error al conectar con la red Ethereum: {str(e)}")
-    
-    try:
-        
-        # Crear una instancia de la cuenta con la clave privada
-        account = w3.eth.account.from_key(from_private_key)
-        
-        # Obtener el nonce de la cuenta
-        nonce = w3.eth.get_transaction_count(account.address)
-        tx = {
-            'nonce': nonce,
-            'to': to_address,
-            'value': w3.to_wei(amount, 'ether'),
-            'gasPrice': w3.eth.gas_price
-        }
-        # Estimamos el gas necesario para la transacción
-        tx['gas'] = w3.eth.estimate_gas({
-            'from': account.address,
-            'to': to_address,
-            'value': tx['value'],
-            'data': b''
-        })
-
-        # Firmamos la transacción
-        signed_tx = account.sign_transaction(tx)
-
-        # Enviamos la transacción
-        tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
-
-        # Devolvemos el hash de la transacción
-        return w3.to_hex(tx_hash)
-    
-    except exceptions.Web3Exception as e:
+    except Exception as e:
         raise Exception(f"Error al enviar la transacción: {str(e)}")
+
+
 
 def get_balance(address: str, network: str):
     """

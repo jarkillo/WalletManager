@@ -76,7 +76,7 @@ class Transaction(BaseModel):
 
 # Endpoint para enviar una transacción
 @app.post("/wallet/transfer")
-async def api_send_transaction(transaction: Transaction):
+async def api_send_transaction(signed_transaction: str, network: str):
     '''Envía una transacción de Ethereum y devuelve el hash de la transacción.
 
     Parámetros:
@@ -85,15 +85,11 @@ async def api_send_transaction(transaction: Transaction):
         amount (float): Cantidad de ether a enviar.
         network (str): Nombre de la red Ethereum a la que se conectará la wallet.
     '''
-    logger.info("Enviando una transacción en la red: " + transaction.network)
+    logger.info("Publicando una transacción en la red: " + network)
     try:
         # Intenta realizar la transacción y devuelve el hash de la transacción
-        tx_hash = send_transaction(
-            transaction.from_private_key,
-            transaction.to_address,
-            transaction.amount,
-            transaction.network
-        )
+        tx_hash = send_transaction(signed_transaction, network)
+
         return {"transaction_hash": tx_hash}
     
     except Exception as e:

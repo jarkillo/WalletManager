@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { ethers } from 'ethers';
 
 function SendTransaction() {
     const [network, setNetwork] = useState('sepolia');
@@ -12,7 +13,7 @@ function SendTransaction() {
 
     const isValidHash = (hash) => /^0x([A-Fa-f0-9]{64})$/.test(hash);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         if (!privateKey || !toAddress || !amount) {
@@ -20,25 +21,40 @@ function SendTransaction() {
             return;
         }
 
-        setIsLoading(true);
-        axios.post(`${process.env.REACT_APP_BACKEND_URL}/wallet/transfer`, {
-            network: network,
-            from_private_key: privateKey,
-            to_address: toAddress,
-            amount: parseFloat(amount)
-        })
-            .then(response => {
-                setTransactionHash(response.data.transaction_hash);
-                setTransactionMessage('Transacción completada correctamente.');
-            })
-            .catch(error => {
-                const errorMessage = error.response?.data?.detail || 'Error desconocido';
-                setTransactionMessage('Error en la transacción: ' + errorMessage);
-                console.error('Error sending transaction:', error);
-            })
-            .finally(() => {
-                setIsLoading(false);
+        try {
+            setIsLoading(true);
+            const provider = new ethers.providers.JsonRpcProvider(`${process.env.REACT_APP_BACKEND_URL}/${network}`);
+            const wallet = new ethers.Wallet(privateKey, provider);
+
+            const nonce = await provider.getTransactionCount(wallet.address, 'latest');
+            const gasPrice = await provider.getGasPrice();
+
+            const transaction = {
+                nonce: nonce,
+                to: toAddress,
+                value: ethers.utils.parseEther(amount.toString()),
+                gasPrice: gasPrice,
+            };
+
+            // Estimación del gas limit
+            const gasEstimate = await provider.estimateGas(transaction);
+            transaction['gasLimit'] = gasEstimate;
+
+            const signedTransaction = await wallet.signTransaction(transaction);
+
+            // Enviamos la transacción firmada al backend
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/wallet/transfer`, {
+                signed_transaction: signedTransaction
             });
+            setTransactionHash(response.data.transaction_hash);
+            setTransactionMessage('Transacción completada correctamente.');
+        } catch (error) {
+            const errorMessage = error.response?.data?.detail || 'Error desconocido';
+            setTransactionMessage('Error en la transacción: ' + errorMessage);
+            console.error('Error sending transaction:', error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
