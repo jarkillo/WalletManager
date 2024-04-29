@@ -1,5 +1,6 @@
 from web3 import Web3, exceptions
 from config.blockchain import get_web3
+from hexbytes import HexBytes
 
 # Comento la funcion de crear wallet, ya que ahora es innecesaria puesto que se crea en cliente.
 
@@ -32,7 +33,7 @@ def send_transaction(signed_transaction: str, network: str):
     """
     try:
         w3 = get_web3(network)
-        tx_hash = w3.eth.send_raw_transaction(Web3.toBytes(hexstr=signed_transaction))
+        tx_hash = w3.eth.send_raw_transaction(HexBytes(signed_transaction))
         return {"transaction_hash": w3.toHex(tx_hash)}
     
     except Exception as e:

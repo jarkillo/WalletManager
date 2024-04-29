@@ -8,6 +8,7 @@ from utils.wallet import create_wallet, send_transaction, get_balance, get_token
 from config.blockchain import get_web3
 from fastapi.middleware.cors import CORSMiddleware
 
+
 # Inicialización de la aplicación FastAPI
 app = FastAPI()
 
@@ -51,10 +52,8 @@ infura_project_id = os.getenv('INFURA_PROJECT_ID')
 
 # Modelo de Pydantic para validar la estructura de la entrada de datos de la transacción
 class Transaction(BaseModel):
-    from_private_key: str
-    to_address: str
-    amount: float
-    network: str  # Agregamos el campo de la red para poder seleccionarlo en la API
+    signed_transaction: str
+    network: str
 
 # Endpoint para crear una nueva wallet (SE HA COMENTADO YA QUE AHORA SE CREA DESDE CLIENTE, NO ES NECESARIO.) 
 # Esta linea esta pendiente de borrarse

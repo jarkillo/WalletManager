@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { ethers } from 'ethers';
 
+
 function SendTransaction() {
     const [network, setNetwork] = useState('sepolia');
     const [privateKey, setPrivateKey] = useState('');
@@ -21,29 +22,26 @@ function SendTransaction() {
             return;
         }
 
+
+        setIsLoading(true);
+        const provider = new ethers.providers.JsonRpcProvider(`${process.env.REACT_APP_BACKEND_URL}/rpc/${network}`);
+        const wallet = new ethers.Wallet(privateKey, provider);
+
+        const transaction = {
+            nonce: await provider.getTransactionCount(wallet.address, 'latest'),
+            to: toAddress,
+            value: ethers.utils.parseEther(amount.toString()),
+            gasPrice: await provider.getGasPrice(),
+        };
+
+        // Estimación del gas limit
+        transaction.gasLimit = await provider.estimateGas(transaction);
+
+        // Enviamos la transacción firmada al backend
         try {
-            setIsLoading(true);
-            const provider = new ethers.providers.JsonRpcProvider(`${process.env.REACT_APP_BACKEND_URL}/${network}`);
-            const wallet = new ethers.Wallet(privateKey, provider);
-
-            const nonce = await provider.getTransactionCount(wallet.address, 'latest');
-            const gasPrice = await provider.getGasPrice();
-
-            const transaction = {
-                nonce: nonce,
-                to: toAddress,
-                value: ethers.utils.parseEther(amount.toString()),
-                gasPrice: gasPrice,
-            };
-
-            // Estimación del gas limit
-            const gasEstimate = await provider.estimateGas(transaction);
-            transaction['gasLimit'] = gasEstimate;
-
             const signedTransaction = await wallet.signTransaction(transaction);
-
-            // Enviamos la transacción firmada al backend
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/wallet/transfer`, {
+                network: network,
                 signed_transaction: signedTransaction
             });
             setTransactionHash(response.data.transaction_hash);
