@@ -19,17 +19,21 @@ function SendTransaction() {
     const [gasLimit, setGasLimit] = useState('');
     const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState('');
     const [maxFeePerGas, setMaxFeePerGas] = useState('');
+    const [isEditingGas, setIsEditingGas] = useState(false);
 
-    // Función para estimar el gas necesario para la transacción
+    // Función para estimar el gas necesario para la transacción y crearla
     const handleEstimate = async (event) => {
+
+        // Evita que el formulario se envíe y recargue la página
         event.preventDefault();
 
-        // Verifica que los campos necesarios estén llenos
+        // Verifica que los campos necesarios estén llenos o devuelve error
         if (!privateKey || !toAddress || !amount) {
             setTransactionMessage('Por favor, rellena todos los campos correctamente.');
             return;
         }
 
+        // Muestra un mensaje de carga mientras se realizan procesos
         setIsLoading(true);
         const provider = new ethers.BrowserProvider(window.ethereum);
         const wallet = new ethers.Wallet(privateKey, provider);
@@ -57,6 +61,8 @@ function SendTransaction() {
             setMaxPriorityFeePerGas(ethers.formatUnits(feeData.maxPriorityFeePerGas, 'gwei'));
 
             setMaxFeePerGas(ethers.formatUnits(feeData.maxFeePerGas, 'gwei'));
+
+            setIsEditingGas(false); // Asegura que las opciones no se muestren automáticamente
 
             setTransactionMessage('Presiona enviar para completar la transacción');
 
@@ -138,22 +144,25 @@ function SendTransaction() {
             {!isLoading && estimatedGas && (
                 <div>
                     <p>{estimatedGas}</p>
-                    <div>
-                        <label>
-                            lÍmite de Gas:
-                            <input type="number" value={gasLimit} onChange={e => setGasLimit(e.target.value)} />
-                        </label>
-                        <label>
-                            Tarifa de Prioridad Máxima por Gas:
-                            <input type="number" value={maxPriorityFeePerGas} onChange={e => setMaxPriorityFeePerGas(e.target.value)} />
-                        </label>
-                        <label>
-                            Tarifa Máxima por Gas:
-
-                            <input type="number" value={maxFeePerGas} onChange={e => setMaxFeePerGas(e.target.value)} />
-                        </label>
-
-                    </div>
+                    <button type="button" onClick={() => setIsEditingGas(!isEditingGas)}>
+                        {isEditingGas ? 'Cerrar Edición' : 'Editar Configuración de Gas'}
+                    </button>
+                    {isEditingGas && (
+                        <div>
+                            <label>
+                                Límite de Gas:
+                                <input type="number" value={gasLimit} onChange={e => setGasLimit(e.target.value)} />
+                            </label>
+                            <label>
+                                Tarifa de Prioridad Máxima por Gas:
+                                <input type="number" value={maxPriorityFeePerGas} onChange={e => setMaxPriorityFeePerGas(e.target.value)} />
+                            </label>
+                            <label>
+                                Tarifa Máxima por Gas:
+                                <input type="number" value={maxFeePerGas} onChange={e => setMaxFeePerGas(e.target.value)} />
+                            </label>
+                        </div>
+                    )}
                     <button type="button" onClick={handleSendTransaction}>Enviar Transacción</button>
                 </div>
             )}

@@ -2,113 +2,56 @@
   text-align: center;
   font-family: 'Arial', sans-serif;
   padding: 20px;
-}
-
-/* Asegurarse de que todos los encabezados estén centrados */
-h1 {
-  width: 100%;
-  text-align: center;
   color: #333;
+  /* Define un color predeterminado para el texto */
 }
 
+h1,
 h2 {
-  text-align: center;
-}
-
-/* Contenedor para cualquier sección que incluya saldo */
-.saldo-block {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 20px auto;
-  width: 90%;
-  max-width: 500px;
-  text-align: center;
-}
-
-.form-saldo {
-  margin-bottom: 20px;
-}
-
-.form-saldo label {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.form-saldo input {
-  width: calc(100% - 20px);
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  box-sizing: border-box;
-}
-
-.saldo-resultado {
-  font-size: 1.2em;
   color: #333;
-  margin-top: 15px;
-  /* Ajustar según sea necesario */
 }
 
-.cartera-block {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 20px auto;
-  width: 90%;
-  max-width: 500px;
-}
-
-.form-cartera {
-  margin-bottom: 20px;
-}
-
-.wallet-info {
-  margin-bottom: 20px;
-}
-
-
-form {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: 90%;
-  max-width: 500px;
-  margin: 20px auto;
-}
-
-input[type="text"],
-input[type="password"],
-input[type="number"],
+/* Ajustes de responsividad y accesibilidad */
+input,
+button,
 select {
-  width: calc(100% - 20px);
-  /* Restar el padding para que no sobresalga */
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  box-sizing: border-box;
-  /* Asegurarse de que el padding no afecte al ancho total */
+  font-size: 16px;
+  /* Mejor tamaño de fuente para legibilidad */
 }
 
 button {
   background-color: #4CAF50;
+  /* Color más oscuro para mejor contraste */
   color: white;
-  padding: 10px 15px;
+  padding: 12px 20px;
+  /* Ajuste para un tacto más cómodo */
   border: none;
   border-radius: 5px;
   cursor: pointer;
   width: 100%;
+  transition: background-color 0.3s;
+  /* Suaviza la transición de color */
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #367c39;
+  /* Color ligeramente más oscuro al pasar el ratón */
 }
 
+button:active {
+  background-color: #2e6531;
+  /* Un tono aún más oscuro para el estado activo */
+}
+
+button:disabled,
+button.loading {
+  background-color: #9e9e9e;
+  /* Gris para deshabilitado o en carga */
+  pointer-events: none;
+  /* Desactiva interacciones durante la carga */
+}
+
+/* Mejoras en el diseño de contenedores y formularios */
 .container {
   display: flex;
   flex-wrap: wrap;
@@ -116,12 +59,81 @@ button:hover {
   padding: 20px;
 }
 
-.column {
-  flex: 0 1 45%;
-  /* Esto hace que cada columna ocupe casi la mitad del ancho del contenedor, con un poco de espacio entre ellas */
-  margin: 10px;
-  padding: 20px;
-  background: #f4f4f4;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.column,
+form {
+  background-color: #fff;
   border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  /* Sombras más suaves */
+  padding: 30px;
+  /* Aumentado para un mejor espaciado interno */
+  margin: 20px auto;
+  width: 90%;
+  max-width: 400px;
+  /* Reducido para evitar formularios demasiado anchos */
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+select {
+  padding: 10px;
+  margin-bottom: 20px;
+  /* Aumento del margen inferior para mejor separación */
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  /* Aumentar el contraste de los bordes */
+}
+
+/* Indicador de carga para operaciones en curso */
+.loader {
+  border: 4px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 4px solid #3498db;
+  width: 20px;
+  height: 20px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Espaciado y alineación mejorados en etiquetas y botones */
+label {
+  display: block;
+  margin-bottom: 10px;
+  /* Aumentado para más espacio antes de cada campo */
+  text-align: left;
+  font-size: 14px;
+  /* Asegurar legibilidad */
+}
+
+/* Mensajes de feedback */
+.feedback-message {
+  color: #d32f2f;
+  font-size: 14px;
+  /* Legible y claro */
+  margin-top: 10px;
+  /* Espacio después de los formularios o botones */
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .column,
+  form {
+    width: 100%;
+    /* Ajustar ancho para dispositivos móviles */
+    max-width: none;
+  }
 }

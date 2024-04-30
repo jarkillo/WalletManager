@@ -1,0 +1,127 @@
+.App {
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+}
+
+/* Asegurarse de que todos los encabezados estén centrados */
+h1 {
+  width: 100%;
+  text-align: center;
+  color: #333;
+}
+
+h2 {
+  text-align: center;
+}
+
+/* Contenedor para cualquier sección que incluya saldo */
+.saldo-block {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.form-saldo {
+  margin-bottom: 20px;
+}
+
+.form-saldo label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.form-saldo input {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+.saldo-resultado {
+  font-size: 1.2em;
+  color: #333;
+  margin-top: 15px;
+  /* Ajustar según sea necesario */
+}
+
+.cartera-block {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 500px;
+}
+
+.form-cartera {
+  margin-bottom: 20px;
+}
+
+.wallet-info {
+  margin-bottom: 20px;
+}
+
+
+form {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 90%;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+select {
+  width: calc(100% - 20px);
+  /* Restar el padding para que no sobresalga */
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  /* Asegurarse de que el padding no afecte al ancho total */
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+.column {
+  flex: 0 1 45%;
+  /* Esto hace que cada columna ocupe casi la mitad del ancho del contenedor, con un poco de espacio entre ellas */
+  margin: 10px;
+  padding: 20px;
+  background: #f4f4f4;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
