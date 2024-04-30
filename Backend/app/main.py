@@ -55,6 +55,7 @@ class Transaction(BaseModel):
 @app.post("/wallet/transfer")
 async def api_send_transaction(transaction: Transaction):
     logger.info(f"Publicando una transacción en la red: {transaction.network}")
+    logger.info(f"Transacción firmada recibida: {transaction.signed_transaction}")
     try:
         tx_hash = send_transaction(transaction.signed_transaction, transaction.network)
         return {"transaction_hash": tx_hash}
@@ -63,7 +64,7 @@ async def api_send_transaction(transaction: Transaction):
         raise HTTPException(status_code=400, detail=str(e))
 
 @app.get("/wallet/balance/{address}")
-async def api_get_balance(address: str, network: str = 'mainnet'):
+async def api_get_balance(address: str, network: str = 'sepolia'):
     logger.info(f"Consultando el saldo para {address} en la red {network}")
     try:
         balance = get_balance(address, network)
