@@ -9,7 +9,7 @@ def send_transaction(signed_transaction: str, network: str):
     try:
         w3 = get_web3(network)
         # Asegúrate de convertir la cadena hexadecimal a bytes
-        tx_hash = w3.eth.send_raw_transaction(bytes.fromhex(signed_transaction.strip('0x')))
+        tx_hash = w3.eth.send_raw_transaction(bytes.fromhex(signed_transaction[2:]))
         # Correctamente convertir tx_hash a hexadecimal
         return Web3.toHex(tx_hash)
     
