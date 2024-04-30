@@ -1,6 +1,5 @@
 .App {
   text-align: center;
-  /* Asegura que el contenido general está centrado */
   font-family: 'Arial', sans-serif;
   padding: 20px;
   color: #333;
@@ -9,12 +8,9 @@
 h1,
 h2 {
   text-align: center;
-  /* Asegura que los títulos estén centrados */
   margin-bottom: 20px;
-  /* Añade un poco de espacio debajo del título */
 }
 
-/* Ajustes para inputs, botones y selects */
 input,
 button,
 select {
@@ -26,7 +22,6 @@ button {
   color: white;
   padding: 12px 20px;
   margin-top: 10px;
-  /* Añade espacio en la parte superior para separar de otros elementos */
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -36,26 +31,19 @@ button {
 
 button:hover {
   background-color: #367c39;
-  /* Color ligeramente más oscuro al pasar el ratón */
 }
 
 button:active {
   background-color: #2e6531;
-  /* Un tono aún más oscuro para el estado activo */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  /* Añadir sombra para un efecto más pronunciado al clic */
 }
 
 button:disabled,
 button.loading {
   background-color: #9e9e9e;
-  /* Gris para deshabilitado o en carga */
   pointer-events: none;
-  /* Desactiva interacciones durante la carga */
 }
 
-
-/* Indicador de carga para operaciones en curso */
 .loader {
   border: 4px solid #f3f3f3;
   border-radius: 50%;
@@ -63,65 +51,6 @@ button.loading {
   width: 20px;
   height: 20px;
   animation: spin 2s linear infinite;
-}
-
-/* Mejoras en el diseño de contenedores y formularios */
-.container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  padding: 20px;
-}
-
-.column,
-form {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-  /* Sombras más suaves */
-  padding: 30px;
-  /* Aumentado para un mejor espaciado interno */
-  margin: 20px auto;
-  width: 90%;
-  max-width: 400px;
-  /* Reducido para evitar formularios demasiado anchos */
-}
-
-input[type="text"],
-input[type="password"],
-input[type="number"],
-select {
-  padding: 10px;
-  margin-bottom: 10px;
-  /* Aumento del margen inferior para mejor separación */
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  /* Aumentar el contraste de los bordes */
-  transition: border-color 0.3s;
-}
-
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="number"]:focus,
-select:focus {
-  border-color: #4CAF50;
-  /* Cambiar el color del borde en foco */
-  outline: none;
-  /* Eliminar el outline predeterminado */
-}
-
-/* Media queries para responsividad */
-@media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-  }
-
-  .column,
-  form {
-    width: 100%;
-    /* Ajustar ancho para dispositivos móviles */
-    max-width: none;
-  }
 }
 
 @keyframes spin {
@@ -134,21 +63,73 @@ select:focus {
   }
 }
 
-/* Espaciado y alineación mejorados en etiquetas y botones */
-label {
-  display: block;
-  margin-bottom: 10px;
-  /* Aumentado para más espacio antes de cada campo */
-  text-align: left;
-  font-size: 14px;
-  /* Asegurar legibilidad */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
 }
 
-/* Mensajes de feedback */
+.column,
+form {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  padding: 30px;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 400px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+select {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+select:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .column,
+  form {
+    width: 100%;
+  }
+}
+
+label {
+  display: block;
+  margin-bottom: 17px;
+  text-align: left;
+  font-size: 18px;
+}
+
 .feedback-message {
   color: #d32f2f;
   font-size: 14px;
-  /* Legible y claro */
   margin-top: 10px;
-  /* Espacio después de los formularios o botones */
+}
+
+/* Ajustes para el logo */
+.App-logo {
+  height: 514px;
+  /* Ajusta según tus necesidades */
+  margin: 84px auto;
+  /* Espacio arriba y abajo del logo */
+  display: block;
+  /* Asegura que el logo se centra correctamente */
 }
