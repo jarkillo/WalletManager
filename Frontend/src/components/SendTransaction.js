@@ -11,6 +11,9 @@ function SendTransaction() {
     const [transactionMessage, setTransactionMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [estimatedGas, setEstimatedGas] = useState('');
+    const [gasLimit, setGasLimit] = useState('');
+    const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState('');
+    const [maxFeePerGas, setMaxFeePerGas] = useState('');
 
     const handleEstimate = async (event) => {
         event.preventDefault();
@@ -34,8 +37,18 @@ function SendTransaction() {
             const estimatedGasLimit = await provider.estimateGas(transactionDetails);
             const feeData = await provider.getFeeData();
 
-            setEstimatedGas(`Estimated Gas: ${estimatedGasLimit.toString()}, Max Priority Fee Per Gas: ${feeData.maxPriorityFeePerGas.toString()}, Max Fee Per Gas: ${feeData.maxFeePerGas.toString()}`);
+            setEstimatedGas(`Estimated Gas: ${estimatedGasLimit.toString()},
+             Max Priority Fee Per Gas: ${feeData.maxPriorityFeePerGas.toString()},
+             Max Fee Per Gas: ${feeData.maxFeePerGas.toString()}`);
+
+            setGasLimit(estimatedGasLimit.toString());
+
+            setMaxPriorityFeePerGas(feeData.maxPriorityFeePerGas.toString());
+
+            setMaxFeePerGas(feeData.maxFeePerGas.toString());
+
             setTransactionMessage('Presiona enviar para completar la transacción');
+
         } catch (error) {
             setTransactionMessage('Error al estimar el gas: ' + error.message);
             console.error('Error estimating gas:', error);
@@ -52,14 +65,14 @@ function SendTransaction() {
         try {
             const transaction = {
                 nonce: await provider.getTransactionCount(wallet.address, 'latest'),
-                gasLimit: await provider.estimateGas({
-                    to: toAddress,
-                    value: parseEther(amount.toString()),
-                }),
+                gasLimit: ethers.toBigInt(gasLimit),
+                maxPriorityFeePerGas: ethers.toBigInt(maxPriorityFeePerGas),
+                maxFeePerGas: ethers.toBigInt(maxFeePerGas),
                 to: toAddress,
-                value: parseEther(amount.toString()),
+                value: ethers.toBigInt(ethers.parseEther(amount.toString()).toString()),
                 chainId: network === 'sepolia' ? 11155111 : 1 // Sepolia Chain ID or Mainnet
             };
+
 
             const feeData = await provider.getFeeData();
             transaction.maxPriorityFeePerGas = feeData.maxPriorityFeePerGas;
@@ -110,6 +123,21 @@ function SendTransaction() {
             {!isLoading && estimatedGas && (
                 <div>
                     <p>{estimatedGas}</p>
+                    <div>
+                        <label>
+                            Gas Limit:
+                            <input type="number" value={gasLimit} onChange={e => setGasLimit(e.target.value)} />
+                        </label>
+                        <label>
+                            Max Priority Fee Per Gas:
+                            <input type="number" value={maxPriorityFeePerGas} onChange={e => setMaxPriorityFeePerGas(e.target.value)} />
+                        </label>
+                        <label>
+                            Max Fee Per Gas:
+                            <input type="number" value={maxFeePerGas} onChange={e => setMaxFeePerGas(e.target.value)} />
+                        </label>
+
+                    </div>
                     <button type="button" onClick={handleSendTransaction}>Enviar Transacción</button>
                 </div>
             )}
