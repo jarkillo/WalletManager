@@ -1,6 +1,10 @@
 from web3 import Web3, exceptions
 from config.blockchain import get_web3
 from hexbytes import HexBytes
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 def send_transaction(signed_transaction: str, network: str):
     """
@@ -10,8 +14,12 @@ def send_transaction(signed_transaction: str, network: str):
         w3 = get_web3(network)
         # Asegúrate de convertir la cadena hexadecimal a bytes
         tx_hash = w3.eth.send_raw_transaction(bytes.fromhex(signed_transaction[2:]))
+
+
         # Correctamente convertir tx_hash a hexadecimal
-        return Web3.toHex(tx_hash)
+        tx_hash_hex = tx_hash.hex()
+        logger.info(f"Transacción enviada: {tx_hash.hex()}")
+        return tx_hash_hex
     
     except Exception as e:
         raise Exception(f"Error al enviar la transacción: {str(e)}")

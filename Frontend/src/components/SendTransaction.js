@@ -68,7 +68,6 @@ function SendTransaction() {
             const signedTransaction = await wallet.signTransaction(transaction);
 
             // Enviar la transacción firmada al backend
-            console.log("Transacción firmada:", signedTransaction);
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/wallet/transfer`, {
                 signed_transaction: signedTransaction,
                 network
