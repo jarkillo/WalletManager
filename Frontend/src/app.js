@@ -7,12 +7,15 @@ import CreateWallet from './components/CreateWallet';
 
 function App() {
     return (
-        <div>
+        <div className="container">
             <h1>Wallet Manager</h1>
-            <CreateWallet />
-            <WalletInfo />
-            <SendTransaction />
-
+            <div className="column">
+                <CreateWallet />
+                <WalletInfo />
+            </div>
+            <div className="column">
+                <SendTransaction />
+            </div>
         </div>
     );
 }

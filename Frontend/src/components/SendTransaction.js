@@ -1,8 +1,13 @@
+// Importa los módulos necesarios de React, Axios y Ethers
 import React, { useState } from 'react';
 import axios from 'axios';
 import { ethers, parseEther } from 'ethers';
 
+
+// Definición del componente SendTransaction para realizar transferencias de Ethereum
 function SendTransaction() {
+
+    // Estado para manejar diferentes propiedades del formulario y de la transacción
     const [network, setNetwork] = useState('sepolia');
     const [privateKey, setPrivateKey] = useState('');
     const [toAddress, setToAddress] = useState('');
@@ -15,9 +20,11 @@ function SendTransaction() {
     const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState('');
     const [maxFeePerGas, setMaxFeePerGas] = useState('');
 
+    // Función para estimar el gas necesario para la transacción
     const handleEstimate = async (event) => {
         event.preventDefault();
 
+        // Verifica que los campos necesarios estén llenos
         if (!privateKey || !toAddress || !amount) {
             setTransactionMessage('Por favor, rellena todos los campos correctamente.');
             return;
@@ -28,49 +35,56 @@ function SendTransaction() {
         const wallet = new ethers.Wallet(privateKey, provider);
 
         try {
+
+            // Detalles de la transacción necesarios para estimar el gas
             const transactionDetails = {
                 to: toAddress,
                 value: parseEther(amount.toString()),
                 from: wallet.address // Necesario para la estimación del gas
             };
 
+            // Estimación de gas y obtención de los precios actuales del gas
             const estimatedGasLimit = await provider.estimateGas(transactionDetails);
             const feeData = await provider.getFeeData();
 
-            setEstimatedGas(`Estimated Gas: ${estimatedGasLimit.toString()},
-             Max Priority Fee Per Gas: ${feeData.maxPriorityFeePerGas.toString()},
-             Max Fee Per Gas: ${feeData.maxFeePerGas.toString()}`);
+            // Formatea y muestra la estimación de gas y precios de forma clara
+            setEstimatedGas(`Gas Estimado: ${estimatedGasLimit.toString()} unidades,
+            Tarifa de Prioridad Máxima por Gas: ${ethers.formatUnits(feeData.maxPriorityFeePerGas, 'gwei')} Gwei,
+            Tarifa Máxima por Gas: ${ethers.formatUnits(feeData.maxFeePerGas, 'gwei')} Gwei`);
 
             setGasLimit(estimatedGasLimit.toString());
 
-            setMaxPriorityFeePerGas(feeData.maxPriorityFeePerGas.toString());
+            setMaxPriorityFeePerGas(ethers.formatUnits(feeData.maxPriorityFeePerGas, 'gwei'));
 
-            setMaxFeePerGas(feeData.maxFeePerGas.toString());
+            setMaxFeePerGas(ethers.formatUnits(feeData.maxFeePerGas, 'gwei'));
 
             setTransactionMessage('Presiona enviar para completar la transacción');
 
         } catch (error) {
             setTransactionMessage('Error al estimar el gas: ' + error.message);
-            console.error('Error estimating gas:', error);
+            console.error('Error estimando el gas:', error);
         } finally {
             setIsLoading(false);
         }
     };
 
+    // Función para enviar la transacción firmada al backend y procesarla
     const handleSendTransaction = async () => {
         setIsLoading(true);
         const provider = new ethers.BrowserProvider(window.ethereum);
         const wallet = new ethers.Wallet(privateKey, provider);
 
         try {
+
+            // Configuración de la transacción con los valores modificados por el usuario
             const transaction = {
                 nonce: await provider.getTransactionCount(wallet.address, 'latest'),
                 gasLimit: ethers.toBigInt(gasLimit),
-                maxPriorityFeePerGas: ethers.toBigInt(maxPriorityFeePerGas),
-                maxFeePerGas: ethers.toBigInt(maxFeePerGas),
+                maxPriorityFeePerGas: ethers.toBigInt(ethers.parseUnits(maxPriorityFeePerGas, 'gwei')),
+                maxFeePerGas: ethers.toBigInt(ethers.parseUnits(maxFeePerGas, 'gwei')),
                 to: toAddress,
                 value: ethers.toBigInt(ethers.parseEther(amount.toString()).toString()),
-                chainId: network === 'sepolia' ? 11155111 : 1 // Sepolia Chain ID or Mainnet
+                chainId: network === 'sepolia' ? 11155111 : 1 // ID de Sepolia y Mainnet
             };
 
 
@@ -80,7 +94,7 @@ function SendTransaction() {
 
             const signedTransaction = await wallet.signTransaction(transaction);
 
-            // Enviar la transacción firmada al backend
+            // Envío de la transacción firmada al backend
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/wallet/transfer`, {
                 signed_transaction: signedTransaction,
                 network
@@ -96,6 +110,7 @@ function SendTransaction() {
         }
     };
 
+    // Renderiza el formulario y los controles para la transacción
     return (
         <form onSubmit={handleEstimate}>
             <h2>Realizar Transferencia</h2>
@@ -125,15 +140,16 @@ function SendTransaction() {
                     <p>{estimatedGas}</p>
                     <div>
                         <label>
-                            Gas Limit:
+                            lÍmite de Gas:
                             <input type="number" value={gasLimit} onChange={e => setGasLimit(e.target.value)} />
                         </label>
                         <label>
-                            Max Priority Fee Per Gas:
+                            Tarifa de Prioridad Máxima por Gas:
                             <input type="number" value={maxPriorityFeePerGas} onChange={e => setMaxPriorityFeePerGas(e.target.value)} />
                         </label>
                         <label>
-                            Max Fee Per Gas:
+                            Tarifa Máxima por Gas:
+
                             <input type="number" value={maxFeePerGas} onChange={e => setMaxFeePerGas(e.target.value)} />
                         </label>
 
@@ -141,6 +157,7 @@ function SendTransaction() {
                     <button type="button" onClick={handleSendTransaction}>Enviar Transacción</button>
                 </div>
             )}
+
             {transactionMessage && (
                 <div className="result-container">
                     <p>{transactionMessage}</p>

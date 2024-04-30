@@ -5,7 +5,12 @@
 }
 
 /* Asegurarse de que todos los encabezados estén centrados */
-h1,
+h1 {
+  width: 100%;
+  text-align: center;
+  color: #333;
+}
+
 h2 {
   text-align: center;
 }
@@ -102,4 +107,21 @@ button {
 
 button:hover {
   background-color: #45a049;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+.column {
+  flex: 0 1 45%;
+  /* Esto hace que cada columna ocupe casi la mitad del ancho del contenedor, con un poco de espacio entre ellas */
+  margin: 10px;
+  padding: 20px;
+  background: #f4f4f4;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
