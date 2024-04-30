@@ -28,7 +28,7 @@ function InformacionCartera() {
 
     const obtenerSaldo = () => {
         setIsLoading(true);
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/wallet/balance/${direccionCartera}`)
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/wallet/balance/${direccionCartera}/${network}`)
             .then(respuesta => {
                 setSaldo(respuesta.data.balance); // Asegúrate de usar la clave correcta aquí
                 setError('');
