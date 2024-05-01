@@ -2,8 +2,21 @@
 from web3 import exceptions
 from app.utils.web3_utils import get_web3
 import logging
+from typing import List
+from models.schemas import Token
+import asyncio
+
 
 logger = logging.getLogger(__name__)
+
+# Lista inicial de tokens predefinidos
+predefined_tokens: List[Token] = [
+    Token(token_name="Chainlink", token_address="0x779877A7B0D9E8603169DdbD7836e478b4624789", network="sepolia"),
+    # Añadir más tokens según sea necesario
+]
+
+# Lista dinámica que incluye los tokens añadidos por el usuario
+tokens: List[Token] = predefined_tokens.copy()
 
 
 def send_transaction(signed_transaction: str, network: str):
@@ -48,7 +61,7 @@ def send_transaction(signed_transaction: str, network: str):
 
 # Funcion para obtener el balance en ethereum de una cuenta
 
-def get_balance(address: str, network: str):
+async def get_balance(address: str, network: str):
 
     """
 
@@ -109,7 +122,7 @@ def get_balance(address: str, network: str):
 
 # Funcion para obtener el saldo de un token ERC-20
 
-def get_token_balance(token_address, wallet_address, network: str):
+async def get_token_balance(token_address, wallet_address, network: str):
     """
     Consulta el saldo de un token ERC-20 para una dirección específica y lo devuelve ajustado por decimales del token.
 
@@ -148,15 +161,11 @@ def get_token_balance(token_address, wallet_address, network: str):
         logger.info(f"Creando contrato para el token {token_address} usando ABI mínimo.")
 
         token_abi = [
-            {
-                "constant": True,
-                "inputs": [{"name": "_owner", "type": "address"}],
-                "name": "balanceOf",
-                "outputs": [{"name": "balance", "type": "uint256"}],
-                "payable": False,
-                "stateMutability": "view",
-                "type": "function",
-            }
+            {"constant": True, "inputs": [{"name": "_owner", "type": "address"}],
+             "name": "balanceOf", "outputs": [{"name": "balance", "type": "uint256"}],
+             "payable": False, "stateMutability": "view", "type": "function"},
+            {"constant": True, "inputs": [], "name": "decimals", "outputs": [{"name": "", "type": "uint8"}],
+             "payable": False, "stateMutability": "view", "type": "function"}
         ]
 
         # Crear el contrato del token
@@ -214,3 +223,14 @@ def get_transaction_details(transaction_hash: str, network: str):
     }
 
     return transaction_details
+
+# Funcion bucle para obtener el saldo de cada token de la lista
+
+async def get_all_token_balances(wallet_address: str, network: str):
+    balances = {}
+    filtered_tokens = [token for token in tokens if token.network == network]
+    balance_tasks = [get_token_balance(token.token_address, wallet_address, network) for token in filtered_tokens]
+    results = await asyncio.gather(*balance_tasks)
+    for token, balance in zip(filtered_tokens, results):
+        balances[token.token_name] = balance
+    return balances
