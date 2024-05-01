@@ -1,5 +1,43 @@
-Aqui va todo el contenido del backend
+# ULTIMA ACTUALIZACION
 
+## Refactorización del Proyecto de Gestión de Blockchain
+
+Este proyecto se ha refactorizado para mejorar la estructura del código, el manejo de errores y el registro de operaciones. Las mejoras están destinadas a facilitar el mantenimiento y la escalabilidad del proyecto.
+
+### Estructura de Archivos
+
+El proyecto está organizado en varias carpetas principales:
+
+- `app/`: Contiene el código fuente principal de la aplicación.
+  - `models/`: Define los esquemas de datos usados en la aplicación.
+  - `routers/`: Contiene los routers de FastAPI que definen los endpoints de la API.
+  - `services/`: Incluye la lógica de negocio, especialmente la interacción con la blockchain.
+  - `utils/`: Proporciona funciones de utilidad, como la conexión a la blockchain a través de Web3.
+- `tests/`: Almacena los tests del proyecto, organizados por módulos.
+- `docs/`: Documentación del proyecto.
+
+### Mejoras Realizadas
+
+#### Manejo de Errores
+
+Se ha mejorado el manejo de errores en todas las funciones para capturar y tratar adecuadamente los errores específicos. Esto incluye la validación de direcciones de wallets y tokens, así como el manejo de errores de conexión y consulta a la blockchain.
+
+#### Registro Detallado
+
+El sistema de registro se ha mejorado para incluir información detallada del flujo de operaciones y errores. Esto facilita la depuración y el seguimiento de las operaciones en producción.
+
+#### Validación de Direcciones
+
+Se ha añadido validación de direcciones en las funciones que interactúan con la blockchain para asegurar que las direcciones proporcionadas sean válidas antes de realizar operaciones.
+
+#### Documentación y Comentarios
+
+Los comentarios en el código y la documentación han sido actualizados para reflejar los cambios y mejorar la comprensibilidad del código.
+
+
+# --------------------------------------------
+
+# Información original
 
 Como mandar las peticiones?
 
