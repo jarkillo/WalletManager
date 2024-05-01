@@ -61,41 +61,43 @@ def get_token_balance(token_address, wallet_address, network: str):
     Parámetros:
         token_address (str): La dirección del contrato del token ERC-20.
         wallet_address (str): La dirección de la cartera cuyo saldo de token se está consultando.
-        w3 (Web3): Instancia de Web3.
-    """
+        network (str): El nombre de la red blockchain a la que conectar (ej. 'mainnet', 'sepolia')
 
+    Retorna:
+        float: El saldo del token en unidades ajustadas por los decimales del token.
+    """
     try:
         w3 = get_web3(network)
-    except  ConnectionError as e:
-        raise Exception(f"Error al conectar con la red Ethereum: {str(e)}")
+        if not w3.is_address(wallet_address) or not w3.is_address(token_address):
+            raise ValueError("Las direcciones proporcionadas no son válidas.")
 
-    # ABI mínimo requerido para consultar el saldo de un token ERC-20
-    token_abi = [
-        {
-            "constant": True,
-            "inputs": [{"name": "_owner", "type": "address"}],
-            "name": "balanceOf",
-            "outputs": [{"name": "balance", "type": "uint256"}],
-            "payable": False,
-            "stateMutability": "view",
-            "type": "function",
-        }
-    ]
-    
-    if not w3.is_address(wallet_address) or not w3.is_address(token_address):
-        raise ValueError("Invalid Ethereum or token address")
-    
-    # Crea el contrato en web3
-    token_contract = w3.eth.contract(address=token_address, abi=token_abi)
-    
-    # Consulta el saldo
-    balance = token_contract.functions.balanceOf(wallet_address).call()
-    
-    # Convierte el saldo a un formato legible (si el token tiene 18 decimales)
-    return balance / 10**18
+        # ABI mínimo requerido para consultar el saldo de un token ERC-20
+        token_abi = [
+            {
+                "constant": True,
+                "inputs": [{"name": "_owner", "type": "address"}],
+                "name": "balanceOf",
+                "outputs": [{"name": "balance", "type": "uint256"}],
+                "payable": False,
+                "stateMutability": "view",
+                "type": "function",
+            }
+        ]
+        token_contract = w3.eth.contract(address=token_address, abi=token_abi)
+        balance = token_contract.functions.balanceOf(wallet_address).call()
+
+        # Consultar los decimales del token para mostrarlo correctamente
+        decimals = token_contract.functions.decimals().call()
+        return balance / (10 ** decimals)
+
+    except ConnectionError as e:
+        raise Exception(f"Error al conectar con la red Ethereum: {e}")
+    except ValueError as e:
+        raise ValueError(f"Error en las direcciones proporcionadas: {e}")
+    except Exception as e:
+        raise Exception(f"Error al obtener el saldo del token: {e}")
 
 # Ejemplo de uso
-# w3 = Web3(Web3.HTTPProvider('https://mainnet.infura.io/v3/your_infura_project_id'))
 # print(get_token_balance('token_contract_address_here', 'your_wallet_address_here', w3))
 
 
