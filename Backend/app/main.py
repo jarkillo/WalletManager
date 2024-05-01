@@ -3,7 +3,7 @@ from pydantic import BaseModel, ValidationError, validator
 from fastapi.middleware.cors import CORSMiddleware
 import logging
 from dotenv import load_dotenv
-from utils.wallet import send_transaction, get_balance, get_web3
+from utils.wallet import send_transaction, get_balance, get_web3, get_transaction_details
 
 # Cargar variables de entorno desde el archivo .env
 load_dotenv('token.env')
@@ -70,6 +70,16 @@ async def api_get_balance(address: str, network: str = 'mainnet'):
         return {"balance": balance}
     except Exception as e:
         logger.error(f"Error al consultar el saldo: {str(e)}")
+        raise HTTPException(status_code=400, detail=str(e))
+    
+@app.post("/transaction/details")
+async def get_transaction_details_endpoint(transaction_hash: str, network: str):
+    try:
+        # Llamar a la función get_transaction_details con los datos de entrada proporcionados
+        details = get_transaction_details(transaction_hash, network)
+        return details
+    except Exception as e:
+        # Capturar cualquier excepción y devolver un error HTTP 400
         raise HTTPException(status_code=400, detail=str(e))
 
 # Punto de entrada para verificar la conexión al iniciar el servidor

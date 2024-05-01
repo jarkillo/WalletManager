@@ -97,3 +97,39 @@ def get_token_balance(token_address, wallet_address, network: str):
 # Ejemplo de uso
 # w3 = Web3(Web3.HTTPProvider('https://mainnet.infura.io/v3/your_infura_project_id'))
 # print(get_token_balance('token_contract_address_here', 'your_wallet_address_here', w3))
+
+
+
+def get_transaction_details(transaction_hash: str, network: str):
+    """
+    Consulta los detalles de una transacción a partir de su hash.
+
+    Parámetros:
+        transaction_hash (str): El hash de la transacción que se está consultando.
+        network (str): Nombre de la red Ethereum a la que se conectará la wallet.
+
+    Retorna:
+        dict: Un diccionario con los detalles de la transacción.
+    """
+    try:
+        w3 = get_web3(network)
+    except ConnectionError as e:
+        raise Exception(f"Error al conectar con la red Ethereum: {str(e)}")
+
+    try:
+        transaction = w3.eth.get_transaction(transaction_hash)
+        # Si la transacción no existe, se lanzará una excepción y la manejarás más adelante
+    except ValueError as e:
+        raise Exception(f"No se encontró la transacción con el hash {transaction_hash}: {str(e)}")
+    
+    # Construye un diccionario con los detalles de la transacción
+    transaction_details = {
+        "hash": transaction_hash,
+        "block_number": transaction.blockNumber,
+        "from": transaction["from"],
+        "to": transaction["to"],
+        "value": transaction["value"],
+        "gas": transaction["gas"]
+    }
+
+    return transaction_details
