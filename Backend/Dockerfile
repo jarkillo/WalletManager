@@ -11,6 +11,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiar el resto de la aplicación
 COPY . .
 
+# Establecer PYTHONPATH
+ENV PYTHONPATH /app
+
 # Exponer el puerto que FastAPI utilizará
 EXPOSE 8000
 
