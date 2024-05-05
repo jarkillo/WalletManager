@@ -32,6 +32,8 @@ async def get_transaction_details_endpoint(transaction_hash: str, network: str):
         return details
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+    
+    
 
 @router.get("/wallet/balance/{wallet_address}")
 async def get_complete_balance(wallet_address: str, network: str = 'sepolia'):
