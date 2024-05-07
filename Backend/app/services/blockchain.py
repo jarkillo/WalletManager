@@ -1,10 +1,13 @@
 # app/services/blockchain.py
 from web3 import exceptions
+from web3 import Web3
 from app.utils.web3_utils import get_web3
 import logging
 from typing import List
 from models.schemas import Token
 import asyncio
+import requests
+import os
 
 
 logger = logging.getLogger(__name__)
@@ -234,3 +237,63 @@ async def get_all_token_balances(wallet_address: str, network: str):
     for token, balance in zip(filtered_tokens, results):
         balances[token.token_name] = balance
     return balances
+
+# Funcion para obtener resumen de las últimas operaciones de una cartera
+
+async def get_transaction_summary(wallet_address, network: str,transactions_days: int):
+        # Conecta a la red Ethereum
+    
+    try:
+        w3 = get_web3(network)
+    # Elegir el subdominio  asado en la red
+        if network == "mainnet":
+            domain = "api.etherscan.io"
+        elif network == "sepolia":
+            domain = "api-sepolia.etherscan.io"
+        else:
+            raise ValueError("Red no soportada")
+
+        url = f"https://{domain}/api"
+        # Obtén el número del último bloque
+        latest_block = w3.eth.block_number
+        block_limit = (24*60*60/15)*transactions_days
+        start_block = latest_block - block_limit
+        params = {
+            "module": "account",
+            "action": "txlist",
+            "address": wallet_address,
+            "startblock": start_block,
+            "endblock": latest_block,
+            "sort": "desc",
+            "apikey": os.getenv("ETHERSCAN_PROJECT_ID")
+        }
+        response = requests.get(url, params=params)
+        data = response.json()
+    except ValueError as e:
+        raise Exception(f"Error: {str(e)}")
+    return data['result']
+        
+   
+   
+    # Encuentra las transacciones donde la dirección está involucrada
+    
+    
+
+
+    while block_limit > 0  and block >= 0:
+        # Obtén el bloque con información completa
+        block_data = w3.eth.get_block(block, full_transactions=True)
+        # Revisa cada transacción en el bloque
+        for tx in block_data.transactions:
+            # Revisa si la dirección está involucrada en la transacción
+            if tx['from'] == wallet_address or tx.get('to') == wallet_address:
+                transactions.append(tx)
+                
+            
+        block-=1
+        block_limit -=1
+    return transactions
+
+
+
+
