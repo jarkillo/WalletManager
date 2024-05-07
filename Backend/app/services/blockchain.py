@@ -239,11 +239,11 @@ async def get_all_token_balances(wallet_address: str, network: str):
     return balances
 
 # Funcion para obtener resumen de las últimas operaciones de una cartera
-
 async def get_transaction_summary(wallet_address, network: str,transactions_days: int):
-        # Conecta a la red Ethereum
+        
     
     try:
+        # Conecta a la red Ethereum
         w3 = get_web3(network)
     # Elegir el subdominio  asado en la red
         if network == "mainnet":
@@ -272,27 +272,6 @@ async def get_transaction_summary(wallet_address, network: str,transactions_days
     except ValueError as e:
         raise Exception(f"Error: {str(e)}")
     return data['result']
-        
-   
-   
-    # Encuentra las transacciones donde la dirección está involucrada
-    
-    
-
-
-    while block_limit > 0  and block >= 0:
-        # Obtén el bloque con información completa
-        block_data = w3.eth.get_block(block, full_transactions=True)
-        # Revisa cada transacción en el bloque
-        for tx in block_data.transactions:
-            # Revisa si la dirección está involucrada en la transacción
-            if tx['from'] == wallet_address or tx.get('to') == wallet_address:
-                transactions.append(tx)
-                
-            
-        block-=1
-        block_limit -=1
-    return transactions
 
 
 
