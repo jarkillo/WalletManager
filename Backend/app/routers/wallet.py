@@ -1,7 +1,10 @@
 # app/routers/wallet.py
 from fastapi import APIRouter, HTTPException
-from app.services.blockchain import send_transaction, get_balance, get_transaction_details, get_all_token_balances
+from app.services.blockchain import send_transaction, get_balance, get_transaction_details, get_all_token_balances,get_transaction_summary
 from models.schemas import Transaction
+import logging
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -41,6 +44,16 @@ async def get_complete_balance(wallet_address: str, network: str = 'sepolia'):
         eth_balance = await get_balance(wallet_address, network)
         token_balances = await get_all_token_balances(wallet_address, network)
         return {"ETH": eth_balance, "tokens": token_balances}
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@router.get("/transaction/summary/{wallet_address}")
+async def get_transaction_summary_endpoint(wallet_address: str, network: str, transactions_days: int ):
+    logger.info(f"conectado a la red endpoint {network}. para ver la cartera {wallet_address} ")
+    try:
+        transaction_summary = await get_transaction_summary(wallet_address,network,transactions_days)
+        return transaction_summary
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
