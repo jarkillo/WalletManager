@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { isAddress } from 'ethers'; // Asegúrate de tener esta importación si estás usando la función isAddress de ethers
+import { isAddress } from 'ethers';
 
 function InformacionCartera() {
-    const [saldo, setSaldo] = useState(null); // Cambiado a null como valor inicial para claridad
+    const [saldo, setSaldo] = useState(null); // Cambiado a objeto para manejar múltiples saldos
     const [direccionCartera, setDireccionCartera] = useState('');
     const [network, setNetwork] = useState('sepolia');
     const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +30,7 @@ function InformacionCartera() {
         setIsLoading(true);
         axios.get(`${process.env.REACT_APP_BACKEND_URL}/wallet/balance/${direccionCartera}?network=${network}`)
             .then(respuesta => {
-                setSaldo(respuesta.data.balance); // Asegúrate de usar la clave correcta aquí
+                setSaldo(respuesta.data); // Ajustado para manejar la respuesta completa
                 setError('');
             })
             .catch(error => {
@@ -61,12 +61,16 @@ function InformacionCartera() {
             </form>
             {isLoading && <p>Cargando...</p>}
             {error && <p className="error">{error}</p>}
-            {saldo !== null && !error && (
-                <p className="saldo-resultado">Saldo: {saldo} ETH</p>
+            {!error && saldo && (
+                <>
+                    <h3>Balance</h3>
+                    {saldo.ETH && <p>ETH: {saldo.ETH}</p>}
+                    {saldo.tokens && Object.entries(saldo.tokens).map(([key, value]) => (
+                        <p key={key}>{key}: {value}</p>
+                    ))}
+                </>
             )}
         </div>
     );
 }
-
 export default InformacionCartera;
-
