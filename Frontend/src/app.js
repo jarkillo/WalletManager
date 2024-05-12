@@ -5,6 +5,7 @@ import WalletInfo from './components/WalletInfo';
 import SendTransaction from './components/SendTransaction';
 import CreateWallet from './components/CreateWallet';
 import TokenManager from './components/TokenManager';
+import TransactionDetails from './components/TransactionDetails';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
 
             <div className="column">
                 <SendTransaction />
+                <TransactionDetails />
 
             </div>
 

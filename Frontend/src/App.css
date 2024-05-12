@@ -79,6 +79,8 @@ form {
   margin: 20px auto;
   width: 90%;
   max-width: 400px;
+  overflow-x: auto;
+  word-wrap: break-word;
 }
 
 input[type="text"],
