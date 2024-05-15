@@ -6,11 +6,16 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
+
 router = APIRouter()
 
 @router.post("/wallet/transfer")
+
 async def api_send_transaction(transaction: Transaction):
+    logger.info("Conectado a la red endpoint {network}. para enviar transaccion")
     try:
+        logger.info(f"Conectado a la red endpoint {transaction.network}")
         tx_hash = send_transaction(transaction.signed_transaction, transaction.network)
         return {"transaction_hash": tx_hash}
     except Exception as e:

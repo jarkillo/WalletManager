@@ -8,6 +8,7 @@ from models.schemas import Token
 import asyncio
 import requests
 import os
+from app.config.abi import minimal_erc20_abi
 
 
 logger = logging.getLogger(__name__)
@@ -273,6 +274,48 @@ async def get_transaction_summary(wallet_address, network: str,transactions_days
         raise Exception(f"Error: {str(e)}")
     return data['result']
 
+async def token_exists(token_address: str, network: str) -> bool:
+    w3 = get_web3(network)
+    try:
+        # Limpiar la dirección para asegurarse de que no contenga parámetros o rutas extrañas
+        if '?' in token_address:
+            token_address = token_address.split('?')[0]  # Toma solo la parte antes de '?'
+    except Exception as e:
+        logger.error(f"Error al limpiar la dirección del token: {str(e)}")
+        return False
+    try:
+        
+        # Asegurarse de que la dirección sea una dirección hexadecimal válida
+        token_address = Web3.to_checksum_address(token_address)
+    
+    except ValueError as ve:
+        logger.error(f"Dirección de token inválida: {ve}")
+        return False
+    try:
 
+        # Crea un objeto contrato usando la dirección y el ABI mínimo
+        token_contract = w3.eth.contract(address=token_address, abi=minimal_erc20_abi)
+    
+    except ValueError as ve:
+        logger.error(f"Dirección de token inválida: {ve}")
+        return False
+    
+    try:
+        # Intenta obtener el símbolo del token para confirmar que el contrato es válido
+        symbol = token_contract.functions.symbol().call()
+        logger.info(f"Símbolo del token: {symbol}")
+        return True
+    except exceptions.BadFunctionCallOutput:
+        # Si la llamada falla, el contrato no existe o la dirección no es un contrato ERC-20   
+        return False
+        
+    except ValueError as ve:
+        logger.error(f"Dirección de token inválida: {ve}")
+        return False
+
+    except Exception as e:
+        # Captura cualquier otra excepción que pueda surgir
+        logger.error(f"Error al verificar el token: {str(e)}")
+        return False
 
 

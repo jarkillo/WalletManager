@@ -22,7 +22,9 @@ function TokenManager() {
 
     const handleDelete = async () => {
         try {
-            const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/tokens/`, { data: { token_address: tokenAddress } });
+            const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/tokens/${tokenAddress}`, {
+                params: { network: network }
+            });
             setMessage(response.data.msg);
         } catch (error) {
             setMessage('Error eliminado el token: ' + (error.response?.data?.detail || 'Error desconocido'));

@@ -1,5 +1,6 @@
 # app/models/schemas.py
-from pydantic import BaseModel, validator, HttpUrl, Field
+from pydantic import BaseModel, validator
+from typing import Dict
 
 class Transaction(BaseModel):
     signed_transaction: str
@@ -16,8 +17,13 @@ class Token(BaseModel):
     token_address: str
     network: str
 
+    def __eq__(self, other):
+        if not isinstance(other, Token):
+            return NotImplemented
+        return (self.token_address == other.token_address) and (self.network == other.network)
+
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "token_name": "Dai Stablecoin",
                 "token_address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
