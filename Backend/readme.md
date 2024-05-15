@@ -13,6 +13,7 @@ El proyecto está organizado en varias carpetas principales:
   - `routers/`: Contiene los routers de FastAPI que definen los endpoints de la API.
   - `services/`: Incluye la lógica de negocio, especialmente la interacción con la blockchain.
   - `utils/`: Proporciona funciones de utilidad, como la conexión a la blockchain a través de Web3.
+  - `config/`: Archivos de configuración.
 - `tests/`: Almacena los tests del proyecto, organizados por módulos.
 - `docs/`: Documentación del proyecto.
 
