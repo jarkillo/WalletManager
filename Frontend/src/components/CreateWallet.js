@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { ethers } from 'ethers'; // Importamos ethers para crear la cuenta directamente en el cliente y evitar enviar la clave privada
+import { ethers } from 'ethers'; // Importamos ethers para manejar la creación de la cuenta de manera segura
 
 function CrearCartera() {
-    const [network, setNetwork] = useState('sepolia');
-    const [walletData, setWalletData] = useState(null);
+    const [network, setNetwork] = useState('sepolia'); // Estado inicial de la red
+    const [walletData, setWalletData] = useState(null); // Datos de la cartera
 
     const manejarCambioRed = (evento) => {
         setNetwork(evento.target.value);
@@ -14,7 +14,7 @@ function CrearCartera() {
         const wallet = ethers.Wallet.createRandom();
         const data = {
             address: wallet.address,
-            privateKey: wallet.privateKey // Corregimos aquí: privateKey en lugar de private_key
+            privateKey: wallet.privateKey // La clave privada no debe exponerse innecesariamente
         };
         setWalletData(data);
     };
@@ -26,10 +26,10 @@ function CrearCartera() {
             const link = document.createElement('a');
             link.href = url;
             link.download = 'cartera.txt';
-            document.body.appendChild(link); // Añade el enlace al documento
-            link.click(); // Simula un clic para iniciar la descarga
-            document.body.removeChild(link); // Elimina el enlace del documento
-            URL.revokeObjectURL(url); // Libera el objeto URL
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
         }
     };
 
@@ -52,6 +52,9 @@ function CrearCartera() {
                     <button onClick={descargarClavePrivada}>Descargar datos de la Cartera</button>
                 </div>
             )}
+            <p style={{ color: 'red' }}>
+                Advertencia: Mantenga su clave privada en secreto. No la comparta ni la exponga en línea.
+            </p>
         </div>
     );
 }
