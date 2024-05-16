@@ -1,7 +1,5 @@
 # 🔐 Wallet Manager
 
----
-
 ## 🌐 Web3 Wallet Manager
 
 This project aims to develop a cryptocurrency wallet manager using Web3 technologies. The application will feature a straightforward frontend and a robust backend that will interact with the blockchain.
