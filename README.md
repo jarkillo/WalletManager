@@ -12,6 +12,15 @@ Se ha usado ChatGPT para diseñar una estructura del proyecto
 - [Despliegue y Mantenimiento](#despliegue-y-mantenimiento)
 - [Herramientas y Tecnologías](#herramientas-y-tecnologías)
 
+## ❤️ Contributors
+
+[![Contributor 1](https://avatars.githubusercontent.com/u/114604731?v=4)](https://github.com/alvsedcar)
+[![Contributor 2](https://avatars.githubusercontent.com/u/149080929?v=4)](https://github.com/tomastravis)
+[![Contributor 3](https://avatars.githubusercontent.com/u/148989122?v=4)](https://github.com/Mpzapata)
+[![Contributor 4](https://avatars.githubusercontent.com/u/152426648?v=4)](https://github.com/rosamaya22)
+[![Contributor 5](https://avatars.githubusercontent.com/u/107489788?v=4)](https://github.com/jarkillo)
+
+
 ## Planificación y Diseño (Reunion del Sabado)
 
 ### Requerimientos
