@@ -1,20 +1,24 @@
+# 🔐 Wallet Manager
+
+---
+
+## 🌐 Web3 Wallet Manager
+
+This project aims to develop a cryptocurrency wallet manager using Web3 technologies. The application will feature a straightforward frontend and a robust backend that will interact with the blockchain.
+
+ChatGPT has been used to design the project structure.
+
 ![Logo](https://github.com/jarkillo/WalletManager/blob/main/Frontend/src/assets/logo.png)
 
-# Gestor de Cartera Web3
-
-Este proyecto tiene como objetivo desarrollar un gestor de cartera para criptomonedas, utilizando tecnologías Web3. La aplicación contará con un frontend sencillo y un backend robusto que interactuará con la blockchain.
-
-Se ha usado ChatGPT para diseñar una estructura del proyecto
-
-## Contenidos
-- [Planificación y Diseño](#planificación-y-diseño)
+## 📚 Contents / Contenidos
+- [Planning and Design / Planificación y Diseño](#planning-and-design--planificación-y-diseño)
 - [Backend](#backend)
 - [Frontend](#frontend)
 - [Testing](#testing)
-- [Despliegue y Mantenimiento](#despliegue-y-mantenimiento)
-- [Herramientas y Tecnologías](#herramientas-y-tecnologías)
+- [Deployment and Maintenance / Despliegue y Mantenimiento](#deployment-and-maintenance--despliegue-y-mantenimiento)
+- [Tools and Technologies / Herramientas y Tecnologías](#tools-and-technologies--herramientas-y-tecnologías)
 
-## ❤️ Contributors
+## ❤️ Contributors / Colaboradores
 
 <a href="https://github.com/alvsedcar">
   <img src="https://avatars.githubusercontent.com/u/114604731?v=4" width="50" height="50" alt="alvsedcar">
@@ -34,19 +38,19 @@ Se ha usado ChatGPT para diseñar una estructura del proyecto
 
 ## 🚀 Roadmap
 
-![image](https://github.com/jarkillo/WalletManager/assets/107489788/8e8a8c93-fad9-44ca-883e-de3e16bc51bd)
+![Roadmap](https://github.com/jarkillo/WalletManager/assets/107489788/8e8a8c93-fad9-44ca-883e-de3e16bc51bd)
 
-### Requerimientos
+### 🛠️ Requirements / Requerimientos
 
-- **Git**: Tener instalado git en el pc (https://git-scm.com/downloads), En el link esta la descarga de mac y de windows
-- **Extension Git VSCODE**: Instalar la extensión de github en VSCODE (Git Extension Pack, gitignore, git History)
-- **Extension docker VSCODE**: Instalar la extensión de VSCODE (Docker, Docker compose, Docker explorer, Docker Extension Pack, Docker Run)
-- **Tener cuenta de Github**: Crear una cuenta de github si no la teneis ya y loguearos en vscode con la cuenta
-- **Instalar Docker Desktop**: Instalar docker Desktop en el pc (https://www.docker.com/products/docker-desktop/)
+- **Git**: Must have git installed on your computer ([Download here](https://git-scm.com/downloads)).
+- **VSCode Git Extension**: Install GitHub extension in VSCode (Git Extension Pack, gitignore, git History).
+- **VSCode Docker Extension**: Install Docker extension in VSCode (Docker, Docker compose, Docker explorer, Docker Extension Pack, Docker Run).
+- **GitHub Account**: Create a GitHub account if you do not have one and log in through VSCode.
+- **Install Docker Desktop**: Install Docker Desktop on your PC ([Download here](https://www.docker.com/products/docker-desktop/)).
 
-## Herramientas y Tecnologías Utilizadas
+## 🛠️ Tools and Technologies / Herramientas y Tecnologías Utilizadas
 - **Backend**: Python, FastAPI, Web3.py
-- **Frontend**: React, node.js, ethers
+- **Frontend**: React, Node.js, Ethers
 - **Testing**: pytest, ThunderClient, Swagger
-- **Despliegue**: Docker, Docker-Compose
-- **Gestión del proyecto**: Jira
+- **Deployment**: Docker, Docker-Compose
+- **Project Management / Gestión del Proyecto**: Jira
