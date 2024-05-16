@@ -6,7 +6,7 @@ Este proyecto tiene como objetivo desarrollar un administrador de billeteras de 
 
 Se ha utilizado ChatGPT para diseñar la estructura del proyecto.
 
-<div align="center">![Logo](https://github.com/jarkillo/WalletManager/blob/main/Frontend/src/assets/logo.png)</div>
+![Logo](https://github.com/jarkillo/WalletManager/blob/main/Frontend/src/assets/logo.png)
 
 ## 📚 Contenidos
 - [Planificación y Diseño](#planificación-y-diseño)
@@ -105,7 +105,7 @@ This project aims to develop a cryptocurrency wallet manager using Web3 technolo
 
 ChatGPT was used to design the project structure.
 
-<div align="center">![Logo](https://github.com/jarkillo/WalletManager/blob/main/Frontend/src/assets/logo.png)</div>
+![Logo](https://github.com/jarkillo/WalletManager/blob/main/Frontend/src/assets/logo.png)
 
 ## 📚 Contents
 - [Planning and Design](#planning-and-design)
