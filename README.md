@@ -30,7 +30,7 @@ Se ha usado ChatGPT para diseñar una estructura del proyecto
   <img src="https://avatars.githubusercontent.com/u/107489788?v=4" width="50" height="50" alt="jarkillo">
 </a>
 
-## Roadmap
+## 🚀 Roadmap
 
 ![image](https://github.com/jarkillo/WalletManager/assets/107489788/8e8a8c93-fad9-44ca-883e-de3e16bc51bd)
 
