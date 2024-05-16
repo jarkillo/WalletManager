@@ -14,11 +14,22 @@ Se ha usado ChatGPT para diseñar una estructura del proyecto
 
 ## ❤️ Contributors
 
-[![Contributor 1](https://avatars.githubusercontent.com/u/114604731?v=4)](https://github.com/alvsedcar)
-[![Contributor 2](https://avatars.githubusercontent.com/u/149080929?v=4)](https://github.com/tomastravis)
-[![Contributor 3](https://avatars.githubusercontent.com/u/148989122?v=4)](https://github.com/Mpzapata)
-[![Contributor 4](https://avatars.githubusercontent.com/u/152426648?v=4)](https://github.com/rosamaya22)
-[![Contributor 5](https://avatars.githubusercontent.com/u/107489788?v=4)](https://github.com/jarkillo)
+<a href="https://github.com/alvsedcar">
+  <img src="https://avatars.githubusercontent.com/u/114604731?v=4" width="50" height="50" alt="alvsedcar">
+</a>
+<a href="https://github.com/tomastravis">
+  <img src="https://avatars.githubusercontent.com/u/149080929?v=4" width="50" height="50" alt="tomastravis">
+</a>
+<a href="https://github.com/Mpzapata">
+  <img src="https://avatars.githubusercontent.com/u/148989122?v=4" width="50" height="50" alt="Mpzapata">
+</a>
+<a href="https://github.com/rosamaya22">
+  <img src="https://avatars.githubusercontent.com/u/152426648?v=4" width="50" height="50" alt="rosamaya22">
+</a>
+<a href="https://github.com/jarkillo">
+  <img src="https://avatars.githubusercontent.com/u/107489788?v=4" width="50" height="50" alt="jarkillo">
+</a>
+
 
 
 ## Planificación y Diseño (Reunion del Sabado)
