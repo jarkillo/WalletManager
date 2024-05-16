@@ -65,16 +65,6 @@ Se ha utilizado ChatGPT para diseñar la estructura del proyecto.
    `docker-compose up --build`
 4. Abrir su navegador y navegar a `http://localhost:3000`
 
-### English
-
-1. Clone the repository:
-   `git clone https://github.com/jarkillo/WalletManager.git`
-2. Navigate to the project directory:
-   `cd WalletManager`
-3. Build and start the Docker containers:
-   `docker-compose up --build`
-4. Open your browser and navigate to `http://localhost:3000`
-
 ## Documentación
 
 ### Uso del Frontend
