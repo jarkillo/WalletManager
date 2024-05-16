@@ -6,7 +6,7 @@ Este proyecto tiene como objetivo desarrollar un administrador de billeteras de 
 
 Se ha utilizado ChatGPT para diseñar la estructura del proyecto.
 
-![Logo](https://github.com/jarkillo/WalletManager/blob/main/Frontend/src/assets/logo.png)
+<div align="center">![Logo](https://github.com/jarkillo/WalletManager/blob/main/Frontend/src/assets/logo.png)</div>
 
 ## 📚 Contenidos
 - [Planificación y Diseño](#planificación-y-diseño)
@@ -87,8 +87,6 @@ Una vez que la aplicación esté en funcionamiento, verá una interfaz simple do
 4. **Ver historial de transacciones**: Al seleccionar una cartera, también podrá ver el historial de transacciones realizadas.
 5. **Ver los detalles de una transacción**: Puedes ver los detalles de una transacción a partir de un hash
 
-![Frontend Screenshot](https://github.com/jarkillo/WalletManager/assets/107489788/frontend-screenshot.png)
-
 ## Acknowledgements
 
 Agradecemos a todos los colaboradores y a la comunidad de desarrolladores que han contribuido a este proyecto. En particular, queremos agradecer a:
@@ -107,7 +105,7 @@ This project aims to develop a cryptocurrency wallet manager using Web3 technolo
 
 ChatGPT was used to design the project structure.
 
-![Logo](https://github.com/jarkillo/WalletManager/blob/main/Frontend/src/assets/logo.png)
+<div align="center">![Logo](https://github.com/jarkillo/WalletManager/blob/main/Frontend/src/assets/logo.png)</div>
 
 ## 📚 Contents
 - [Planning and Design](#planning-and-design)
@@ -176,7 +174,6 @@ Once the application is running, you will see a simple interface where you can:
 4. **View transaction history**: By selecting a wallet, you can also view the history of transactions made.
 5. **View transaction details**: You can view the details of a transaction using a hash
 
-![Frontend Screenshot](https://github.com/jarkillo/WalletManager/assets/107489788/frontend-screenshot.png)
 
 ## Acknowledgements
 
