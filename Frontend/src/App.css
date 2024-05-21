@@ -4,8 +4,7 @@ body {
   font-family: 'Roboto', sans-serif;
   background-color: var(--background-color);
   color: var(--text-color);
-  overflow-x: hidden;
-  /* Evita scroll horizontal */
+  overflow-x: hidden; /* Evita scroll horizontal */
 }
 
 :root {
@@ -311,6 +310,11 @@ label {
   width: 100%;
   max-width: 400px;
   transition: transform 0.3s, box-shadow 0.3s;
+
+  /* Asegurarse de que el texto salte de línea */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .transaction-details-block:hover,
@@ -318,39 +322,4 @@ label {
 .saldo-block:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.form-transaction-details,
-.form-cartera,
-.form-saldo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.form-transaction-details input,
-.form-transaction-details select,
-.form-cartera input,
-.form-cartera select,
-.form-saldo input,
-.form-saldo select {
-  width: calc(100% - 20px);
-  margin-bottom: 10px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-.result-container {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.result-container p {
-  margin: 5px 0;
-}
-
-.error {
-  color: red;
 }

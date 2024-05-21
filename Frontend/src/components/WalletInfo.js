@@ -68,7 +68,7 @@ function InformacionCartera() {
             {!error && saldo && (
                 <>
                     <h3>Balance</h3>
-                    {saldo.ETH && <p>ETH: {saldo.ETH}</p>}
+                    <p>ETH: {saldo.ETH}</p>
                     {saldo.tokens && Object.entries(saldo.tokens).map(([key, value]) => (
                         <p key={key}>{key}: {value}</p>
                     ))}
