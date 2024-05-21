@@ -2,8 +2,36 @@
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
-  background-color: #f0f0f0;
-  overflow-x: hidden; /* Evita scroll horizontal */
+  background-color: var(--background-color);
+  color: var(--text-color);
+  overflow-x: hidden;
+  /* Evita scroll horizontal */
+}
+
+:root {
+  --background-color: #f0f0f0;
+  --text-color: #333;
+  --navbar-background: linear-gradient(145deg, #636363, #8c8c8c);
+  --navbar-border: #555555;
+  --button-background: #0056b3;
+  --button-background-hover: #004494;
+  --button-background-active: #003366;
+  --button-disabled: #9e9e9e;
+  --input-border-focus: #5045cc;
+  --column-background: rgba(255, 255, 255, 0.95);
+}
+
+.dark-mode {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --navbar-background: linear-gradient(145deg, #1f1f1f, #3d3d3d);
+  --navbar-border: #444444;
+  --button-background: #007bff;
+  --button-background-hover: #0069d9;
+  --button-background-active: #0056b3;
+  --button-disabled: #6c757d;
+  --input-border-focus: #007bff;
+  --column-background: rgba(48, 48, 48, 0.95);
 }
 
 .app-container {
@@ -16,21 +44,54 @@ body {
 /* Barra de navegación */
 .navbar {
   width: 100%;
-  background-color: #8c8c8c; /* Tono plata metálico */
-  padding: 15px 20px; 
+  background: var(--navbar-background);
+  padding: 15px 20px;
   display: flex;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-bottom: 2px solid var(--navbar-border);
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.navbar:hover {
+  background: var(--navbar-background-hover);
+  border-bottom: 2px solid var(--navbar-border-hover);
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-links button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.nav-links button:hover {
+  color: #ddd;
+}
+
+.nav-links button:focus {
+  outline: none;
+  color: #bbb;
 }
 
 .logo-container {
   display: flex;
   align-items: center;
-  margin-left: 20px; /* Aumentar margen izquierdo del logotipo */
+  margin-left: 20px;
+  /* Aumentar margen izquierdo del logotipo */
 }
 
 .app-logo {
-  height: 80px; /* Aumentar tamaño del logotipo */
+  height: 80px;
+  /* Aumentar tamaño del logotipo */
   margin-right: 15px;
 }
 
@@ -40,17 +101,38 @@ body {
   font-weight: bold;
 }
 
+.toggle-dark-mode {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 0.8rem;
+  /* Reducir tamaño del botón */
+  cursor: pointer;
+  margin-left: 15px;
+  transition: color 0.3s;
+}
+
+.toggle-dark-mode:hover {
+  color: #ddd;
+}
+
 /* Fondo decorativo */
 .background-decor {
   width: 100%;
   display: flex;
   justify-content: center;
-  background-image: url('./assets/background.jpg');
+  background-image: var(--background-image);
   background-size: cover;
   background-position: center;
-  background-attachment: fixed; /* Mantiene la imagen fija al fondo */
+  background-attachment: fixed;
+  /* Mantiene la imagen fija al fondo */
   padding: 20px 0;
   flex-grow: 1;
+}
+
+.dark-mode .background-decor {
+  background-image: url('./assets/background.jpg');
+  /* Imagen de fondo para modo oscuro */
 }
 
 .main-container {
@@ -63,34 +145,41 @@ body {
   padding: 20px;
 }
 
+/* Otros estilos como columnas, formularios y bloques */
 .column {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(245,245,245,0.95)); /* Fondo más interesante */
-  border: 1px solid #e0e0e0; /* Borde más definido */
+  background: var(--column-background);
+  border: 1px solid #e0e0e0;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 30px;
   margin: 10px;
   width: 100%;
   max-width: 400px;
-  transition: transform 0.3s, box-shadow 0.3s; /* Efecto de transición */
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .column:hover {
-  transform: translateY(-5px); /* Eleva el bloque al pasar el cursor */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+  transform: translateY(-5px);
+  /* Eleva el bloque al pasar el cursor */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-h1, h2 {
+h1,
+h2 {
   text-align: center;
   margin-bottom: 20px;
-  color: #333;
+  color: var(--text-color);
+  font-family: 'Orbitron', sans-serif;
+  /* Fuente diferente para un toque tecnológico */
 }
 
 /* Estilos de entrada y botones */
-input, button, select {
+input,
+button,
+select {
   font-size: 16px;
   width: 100%;
   margin-bottom: 20px;
@@ -100,36 +189,44 @@ input, button, select {
   transition: border-color 0.3s;
 }
 
-input:focus, select:focus {
-  border-color: #5045cc;
+input:focus,
+select:focus {
+  border-color: var(--input-border-focus);
   outline: none;
 }
 
 button {
-  background-color: #0056b3; /* Azul más oscuro */
+  background-color: var(--button-background);
   color: white;
   padding: 12px 20px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para efecto tridimensional */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s, box-shadow 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 button:hover {
-  background-color: #004494;
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada al pasar el cursor */
+  background-color: var(--button-background-hover);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
 
 button:active {
-  background-color: #003366;
+  background-color: var(--button-background-active);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 button:disabled,
 button.loading {
-  background-color: #9e9e9e;
+  background-color: var(--button-disabled);
   pointer-events: none;
+}
+
+button .icon {
+  margin-right: 8px;
 }
 
 .loader {
@@ -142,14 +239,19 @@ button.loading {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 768px) {
   .main-container {
-      flex-direction: column;
-      align-items: center;
+    flex-direction: column;
+    align-items: center;
   }
 }
 
@@ -159,11 +261,96 @@ label {
   margin-bottom: 5px;
   text-align: left;
   font-size: 18px;
-  color: #333;
+  color: var(--text-color);
 }
 
 .feedback-message {
   color: #d32f2f;
   font-size: 14px;
   margin-top: 10px;
+}
+
+/* Estilos adicionales para TokenManager */
+.token-manager {
+  text-align: center;
+}
+
+.token-manager input {
+  width: calc(100% - 20px);
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.token-manager select {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.token-manager p {
+  margin-bottom: 20px;
+}
+
+.token-manager button {
+  margin: 5px 0;
+}
+
+.transaction-details-block,
+.transaction-history,
+.saldo-block {
+  background: var(--column-background);
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin: 10px;
+  width: 100%;
+  max-width: 400px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.transaction-details-block:hover,
+.transaction-history:hover,
+.saldo-block:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.form-transaction-details,
+.form-cartera,
+.form-saldo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.form-transaction-details input,
+.form-transaction-details select,
+.form-cartera input,
+.form-cartera select,
+.form-saldo input,
+.form-saldo select {
+  width: calc(100% - 20px);
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.result-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.result-container p {
+  margin: 5px 0;
+}
+
+.error {
+  color: red;
 }

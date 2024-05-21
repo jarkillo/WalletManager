@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Button from './button';
+import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 function TokenManager() {
     const [tokenName, setTokenName] = useState('');
@@ -32,25 +34,24 @@ function TokenManager() {
     };
 
     return (
-        <div>
+        <div className="token-manager-block">
             <h2>Token Manager</h2>
-            <p>
-                <select value={network} onChange={(e) => setNetwork(e.target.value)}>
-                    <option value="mainnet">Mainnet</option>
-                    <option value="sepolia">Sepolia</option>
-                </select>
-            </p>
-            <p>
+            <form className="form-token-manager">
+                <label>
+                    Red:
+                    <select value={network} onChange={(e) => setNetwork(e.target.value)}>
+                        <option value="mainnet">Mainnet</option>
+                        <option value="sepolia">Sepolia</option>
+                    </select>
+                </label>
                 <input value={tokenName} onChange={(e) => setTokenName(e.target.value)} placeholder="Nombre del Token" />
                 <input value={tokenAddress} onChange={(e) => setTokenAddress(e.target.value)} placeholder="Dirección del token" />
-            </p>
-            <button onClick={handleAdd}>Añadir Token</button>
-            <button onClick={handleDelete}>Borrar Token</button>
-            <p>{message}</p>
+                <Button icon={faPlus} onClick={handleAdd}>Añadir Token</Button>
+                <Button icon={faTrash} onClick={handleDelete}>Borrar Token</Button>
+            </form>
+            {message && <p>{message}</p>}
         </div>
     );
 }
 
 export default TokenManager;
-
-

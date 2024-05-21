@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Importamos axios para realizar llamadas a la API
+import Button from './button';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 function HistorialTransacciones() {
     const [walletAddress, setWalletAddress] = useState(''); // Dirección de la cartera
@@ -45,9 +47,9 @@ function HistorialTransacciones() {
                     Dirección de la Cartera:
                     <input type="text" value={walletAddress} onChange={handleWalletChange} />
                 </label>
-                <button onClick={fetchTransactions} disabled={loading}>
+                <Button icon={faSearch} onClick={fetchTransactions} disabled={loading}>
                     {loading ? 'Cargando...' : 'Consultar Transacciones'}
-                </button>
+                </Button>
             </div>
             {error && <p>{error}</p>}
             <div>

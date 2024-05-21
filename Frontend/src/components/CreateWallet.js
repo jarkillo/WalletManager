@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { ethers } from 'ethers'; // Importamos ethers para manejar la creación de la cuenta de manera segura
+import Button from './button';
+import { faWallet } from '@fortawesome/free-solid-svg-icons';
 
 function CrearCartera() {
     const [network, setNetwork] = useState('sepolia'); // Estado inicial de la red
@@ -44,12 +46,12 @@ function CrearCartera() {
                         <option value="mainnet">Mainnet</option>
                     </select>
                 </label>
-                <button type="submit">Crear Cartera</button>
+                <Button icon={faWallet} type="submit">Crear Cartera</Button>
             </form>
             {walletData && (
                 <div>
                     <p>Dirección de la Cartera: {walletData.address}</p>
-                    <button onClick={descargarClavePrivada}>Descargar datos de la Cartera</button>
+                    <Button onClick={descargarClavePrivada}>Descargar datos de la Cartera</Button>
                 </div>
             )}
             <p style={{ color: 'red' }}>

@@ -1,13 +1,10 @@
-// Importa los módulos necesarios de React, Axios y Ethers
 import React, { useState } from 'react';
 import axios from 'axios';
 import { ethers, parseEther } from 'ethers';
+import Button from './button';
+import { faPaperPlane, faGasPump, faEdit } from '@fortawesome/free-solid-svg-icons';
 
-
-// Definición del componente SendTransaction para realizar transferencias de Ethereum
 function SendTransaction() {
-
-    // Estado para manejar diferentes propiedades del formulario y de la transacción
     const [network, setNetwork] = useState('sepolia');
     const [privateKey, setPrivateKey] = useState('');
     const [toAddress, setToAddress] = useState('');
@@ -21,51 +18,37 @@ function SendTransaction() {
     const [maxFeePerGas, setMaxFeePerGas] = useState('');
     const [isEditingGas, setIsEditingGas] = useState(false);
 
-    // Función para estimar el gas necesario para la transacción y crearla
     const handleEstimate = async (event) => {
-
-        // Evita que el formulario se envíe y recargue la página
         event.preventDefault();
-
-        // Verifica que los campos necesarios estén llenos o devuelve error
         if (!privateKey || !toAddress || !amount) {
             setTransactionMessage('Por favor, rellena todos los campos correctamente.');
             return;
         }
 
-        // Muestra un mensaje de carga mientras se realizan procesos
         setIsLoading(true);
         const provider = new ethers.BrowserProvider(window.ethereum);
         const wallet = new ethers.Wallet(privateKey, provider);
 
         try {
-
-            // Detalles de la transacción necesarios para estimar el gas
             const transactionDetails = {
                 to: toAddress,
                 value: parseEther(amount.toString()),
-                from: wallet.address // Necesario para la estimación del gas
+                from: wallet.address
             };
 
-            // Estimación de gas y obtención de los precios actuales del gas
             const estimatedGasLimit = await provider.estimateGas(transactionDetails);
             const feeData = await provider.getFeeData();
 
-            // Formatea y muestra la estimación de gas y precios de forma clara
             setEstimatedGas(`Gas Estimado: ${estimatedGasLimit.toString()} unidades,
             Tarifa de Prioridad Máxima por Gas: ${ethers.formatUnits(feeData.maxPriorityFeePerGas, 'gwei')} Gwei,
             Tarifa Máxima por Gas: ${ethers.formatUnits(feeData.maxFeePerGas, 'gwei')} Gwei`);
 
             setGasLimit(estimatedGasLimit.toString());
-
             setMaxPriorityFeePerGas(ethers.formatUnits(feeData.maxPriorityFeePerGas, 'gwei'));
-
             setMaxFeePerGas(ethers.formatUnits(feeData.maxFeePerGas, 'gwei'));
-
-            setIsEditingGas(false); // Asegura que las opciones no se muestren automáticamente
+            setIsEditingGas(false);
 
             setTransactionMessage('Presiona enviar para completar la transacción');
-
         } catch (error) {
             setTransactionMessage('Error al estimar el gas: ' + error.message);
             console.error('Error estimando el gas:', error);
@@ -74,15 +57,12 @@ function SendTransaction() {
         }
     };
 
-    // Función para enviar la transacción firmada al backend y procesarla
     const handleSendTransaction = async () => {
         setIsLoading(true);
         const provider = new ethers.BrowserProvider(window.ethereum);
         const wallet = new ethers.Wallet(privateKey, provider);
 
         try {
-
-            // Configuración de la transacción con los valores modificados por el usuario
             const transaction = {
                 nonce: await provider.getTransactionCount(wallet.address, 'latest'),
                 gasLimit: ethers.toBigInt(gasLimit),
@@ -90,9 +70,8 @@ function SendTransaction() {
                 maxFeePerGas: ethers.toBigInt(ethers.parseUnits(maxFeePerGas, 'gwei')),
                 to: toAddress,
                 value: ethers.toBigInt(ethers.parseEther(amount.toString()).toString()),
-                chainId: network === 'sepolia' ? 11155111 : 1 // ID de Sepolia y Mainnet
+                chainId: network === 'sepolia' ? 11155111 : 1
             };
-
 
             const feeData = await provider.getFeeData();
             transaction.maxPriorityFeePerGas = feeData.maxPriorityFeePerGas;
@@ -100,7 +79,6 @@ function SendTransaction() {
 
             const signedTransaction = await wallet.signTransaction(transaction);
 
-            // Envío de la transacción firmada al backend
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/wallet/transfer`, {
                 signed_transaction: signedTransaction,
                 network
@@ -116,7 +94,6 @@ function SendTransaction() {
         }
     };
 
-    // Renderiza el formulario y los controles para la transacción
     return (
         <form onSubmit={handleEstimate}>
             <h2>Realizar Transferencia</h2>
@@ -139,14 +116,14 @@ function SendTransaction() {
                 Cantidad (ETH):
                 <input type="number" value={amount} onChange={e => setAmount(e.target.value)} />
             </label>
-            <button type="submit" disabled={isLoading}>Estimar Gas</button>
+            <Button icon={faGasPump} type="submit" disabled={isLoading}>Estimar Gas</Button>
             {isLoading && <p>Calculando...</p>}
             {!isLoading && estimatedGas && (
                 <div>
                     <p>{estimatedGas}</p>
-                    <button type="button" onClick={() => setIsEditingGas(!isEditingGas)}>
+                    <Button icon={faEdit} type="button" onClick={() => setIsEditingGas(!isEditingGas)}>
                         {isEditingGas ? 'Cerrar Edición' : 'Editar Configuración de Gas'}
-                    </button>
+                    </Button>
                     {isEditingGas && (
                         <div>
                             <label>
@@ -163,7 +140,7 @@ function SendTransaction() {
                             </label>
                         </div>
                     )}
-                    <button type="button" onClick={handleSendTransaction}>Enviar Transacción</button>
+                    <Button icon={faPaperPlane} type="button" onClick={handleSendTransaction}>Enviar Transacción</Button>
                 </div>
             )}
 
@@ -182,7 +159,3 @@ function SendTransaction() {
 }
 
 export default SendTransaction;
-
-
-
-

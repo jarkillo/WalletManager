@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { isAddress } from 'ethers';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 function InformacionCartera() {
     const [saldo, setSaldo] = useState(null); // Cambiado a objeto para manejar múltiples saldos
@@ -57,7 +59,9 @@ function InformacionCartera() {
                     Wallet:
                     <input type="text" value={direccionCartera} onChange={manejarCambioClavePrivada} />
                 </label>
-                <button type="submit" disabled={isLoading}>Consultar Saldo</button>
+                <button type="submit" disabled={isLoading}>
+                    <FontAwesomeIcon icon={faSearch} /> Consultar Saldo
+                </button>
             </form>
             {isLoading && <p>Cargando...</p>}
             {error && <p className="error">{error}</p>}
@@ -73,4 +77,5 @@ function InformacionCartera() {
         </div>
     );
 }
+
 export default InformacionCartera;

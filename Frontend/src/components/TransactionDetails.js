@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Button from './button';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 function InformacionTransaccion() {
     const [details, setDetails] = useState(null);
@@ -52,7 +54,7 @@ function InformacionTransaccion() {
                     Hash de la Transacción:
                     <input type="text" value={transactionHash} onChange={handleTransactionHashChange} />
                 </label>
-                <button type="submit" disabled={isLoading}>Obtener Detalles</button>
+                <Button icon={faSearch} type="submit" disabled={isLoading}>Obtener Detalles</Button>
             </form>
             {isLoading && <p>Cargando...</p>}
             {error && <p className="error">{error}</p>}
