@@ -1,38 +1,38 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { isAddress } from 'ethers';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Button from './button';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-function InformacionCartera() {
-    const [saldo, setSaldo] = useState(null); // Cambiado a objeto para manejar múltiples saldos
+function WalletInfo() {
+    const [saldo, setSaldo] = useState(null);
     const [direccionCartera, setDireccionCartera] = useState('');
     const [network, setNetwork] = useState('sepolia');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const manejarCambioClavePrivada = (evento) => {
-        setDireccionCartera(evento.target.value);
+    const handleChangePrivateKey = (event) => {
+        setDireccionCartera(event.target.value);
     };
 
-    const manejarCambioRed = (evento) => {
-        setNetwork(evento.target.value);
+    const handleChangeNetwork = (event) => {
+        setNetwork(event.target.value);
     };
 
-    const manejarEnvio = (evento) => {
-        evento.preventDefault();
+    const handleSubmit = (event) => {
+        event.preventDefault();
         if (isAddress(direccionCartera)) {
-            obtenerSaldo();
+            getBalance();
         } else {
             setError('La dirección ingresada no es una dirección Ethereum válida.');
         }
     };
 
-    const obtenerSaldo = () => {
+    const getBalance = () => {
         setIsLoading(true);
         axios.get(`${process.env.REACT_APP_BACKEND_URL}/wallet/balance/${direccionCartera}?network=${network}`)
-            .then(respuesta => {
-                setSaldo(respuesta.data); // Ajustado para manejar la respuesta completa
+            .then(response => {
+                setSaldo(response.data);
                 setError('');
             })
             .catch(error => {
@@ -47,21 +47,19 @@ function InformacionCartera() {
     return (
         <div className="saldo-block">
             <h2>Saldo de la Cartera</h2>
-            <form onSubmit={manejarEnvio} className="form-saldo">
+            <form onSubmit={handleSubmit} className="form-saldo">
                 <label>
                     Red:
-                    <select value={network} onChange={manejarCambioRed}>
+                    <select value={network} onChange={handleChangeNetwork}>
                         <option value="sepolia">Sepolia</option>
                         <option value="mainnet">Mainnet</option>
                     </select>
                 </label>
                 <label>
                     Wallet:
-                    <input type="text" value={direccionCartera} onChange={manejarCambioClavePrivada} />
+                    <input type="text" value={direccionCartera} onChange={handleChangePrivateKey} />
                 </label>
-                <button type="submit" disabled={isLoading}>
-                    <FontAwesomeIcon icon={faSearch} /> Consultar Saldo
-                </button>
+                <Button icon={faSearch} type="submit" disabled={isLoading}>Consultar Saldo</Button>
             </form>
             {isLoading && <p>Cargando...</p>}
             {error && <p className="error">{error}</p>}
@@ -78,4 +76,4 @@ function InformacionCartera() {
     );
 }
 
-export default InformacionCartera;
+export default WalletInfo;

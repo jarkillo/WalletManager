@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Importamos axios para realizar llamadas a la API
+import axios from 'axios';
 import Button from './button';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-function HistorialTransacciones() {
-    const [walletAddress, setWalletAddress] = useState(''); // Dirección de la cartera
-    const [network, setNetwork] = useState('sepolia'); // Red por defecto
-    const [transactions, setTransactions] = useState([]); // Lista de transacciones
-    const [loading, setLoading] = useState(false); // Estado de carga
-    const [error, setError] = useState(null); // Estado de error
+function TransactionRecords() {
+    const [walletAddress, setWalletAddress] = useState('');
+    const [network, setNetwork] = useState('sepolia');
+    const [transactions, setTransactions] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleNetworkChange = (event) => {
         setNetwork(event.target.value);
@@ -19,10 +19,10 @@ function HistorialTransacciones() {
     };
 
     const fetchTransactions = async () => {
-        if (!walletAddress) return; // Verifica que la dirección no esté vacía
+        if (!walletAddress) return;
         setLoading(true);
         try {
-            const response = await axios.get(`/transaction/summary/${walletAddress}?network=${network}&transactions_days=30`); // Ajusta la URL según la configuración de tu API
+            const response = await axios.get(`/transaction/summary/${walletAddress}?network=${network}&transactions_days=30`);
             setTransactions(response.data);
             setError(null);
         } catch (err) {
@@ -72,4 +72,4 @@ function HistorialTransacciones() {
     );
 }
 
-export default HistorialTransacciones;
+export default TransactionRecords;

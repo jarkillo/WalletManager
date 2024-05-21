@@ -3,7 +3,7 @@ import axios from 'axios';
 import Button from './button';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-function InformacionTransaccion() {
+function TransactionDetails() {
     const [details, setDetails] = useState(null);
     const [transactionHash, setTransactionHash] = useState('');
     const [network, setNetwork] = useState('sepolia');
@@ -73,4 +73,4 @@ function InformacionTransaccion() {
     );
 }
 
-export default InformacionTransaccion;
+export default TransactionDetails;

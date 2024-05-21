@@ -5,7 +5,6 @@ body {
   background-color: var(--background-color);
   color: var(--text-color);
   overflow-x: hidden;
-  /* Evita scroll horizontal */
 }
 
 :root {
@@ -19,7 +18,6 @@ body {
   --button-disabled: #9e9e9e;
   --input-border-focus: #5045cc;
   --column-background: rgba(255, 255, 255, 0.95);
-  --background-image: url('./assets/background.jpg');
 }
 
 .dark-mode {
@@ -27,13 +25,15 @@ body {
   --text-color: #ffffff;
   --navbar-background: linear-gradient(145deg, #1f1f1f, #3d3d3d);
   --navbar-border: #444444;
-  --button-background: #505050;
-  --button-background-hover: #404040;
-  --button-background-active: #303030;
+  --button-background: #6c757d;
+  /* Ajuste de color */
+  --button-background-hover: #5a6268;
+  /* Ajuste de color */
+  --button-background-active: #495057;
+  /* Ajuste de color */
   --button-disabled: #6c757d;
   --input-border-focus: #007bff;
   --column-background: rgba(48, 48, 48, 0.95);
-  --background-image: url('./assets/background-dark.jpg');
 }
 
 .app-container {
@@ -57,7 +57,6 @@ body {
 }
 
 .navbar:hover {
-  /*background: var(--navbar-background-hover);*/
   border-bottom: 2px solid var(--navbar-border-hover);
 }
 
@@ -88,13 +87,16 @@ body {
   display: flex;
   align-items: center;
   margin-left: 20px;
-  /* Aumentar margen izquierdo del logotipo */
 }
 
 .app-logo {
   height: 80px;
-  /* Aumentar tamaño del logotipo */
   margin-right: 15px;
+  transition: transform 0.3s;
+}
+
+.app-logo:hover {
+  transform: rotate(360deg);
 }
 
 .app-title {
@@ -108,7 +110,6 @@ body {
   border: none;
   color: white;
   font-size: 0.8rem;
-  /* Reducir tamaño del botón */
   cursor: pointer;
   margin-left: 15px;
   transition: color 0.3s;
@@ -123,13 +124,16 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
-  background-image: var(--background-image);
+  background-image: url('./assets/background.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  /* Mantiene la imagen fija al fondo */
   padding: 20px 0;
   flex-grow: 1;
+}
+
+.dark-mode .background-decor {
+  background-image: url('./assets/background-dark.jpg');
 }
 
 .main-container {
@@ -142,7 +146,6 @@ body {
   padding: 20px;
 }
 
-/* Otros estilos como columnas, formularios y bloques */
 .column {
   display: flex;
   flex-direction: column;
@@ -160,7 +163,6 @@ body {
 
 .column:hover {
   transform: translateY(-5px);
-  /* Eleva el bloque al pasar el cursor */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
@@ -170,7 +172,6 @@ h2 {
   margin-bottom: 20px;
   color: var(--text-color);
   font-family: 'Orbitron', sans-serif;
-  /* Fuente diferente para un toque tecnológico */
 }
 
 /* Estilos de entrada y botones */
@@ -267,7 +268,6 @@ label {
   margin-top: 10px;
 }
 
-/* Estilos adicionales para TokenManager */
 .token-manager {
   text-align: center;
 }
@@ -308,8 +308,6 @@ label {
   width: 100%;
   max-width: 400px;
   transition: transform 0.3s, box-shadow 0.3s;
-
-  /* Asegurarse de que el texto salte de línea */
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
@@ -318,6 +316,23 @@ label {
 .transaction-details-block:hover,
 .transaction-history:hover,
 .saldo-block:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.cartera-block {
+  background: var(--column-background);
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin: 10px;
+  width: 100%;
+  max-width: 400px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.cartera-block:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }

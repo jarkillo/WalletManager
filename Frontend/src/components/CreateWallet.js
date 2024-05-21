@@ -1,33 +1,33 @@
 import React, { useState } from 'react';
-import { ethers } from 'ethers'; // Importamos ethers para manejar la creación de la cuenta de manera segura
+import { ethers } from 'ethers';
 import Button from './button';
 import { faWallet } from '@fortawesome/free-solid-svg-icons';
 
-function CrearCartera() {
-    const [network, setNetwork] = useState('sepolia'); // Estado inicial de la red
-    const [walletData, setWalletData] = useState(null); // Datos de la cartera
+function CreateWallet() {
+    const [network, setNetwork] = useState('sepolia');
+    const [walletData, setWalletData] = useState(null);
 
-    const manejarCambioRed = (evento) => {
-        setNetwork(evento.target.value);
+    const handleChangeNetwork = (event) => {
+        setNetwork(event.target.value);
     };
 
-    const manejarEnvio = (evento) => {
-        evento.preventDefault();
+    const handleSubmit = (event) => {
+        event.preventDefault();
         const wallet = ethers.Wallet.createRandom();
         const data = {
             address: wallet.address,
-            privateKey: wallet.privateKey // La clave privada no debe exponerse innecesariamente
+            privateKey: wallet.privateKey
         };
         setWalletData(data);
     };
 
-    const descargarClavePrivada = () => {
+    const downloadWalletData = () => {
         if (walletData) {
             const blob = new Blob([`Address: ${walletData.address}\nPrivate Key: ${walletData.privateKey}`], { type: 'text/plain;charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = 'cartera.txt';
+            link.download = 'wallet.txt';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -38,10 +38,10 @@ function CrearCartera() {
     return (
         <div className="cartera-block">
             <h2>Crear Nueva Cartera</h2>
-            <form onSubmit={manejarEnvio} className="form-cartera">
+            <form onSubmit={handleSubmit} className="form-cartera">
                 <label>
                     Red:
-                    <select value={network} onChange={manejarCambioRed}>
+                    <select value={network} onChange={handleChangeNetwork}>
                         <option value="sepolia">Sepolia</option>
                         <option value="mainnet">Mainnet</option>
                     </select>
@@ -51,7 +51,7 @@ function CrearCartera() {
             {walletData && (
                 <div>
                     <p>Dirección de la Cartera: {walletData.address}</p>
-                    <Button onClick={descargarClavePrivada}>Descargar datos de la Cartera</Button>
+                    <Button onClick={downloadWalletData}>Descargar datos de la Cartera</Button>
                 </div>
             )}
             <p style={{ color: 'red' }}>
@@ -61,4 +61,4 @@ function CrearCartera() {
     );
 }
 
-export default CrearCartera;
+export default CreateWallet;

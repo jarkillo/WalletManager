@@ -6,7 +6,7 @@ import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 function TokenManager() {
     const [tokenName, setTokenName] = useState('');
     const [tokenAddress, setTokenAddress] = useState('');
-    const [network, setNetwork] = useState('mainnet'); // Valor predeterminado
+    const [network, setNetwork] = useState('mainnet');
     const [message, setMessage] = useState('');
 
     const handleAdd = async () => {
@@ -34,7 +34,7 @@ function TokenManager() {
     };
 
     return (
-        <div className="token-manager-block">
+        <div className="column">
             <h2>Token Manager</h2>
             <form className="form-token-manager">
                 <label>

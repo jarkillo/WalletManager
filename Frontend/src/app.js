@@ -22,6 +22,8 @@ function App() {
                     <div className="main-container">
                         <div className="column">
                             <CreateWallet />
+                        </div>
+                        <div className="column">
                             <TransactionDetails />
                         </div>
                     </div>
@@ -31,7 +33,11 @@ function App() {
                     <div className="main-container">
                         <div className="column">
                             <TokenManager />
+                        </div>
+                        <div className="column">
                             <WalletInfo />
+                        </div>
+                        <div className="column">
                             <TransactionRecords />
                         </div>
                     </div>

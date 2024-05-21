@@ -95,66 +95,68 @@ function SendTransaction() {
     };
 
     return (
-        <form onSubmit={handleEstimate}>
-            <h2>Realizar Transferencia</h2>
-            <label>
-                Red:
-                <select value={network} onChange={e => setNetwork(e.target.value)}>
-                    <option value="mainnet">Mainnet</option>
-                    <option value="sepolia">Sepolia</option>
-                </select>
-            </label>
-            <label>
-                Clave privada de tu cartera:
-                <input type="password" value={privateKey} onChange={e => setPrivateKey(e.target.value)} />
-            </label>
-            <label>
-                Cartera de destino:
-                <input type="text" value={toAddress} onChange={e => setToAddress(e.target.value)} />
-            </label>
-            <label>
-                Cantidad (ETH):
-                <input type="number" value={amount} onChange={e => setAmount(e.target.value)} />
-            </label>
-            <Button icon={faGasPump} type="submit" disabled={isLoading}>Estimar Gas</Button>
-            {isLoading && <p>Calculando...</p>}
-            {!isLoading && estimatedGas && (
-                <div>
-                    <p>{estimatedGas}</p>
-                    <Button icon={faEdit} type="button" onClick={() => setIsEditingGas(!isEditingGas)}>
-                        {isEditingGas ? 'Cerrar Edición' : 'Editar Configuración de Gas'}
-                    </Button>
-                    {isEditingGas && (
-                        <div>
-                            <label>
-                                Límite de Gas:
-                                <input type="number" value={gasLimit} onChange={e => setGasLimit(e.target.value)} />
-                            </label>
-                            <label>
-                                Tarifa de Prioridad Máxima por Gas:
-                                <input type="number" value={maxPriorityFeePerGas} onChange={e => setMaxPriorityFeePerGas(e.target.value)} />
-                            </label>
-                            <label>
-                                Tarifa Máxima por Gas:
-                                <input type="number" value={maxFeePerGas} onChange={e => setMaxFeePerGas(e.target.value)} />
-                            </label>
-                        </div>
-                    )}
-                    <Button icon={faPaperPlane} type="button" onClick={handleSendTransaction}>Enviar Transacción</Button>
-                </div>
-            )}
+        <div className="column">
+            <form onSubmit={handleEstimate}>
+                <h2>Realizar Transferencia</h2>
+                <label>
+                    Red:
+                    <select value={network} onChange={e => setNetwork(e.target.value)}>
+                        <option value="mainnet">Mainnet</option>
+                        <option value="sepolia">Sepolia</option>
+                    </select>
+                </label>
+                <label>
+                    Clave privada de tu cartera:
+                    <input type="password" value={privateKey} onChange={e => setPrivateKey(e.target.value)} />
+                </label>
+                <label>
+                    Cartera de destino:
+                    <input type="text" value={toAddress} onChange={e => setToAddress(e.target.value)} />
+                </label>
+                <label>
+                    Cantidad (ETH):
+                    <input type="number" value={amount} onChange={e => setAmount(e.target.value)} />
+                </label>
+                <Button icon={faGasPump} type="submit" disabled={isLoading}>Estimar Gas</Button>
+                {isLoading && <p>Calculando...</p>}
+                {!isLoading && estimatedGas && (
+                    <div>
+                        <p>{estimatedGas}</p>
+                        <Button icon={faEdit} type="button" onClick={() => setIsEditingGas(!isEditingGas)}>
+                            {isEditingGas ? 'Cerrar Edición' : 'Editar Configuración de Gas'}
+                        </Button>
+                        {isEditingGas && (
+                            <div>
+                                <label>
+                                    Límite de Gas:
+                                    <input type="number" value={gasLimit} onChange={e => setGasLimit(e.target.value)} />
+                                </label>
+                                <label>
+                                    Tarifa de Prioridad Máxima por Gas:
+                                    <input type="number" value={maxPriorityFeePerGas} onChange={e => setMaxPriorityFeePerGas(e.target.value)} />
+                                </label>
+                                <label>
+                                    Tarifa Máxima por Gas:
+                                    <input type="number" value={maxFeePerGas} onChange={e => setMaxFeePerGas(e.target.value)} />
+                                </label>
+                            </div>
+                        )}
+                        <Button icon={faPaperPlane} type="button" onClick={handleSendTransaction}>Enviar Transacción</Button>
+                    </div>
+                )}
 
-            {transactionMessage && (
-                <div className="result-container">
-                    <p>{transactionMessage}</p>
-                    {transactionHash && (
-                        <p><a href={`https://${network}.etherscan.io/tx/${transactionHash}`} target="_blank" rel="noopener noreferrer">
-                            Ver transacción
-                        </a></p>
-                    )}
-                </div>
-            )}
-        </form>
+                {transactionMessage && (
+                    <div className="result-container">
+                        <p>{transactionMessage}</p>
+                        {transactionHash && (
+                            <p><a href={`https://${network}.etherscan.io/tx/${transactionHash}`} target="_blank" rel="noopener noreferrer">
+                                Ver transacción
+                            </a></p>
+                        )}
+                    </div>
+                )}
+            </form>
+        </div>
     );
 }
 
