@@ -1,5 +1,6 @@
 import './App.css';
 import logo from './assets/logo.png';
+import logoDark from './assets/logo-dark.png';
 import React, { useState } from 'react';
 import WalletInfo from './components/WalletInfo';
 import SendTransaction from './components/SendTransaction';
@@ -52,7 +53,7 @@ function App() {
         <div className={`app-container ${darkMode ? 'dark-mode' : ''}`}>
             <div className="navbar">
                 <div className="logo-container">
-                    <img src={logo} alt="Logo de la Empresa" className="app-logo" />
+                    <img src={darkMode ? logoDark : logo} alt="Logo de la Empresa" className="app-logo" />
                     <span className="app-title">Wallet Manager</span>
                 </div>
                 <div className="nav-links">

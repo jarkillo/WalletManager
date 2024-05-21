@@ -4,7 +4,8 @@ body {
   font-family: 'Roboto', sans-serif;
   background-color: var(--background-color);
   color: var(--text-color);
-  overflow-x: hidden; /* Evita scroll horizontal */
+  overflow-x: hidden;
+  /* Evita scroll horizontal */
 }
 
 :root {
@@ -18,6 +19,7 @@ body {
   --button-disabled: #9e9e9e;
   --input-border-focus: #5045cc;
   --column-background: rgba(255, 255, 255, 0.95);
+  --background-image: url('./assets/background.jpg');
 }
 
 .dark-mode {
@@ -25,12 +27,13 @@ body {
   --text-color: #ffffff;
   --navbar-background: linear-gradient(145deg, #1f1f1f, #3d3d3d);
   --navbar-border: #444444;
-  --button-background: #007bff;
-  --button-background-hover: #0069d9;
-  --button-background-active: #0056b3;
+  --button-background: #505050;
+  --button-background-hover: #404040;
+  --button-background-active: #303030;
   --button-disabled: #6c757d;
   --input-border-focus: #007bff;
   --column-background: rgba(48, 48, 48, 0.95);
+  --background-image: url('./assets/background-dark.jpg');
 }
 
 .app-container {
@@ -54,7 +57,7 @@ body {
 }
 
 .navbar:hover {
-  background: var(--navbar-background-hover);
+  /*background: var(--navbar-background-hover);*/
   border-bottom: 2px solid var(--navbar-border-hover);
 }
 
@@ -127,11 +130,6 @@ body {
   /* Mantiene la imagen fija al fondo */
   padding: 20px 0;
   flex-grow: 1;
-}
-
-.dark-mode .background-decor {
-  background-image: url('./assets/background.jpg');
-  /* Imagen de fondo para modo oscuro */
 }
 
 .main-container {
