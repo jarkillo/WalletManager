@@ -71,7 +71,7 @@ function App() {
                 </div>
                 <button className="toggle-dark-mode" onClick={toggleDarkMode}>
                     <FontAwesomeIcon icon={darkMode ? faSun : faMoon} className="fa-icon" />
-                    {darkMode ? 'Claro' : 'Oscuro'}
+                    {darkMode ? 'Modo Claro' : 'Modo Oscuro'}
                 </button>
             </div>
             <div className="background-decor">
