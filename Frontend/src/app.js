@@ -25,6 +25,7 @@ function App() {
             <div className="column">
                 <SendTransaction />
                 <TransactionDetails />
+                <TransactionRecords />
 
             </div>
 
