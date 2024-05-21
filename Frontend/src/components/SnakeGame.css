@@ -1,0 +1,39 @@
+.snake-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.board {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    background-color: #111;
+    border: 1px solid #555;
+}
+
+.snake-segment,
+.food {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #0f0;
+}
+
+.food {
+    background-color: #f00;
+}
+
+.score {
+    color: #fff;
+    font-size: 20px;
+    margin-bottom: 10px;
+}

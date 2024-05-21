@@ -1,7 +1,7 @@
 import './App.css';
 import logo from './assets/logo.png';
 import logoDark from './assets/logo-dark.png';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import WalletInfo from './components/WalletInfo';
 import SendTransaction from './components/SendTransaction';
 import CreateWallet from './components/CreateWallet';
@@ -10,10 +10,12 @@ import TransactionDetails from './components/TransactionDetails';
 import TransactionRecords from './components/TransactionRecord';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faBalanceScale, faExchangeAlt, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
+import SnakeGame from './components/SnakeGame'; // Asegúrate de crear este componente
 
 function App() {
     const [activeSection, setActiveSection] = useState('general');
     const [darkMode, setDarkMode] = useState(false);
+    const [showGame, setShowGame] = useState(false);
 
     const toggleDarkMode = () => setDarkMode(!darkMode);
 
@@ -57,6 +59,20 @@ function App() {
         }
     };
 
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.ctrlKey && event.altKey && event.key === 'j') {
+                setShowGame(!showGame);
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [showGame]);
+
     return (
         <div className={`app-container ${darkMode ? 'dark-mode' : ''}`}>
             <div className="navbar">
@@ -74,8 +90,10 @@ function App() {
                     {darkMode ? 'Modo Claro' : 'Modo Oscuro'}
                 </button>
             </div>
+
             <div className="background-decor">
                 {renderSection()}
+                {showGame && <SnakeGame />}
             </div>
         </div>
     );
