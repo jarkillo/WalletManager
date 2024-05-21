@@ -1,40 +1,128 @@
-.App {
-  text-align: center;
-  font-family: 'Arial', sans-serif;
+/* Estilos generales */
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f0f0f0;
+  overflow-x: hidden; /* Evita scroll horizontal */
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Barra de navegación */
+.navbar {
+  width: 100%;
+  background-color: #8c8c8c; /* Tono plata metálico */
+  padding: 15px 20px; 
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  margin-left: 20px; /* Aumentar margen izquierdo del logotipo */
+}
+
+.app-logo {
+  height: 80px; /* Aumentar tamaño del logotipo */
+  margin-right: 15px;
+}
+
+.app-title {
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+/* Fondo decorativo */
+.background-decor {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-image: url('./assets/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* Mantiene la imagen fija al fondo */
+  padding: 20px 0;
+  flex-grow: 1;
+}
+
+.main-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+  max-width: 1400px;
   padding: 20px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(245,245,245,0.95)); /* Fondo más interesante */
+  border: 1px solid #e0e0e0; /* Borde más definido */
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin: 10px;
+  width: 100%;
+  max-width: 400px;
+  transition: transform 0.3s, box-shadow 0.3s; /* Efecto de transición */
+}
+
+.column:hover {
+  transform: translateY(-5px); /* Eleva el bloque al pasar el cursor */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+}
+
+h1, h2 {
+  text-align: center;
+  margin-bottom: 20px;
   color: #333;
 }
 
-h1,
-h2 {
-  text-align: center;
+/* Estilos de entrada y botones */
+input, button, select {
+  font-size: 16px;
+  width: 100%;
   margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  transition: border-color 0.3s;
 }
 
-input,
-button,
-select {
-  font-size: 16px;
+input:focus, select:focus {
+  border-color: #5045cc;
+  outline: none;
 }
 
 button {
-  background-color: #5045cc;
+  background-color: #0056b3; /* Azul más oscuro */
   color: white;
   padding: 12px 20px;
-  margin-top: 10px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para efecto tridimensional */
   transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 button:hover {
-  background-color: #367c39;
+  background-color: #004494;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada al pasar el cursor */
 }
 
 button:active {
-  background-color: #2e6531;
+  background-color: #003366;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -54,84 +142,28 @@ button.loading {
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  padding: 20px;
-}
-
-.column,
-form {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-  padding: 30px;
-  margin: 20px auto;
-  width: 90%;
-  max-width: 400px;
-  overflow-x: auto;
-  word-wrap: break-word;
-}
-
-input[type="text"],
-input[type="password"],
-input[type="number"],
-select {
-  padding: 10px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  transition: border-color 0.3s;
-}
-
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="number"]:focus,
-select:focus {
-  border-color: #4CAF50;
-  outline: none;
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 @media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-  }
-
-  .column,
-  form {
-    width: 100%;
+  .main-container {
+      flex-direction: column;
+      align-items: center;
   }
 }
 
+/* Estilos adicionales */
 label {
   display: block;
-  margin-bottom: 17px;
+  margin-bottom: 5px;
   text-align: left;
   font-size: 18px;
+  color: #333;
 }
 
 .feedback-message {
   color: #d32f2f;
   font-size: 14px;
   margin-top: 10px;
-}
-
-/* Ajustes para el logo */
-.App-logo {
-  height: 514px;
-  /* Ajusta según tus necesidades */
-  margin: 84px auto;
-  /* Espacio arriba y abajo del logo */
-  display: block;
-  /* Asegura que el logo se centra correctamente */
 }
