@@ -1,6 +1,9 @@
+''' Configuración de Web3 para conectarse a la red Ethereum. '''
+
+import os
 from web3 import Web3
 from web3.middleware import geth_poa_middleware
-import os
+
 
 def get_web3(network: str):
     """
@@ -10,12 +13,13 @@ def get_web3(network: str):
     """
     project_id = os.getenv("INFURA_PROJECT_ID")
     if not project_id:
-        raise EnvironmentError("INFURA_PROJECT_ID no está definido en las variables de entorno.")
-    
+        raise EnvironmentError(
+            "INFURA_PROJECT_ID no está definido en las variables de entorno.")
+
     network_url = f'https://{network}.infura.io/v3/{project_id}'
 
     w3 = Web3(Web3.HTTPProvider(network_url))
-    
+
     # Añadir middleware para PoA
     if network in ["sepolia"]:
         w3.middleware_onion.inject(geth_poa_middleware, layer=0)

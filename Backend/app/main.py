@@ -1,9 +1,10 @@
+"""Modulo principal de la aplicación fastAPI."""
 # app/main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from app.routers import wallet, token
-from app.dependencies import verify_infura_connection
+from .routers import wallet, token
+from .dependencies import verify_infura_connection
 
 load_dotenv('token.env')  # Cargar variables de entorno desde el archivo .env
 

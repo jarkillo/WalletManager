@@ -1,3 +1,8 @@
+"""Este módulo define el ABI mínimo necesario para interactuar con un contrato ERC20.
+El ABI incluye las funciones esenciales para obtener la simbología
+y la precisión decimal de tokens ERC20.
+"""
+
 minimal_erc20_abi = [
     {
         "constant": True,
