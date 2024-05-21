@@ -63,24 +63,53 @@ body {
 .nav-links {
   display: flex;
   gap: 15px;
+  margin: 0 auto;
+  /* Centrar los botones */
 }
 
 .nav-links button {
   background: none;
-  border: none;
+  border: 1px solid white;
+  /* Añadido borde */
   color: white;
   font-size: 1rem;
   cursor: pointer;
-  transition: color 0.3s;
+  /* Incrementar el padding */
+  padding: 10px 15px;
+  margin: 0 5px;
+  /* Añadido margen */
+  border-radius: 8px;
+  /* Añadido border-radius */
+  display: flex;
+  /* Para iconos */
+  align-items: center;
+  /* Para iconos */
+  transition: background 0.3s, color 0.3s;
+  /* Incrementar el tamaño del texto */
+  font-size: 1rem;
+
+
 }
 
 .nav-links button:hover {
   color: #ddd;
+  background: rgba(255, 255, 255, 0.1);
+  /* Fondo al pasar el mouse */
+}
+
+.nav-links .icon {
+  margin-right: 8px;
+  /* Espacio entre icono y texto */
 }
 
 .nav-links button:focus {
   outline: none;
   color: #bbb;
+}
+
+.nav-links button .fa-icon {
+  margin-right: 8px;
+  /* Añadir margen a la derecha del icono */
 }
 
 .logo-container {
@@ -107,15 +136,29 @@ body {
 
 .toggle-dark-mode {
   background: none;
-  border: none;
+  border: 1px solid white;
   color: white;
   font-size: 0.8rem;
   cursor: pointer;
+  padding: 6px 8px;
   margin-left: 15px;
-  transition: color 0.3s;
+  margin-right: 30px;
+  /* Ajustar margen a la derecha */
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  transition: background 0.3s, color 0.3s;
+  width: auto;
+}
+
+
+.toggle-dark-mode .icon {
+  margin-right: 4px;
+  /* Ajuste del espacio entre el icono y el texto */
 }
 
 .toggle-dark-mode:hover {
+  background: rgba(255, 255, 255, 0.1);
   color: #ddd;
 }
 

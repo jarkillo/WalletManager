@@ -8,6 +8,8 @@ import CreateWallet from './components/CreateWallet';
 import TokenManager from './components/TokenManager';
 import TransactionDetails from './components/TransactionDetails';
 import TransactionRecords from './components/TransactionRecord';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faBalanceScale, faExchangeAlt, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
     const [activeSection, setActiveSection] = useState('general');
@@ -63,12 +65,13 @@ function App() {
                     <span className="app-title">Wallet Manager</span>
                 </div>
                 <div className="nav-links">
-                    <button onClick={() => setActiveSection('general')}>General</button>
-                    <button onClick={() => setActiveSection('balance')}>Balance</button>
-                    <button onClick={() => setActiveSection('transfers')}>Transferencias</button>
+                    <button onClick={() => setActiveSection('general')}><FontAwesomeIcon icon={faHome} className="fa-icon" /> General</button>
+                    <button onClick={() => setActiveSection('balance')}><FontAwesomeIcon icon={faBalanceScale} className="fa-icon" /> Balance</button>
+                    <button onClick={() => setActiveSection('transfers')}><FontAwesomeIcon icon={faExchangeAlt} className="fa-icon" /> Transferencias</button>
                 </div>
                 <button className="toggle-dark-mode" onClick={toggleDarkMode}>
-                    {darkMode ? 'Modo Claro' : 'Modo Oscuro'}
+                    <FontAwesomeIcon icon={darkMode ? faSun : faMoon} className="fa-icon" />
+                    {darkMode ? 'Claro' : 'Oscuro'}
                 </button>
             </div>
             <div className="background-decor">
