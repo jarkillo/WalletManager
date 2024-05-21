@@ -6,7 +6,7 @@ import SendTransaction from './components/SendTransaction';
 import CreateWallet from './components/CreateWallet';
 import TokenManager from './components/TokenManager';
 import TransactionDetails from './components/TransactionDetails';
-import TransactionRecords from './components/TransactionRecords';
+import TransactionRecords from './components/TransactionRecord';
 
 
 function App() {
