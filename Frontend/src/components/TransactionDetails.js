@@ -58,12 +58,12 @@ function TransactionDetails() {
     };
 
     return (
-        <div className={`column ${darkMode ? 'generated-text-dark' : 'generated-text-light'}`}>
+        <div className={`transaction-details-block ${darkMode ? 'generated-text-dark' : 'generated-text-light'}`}>
             <h2>Detalles de la Transacción</h2>
             <form onSubmit={handleSubmit} className="form-transaction-details">
                 <label>
                     Red:
-                    <select value={network} onChange={handleNetworkChange}>
+                    <select value={network} onChange={handleNetworkChange} className="input-field">
                         <option value="sepolia">Sepolia</option>
                         <option value="mainnet">Mainnet</option>
                     </select>
@@ -79,12 +79,12 @@ function TransactionDetails() {
             {!error && details && (
                 <>
                     <h3>Detalles</h3>
-                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>Hash: {details.hash}</p>
-                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>Bloque: {details.block_number}</p>
-                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>Remitente: {details.from}</p>
-                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>Destinatario: {details.to}</p>
-                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>Valor: {details.value}</p>
-                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>Gas: {details.gas}</p>
+                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'} style={{ wordBreak: 'break-word' }}>Hash: {details.hash}</p>
+                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'} style={{ wordBreak: 'break-word' }}>Bloque: {details.block_number}</p>
+                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'} style={{ wordBreak: 'break-word' }}>Remitente: {details.from}</p>
+                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'} style={{ wordBreak: 'break-word' }}>Destinatario: {details.to}</p>
+                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'} style={{ wordBreak: 'break-word' }}>Valor: {details.value}</p>
+                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'} style={{ wordBreak: 'break-word' }}>Gas: {details.gas}</p>
                 </>
             )}
         </div>
