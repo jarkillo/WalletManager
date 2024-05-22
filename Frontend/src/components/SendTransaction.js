@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ethers, parseEther } from 'ethers';
 import Button from './button';
@@ -17,6 +17,24 @@ function SendTransaction() {
     const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState('');
     const [maxFeePerGas, setMaxFeePerGas] = useState('');
     const [isEditingGas, setIsEditingGas] = useState(false);
+    const [darkMode, setDarkMode] = useState(false);
+
+    useEffect(() => {
+        const darkModePreference = localStorage.getItem('darkMode') === 'true';
+        setDarkMode(darkModePreference);
+    }, []);
+
+    useEffect(() => {
+        const observer = new MutationObserver(() => {
+            setDarkMode(document.body.classList.contains('dark-mode'));
+        });
+
+        observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
 
     const handleEstimate = async (event) => {
         event.preventDefault();
@@ -95,7 +113,7 @@ function SendTransaction() {
     };
 
     return (
-        <div className="column">
+        <div className={`column ${darkMode ? 'generated-text-dark' : 'generated-text-light'}`}>
             <form onSubmit={handleEstimate}>
                 <h2>Realizar Transferencia</h2>
                 <label>
@@ -107,21 +125,21 @@ function SendTransaction() {
                 </label>
                 <label>
                     Clave privada de tu cartera:
-                    <input type="password" value={privateKey} onChange={e => setPrivateKey(e.target.value)} />
+                    <input type="password" value={privateKey} onChange={e => setPrivateKey(e.target.value)} className="input-field"/>
                 </label>
                 <label>
                     Cartera de destino:
-                    <input type="text" value={toAddress} onChange={e => setToAddress(e.target.value)} />
+                    <input type="text" value={toAddress} onChange={e => setToAddress(e.target.value)} className="input-field"/>
                 </label>
                 <label>
                     Cantidad (ETH):
-                    <input type="number" value={amount} onChange={e => setAmount(e.target.value)} />
+                    <input type="number" value={amount} onChange={e => setAmount(e.target.value)} className="input-field"/>
                 </label>
                 <Button icon={faGasPump} type="submit" disabled={isLoading}>Estimar Gas</Button>
                 {isLoading && <p>Calculando...</p>}
                 {!isLoading && estimatedGas && (
                     <div>
-                        <p>{estimatedGas}</p>
+                        <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>{estimatedGas}</p>
                         <Button icon={faEdit} type="button" onClick={() => setIsEditingGas(!isEditingGas)}>
                             {isEditingGas ? 'Cerrar Edición' : 'Editar Configuración de Gas'}
                         </Button>
@@ -129,15 +147,15 @@ function SendTransaction() {
                             <div>
                                 <label>
                                     Límite de Gas:
-                                    <input type="number" value={gasLimit} onChange={e => setGasLimit(e.target.value)} />
+                                    <input type="number" value={gasLimit} onChange={e => setGasLimit(e.target.value)} className="input-field"/>
                                 </label>
                                 <label>
                                     Tarifa de Prioridad Máxima por Gas:
-                                    <input type="number" value={maxPriorityFeePerGas} onChange={e => setMaxPriorityFeePerGas(e.target.value)} />
+                                    <input type="number" value={maxPriorityFeePerGas} onChange={e => setMaxPriorityFeePerGas(e.target.value)} className="input-field"/>
                                 </label>
                                 <label>
                                     Tarifa Máxima por Gas:
-                                    <input type="number" value={maxFeePerGas} onChange={e => setMaxFeePerGas(e.target.value)} />
+                                    <input type="number" value={maxFeePerGas} onChange={e => setMaxFeePerGas(e.target.value)} className="input-field"/>
                                 </label>
                             </div>
                         )}
@@ -147,9 +165,9 @@ function SendTransaction() {
 
                 {transactionMessage && (
                     <div className="result-container">
-                        <p>{transactionMessage}</p>
+                        <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>{transactionMessage}</p>
                         {transactionHash && (
-                            <p><a href={`https://${network}.etherscan.io/tx/${transactionHash}`} target="_blank" rel="noopener noreferrer">
+                            <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}><a href={`https://${network}.etherscan.io/tx/${transactionHash}`} target="_blank" rel="noopener noreferrer">
                                 Ver transacción
                             </a></p>
                         )}

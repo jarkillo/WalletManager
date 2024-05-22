@@ -7,9 +7,20 @@ body {
   overflow-x: hidden;
 }
 
+/* Clases para el texto generado dinámicamente */
+.generated-text-light {
+  color: var(--text-color);
+}
+
+.generated-text-dark {
+  color: var(--generated-text-color);
+}
+
+/* Estilos para los modos claro y oscuro */
 :root {
   --background-color: #f0f0f0;
   --text-color: #333;
+  --generated-text-color: #333; /* Color del texto generado en modo claro */
   --navbar-background: linear-gradient(145deg, #636363, #8c8c8c);
   --navbar-border: #555555;
   --button-background: #0056b3;
@@ -23,14 +34,12 @@ body {
 .dark-mode {
   --background-color: #121212;
   --text-color: #ffffff;
+  --generated-text-color: #ffffff; /* Color del texto generado en modo oscuro */
   --navbar-background: linear-gradient(145deg, #1f1f1f, #3d3d3d);
   --navbar-border: #444444;
   --button-background: #6c757d;
-  /* Ajuste de color */
   --button-background-hover: #5a6268;
-  /* Ajuste de color */
   --button-background-active: #495057;
-  /* Ajuste de color */
   --button-disabled: #6c757d;
   --input-border-focus: #007bff;
   --column-background: rgba(48, 48, 48, 0.95);
@@ -87,8 +96,6 @@ body {
   transition: background 0.3s, color 0.3s;
   /* Incrementar el tamaño del texto */
   font-size: 1rem;
-
-
 }
 
 .nav-links button:hover {
@@ -150,7 +157,6 @@ body {
   transition: background 0.3s, color 0.3s;
   width: auto;
 }
-
 
 .toggle-dark-mode .icon {
   margin-right: 4px;
@@ -236,6 +242,42 @@ select:focus {
   outline: none;
 }
 
+.input-field {
+  width: 94%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  transition: border-color 0.3s;
+}
+
+.cartera-block,
+.transaction-details-block,
+.transaction-history,
+.saldo-block {
+    background: var(--column-background);
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin: 10px;
+    width: 100%;
+    max-width: 400px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.cartera-block:hover,
+.transaction-details-block:hover,
+.transaction-history:hover,
+.saldo-block:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+
 button {
   background-color: var(--button-background);
   color: white;
@@ -297,85 +339,3 @@ button .icon {
 }
 
 /* Estilos adicionales */
-label {
-  display: block;
-  margin-bottom: 5px;
-  text-align: left;
-  font-size: 18px;
-  color: var(--text-color);
-}
-
-.feedback-message {
-  color: #d32f2f;
-  font-size: 14px;
-  margin-top: 10px;
-}
-
-.token-manager {
-  text-align: center;
-}
-
-.token-manager input {
-  width: calc(100% - 20px);
-  margin-bottom: 10px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-.token-manager select {
-  width: calc(100% - 20px);
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-.token-manager p {
-  margin-bottom: 20px;
-}
-
-.token-manager button {
-  margin: 5px 0;
-}
-
-.transaction-details-block,
-.transaction-history,
-.saldo-block {
-  background: var(--column-background);
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  margin: 10px;
-  width: 100%;
-  max-width: 400px;
-  transition: transform 0.3s, box-shadow 0.3s;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-}
-
-.transaction-details-block:hover,
-.transaction-history:hover,
-.saldo-block:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.cartera-block {
-  background: var(--column-background);
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  margin: 10px;
-  width: 100%;
-  max-width: 400px;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.cartera-block:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}

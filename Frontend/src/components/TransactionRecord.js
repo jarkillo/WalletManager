@@ -9,6 +9,24 @@ function TransactionRecords() {
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [darkMode, setDarkMode] = useState(false);
+
+    useEffect(() => {
+        const darkModePreference = localStorage.getItem('darkMode') === 'true';
+        setDarkMode(darkModePreference);
+    }, []);
+
+    useEffect(() => {
+        const observer = new MutationObserver(() => {
+            setDarkMode(document.body.classList.contains('dark-mode'));
+        });
+
+        observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
 
     const handleNetworkChange = (event) => {
         setNetwork(event.target.value);
@@ -33,9 +51,9 @@ function TransactionRecords() {
     };
 
     return (
-        <div className="transaction-history">
+        <div className={`column ${darkMode ? 'generated-text-dark' : 'generated-text-light'}`}>
             <h2>Consultar Historial de Transacciones</h2>
-            <div>
+            <form className="form-transaction-records">
                 <label>
                     Red:
                     <select value={network} onChange={handleNetworkChange}>
@@ -43,29 +61,29 @@ function TransactionRecords() {
                         <option value="mainnet">Mainnet</option>
                     </select>
                 </label>
-                <label>
+                <label className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>
                     Dirección de la Cartera:
-                    <input type="text" value={walletAddress} onChange={handleWalletChange} />
+                    <input type="text" value={walletAddress} onChange={handleWalletChange} className="input-field"/>
                 </label>
                 <Button icon={faSearch} onClick={fetchTransactions} disabled={loading}>
                     {loading ? 'Cargando...' : 'Consultar Transacciones'}
                 </Button>
-            </div>
-            {error && <p>{error}</p>}
+            </form>
+            {error && <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>{error}</p>}
             <div>
                 {transactions.length > 0 ? (
                     <ul>
                         {transactions.map((transaction, index) => (
                             <li key={index}>
-                                <p>Hash: {transaction.hash}</p>
-                                <p>Desde: {transaction.from}</p>
-                                <p>Hasta: {transaction.to}</p>
-                                <p>Valor: {transaction.value} ETH</p>
+                                <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>Hash: {transaction.hash}</p>
+                                <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>Desde: {transaction.from}</p>
+                                <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>Hasta: {transaction.to}</p>
+                                <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>Valor: {transaction.value} ETH</p>
                             </li>
                         ))}
                     </ul>
                 ) : (
-                    <p>No se encontraron transacciones.</p>
+                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>No se encontraron transacciones.</p>
                 )}
             </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import Button from './button';
 import { faWallet } from '@fortawesome/free-solid-svg-icons';
@@ -6,6 +6,24 @@ import { faWallet } from '@fortawesome/free-solid-svg-icons';
 function CreateWallet() {
     const [network, setNetwork] = useState('sepolia');
     const [walletData, setWalletData] = useState(null);
+    const [darkMode, setDarkMode] = useState(false);
+
+    useEffect(() => {
+        const darkModePreference = localStorage.getItem('darkMode') === 'true';
+        setDarkMode(darkModePreference);
+    }, []);
+
+    useEffect(() => {
+        const observer = new MutationObserver(() => {
+            setDarkMode(document.body.classList.contains('dark-mode'));
+        });
+
+        observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
 
     const handleChangeNetwork = (event) => {
         setNetwork(event.target.value);
@@ -36,7 +54,7 @@ function CreateWallet() {
     };
 
     return (
-        <div className="cartera-block">
+        <div className={`cartera-block ${darkMode ? 'generated-text-dark' : 'generated-text-light'}`}>
             <h2>Crear Nueva Cartera</h2>
             <form onSubmit={handleSubmit} className="form-cartera">
                 <label>
@@ -50,7 +68,9 @@ function CreateWallet() {
             </form>
             {walletData && (
                 <div>
-                    <p>Dirección de la Cartera: {walletData.address}</p>
+                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'} style={{ wordBreak: 'break-word' }}>
+                        Dirección de la Cartera: {walletData.address}
+                    </p>
                     <Button onClick={downloadWalletData}>Descargar datos de la Cartera</Button>
                 </div>
             )}
