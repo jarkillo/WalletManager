@@ -6,7 +6,9 @@ Este proyecto tiene como objetivo desarrollar un administrador de billeteras de 
 
 Se ha utilizado ChatGPT para diseñar la estructura del proyecto.
 
-<div align="center"> ![Logo](https://github.com/jarkillo/WalletManager/blob/main/Frontend/src/assets/logo.png)</div>
+<div align="center"> 
+![Logo](https://github.com/jarkillo/WalletManager/blob/main/Frontend/src/assets/logo.png)
+</div>
 
 ## 📚 Contenidos
 - [Planificación y Diseño](#planificación-y-diseño)
