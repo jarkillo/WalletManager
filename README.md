@@ -5,10 +5,11 @@
 Este proyecto tiene como objetivo desarrollar un administrador de billeteras de criptomonedas utilizando tecnologías Web3. La aplicación contará con un frontend sencillo y un backend robusto que interactuará con la blockchain.
 
 Se ha utilizado ChatGPT para diseñar la estructura del proyecto.
+ 
+<p align="center">
+  <img src="https://github.com/jarkillo/WalletManager/blob/main/Frontend/src/assets/logo.png" alt="Logo">
+</p>
 
-<div align="center"> 
-![Logo](https://github.com/jarkillo/WalletManager/blob/main/Frontend/src/assets/logo.png)
-</div>
 
 ## 📚 Contenidos
 - [Planificación y Diseño](#planificación-y-diseño)
