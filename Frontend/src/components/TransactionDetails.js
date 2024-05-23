@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Button from './button';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -9,6 +9,24 @@ function TransactionDetails() {
     const [network, setNetwork] = useState('sepolia');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
+    const [darkMode, setDarkMode] = useState(false);
+
+    useEffect(() => {
+        const darkModePreference = localStorage.getItem('darkMode') === 'true';
+        setDarkMode(darkModePreference);
+    }, []);
+
+    useEffect(() => {
+        const observer = new MutationObserver(() => {
+            setDarkMode(document.body.classList.contains('dark-mode'));
+        });
+
+        observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
 
     const handleTransactionHashChange = (event) => {
         setTransactionHash(event.target.value);
@@ -40,19 +58,19 @@ function TransactionDetails() {
     };
 
     return (
-        <div className="transaction-details-block">
+        <div className={`transaction-details-block ${darkMode ? 'generated-text-dark' : 'generated-text-light'}`}>
             <h2>Detalles de la Transacción</h2>
             <form onSubmit={handleSubmit} className="form-transaction-details">
                 <label>
                     Red:
-                    <select value={network} onChange={handleNetworkChange}>
+                    <select value={network} onChange={handleNetworkChange} className="input-field">
                         <option value="sepolia">Sepolia</option>
                         <option value="mainnet">Mainnet</option>
                     </select>
                 </label>
                 <label>
                     Hash de la Transacción:
-                    <input type="text" value={transactionHash} onChange={handleTransactionHashChange} />
+                    <input type="text" value={transactionHash} onChange={handleTransactionHashChange} className="input-field"/>
                 </label>
                 <Button icon={faSearch} type="submit" disabled={isLoading}>Obtener Detalles</Button>
             </form>
@@ -61,12 +79,12 @@ function TransactionDetails() {
             {!error && details && (
                 <>
                     <h3>Detalles</h3>
-                    <p>Hash: {details.hash}</p>
-                    <p>Bloque: {details.block_number}</p>
-                    <p>Remitente: {details.from}</p>
-                    <p>Destinatario: {details.to}</p>
-                    <p>Valor: {details.value}</p>
-                    <p>Gas: {details.gas}</p>
+                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'} style={{ wordBreak: 'break-word' }}>Hash: {details.hash}</p>
+                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'} style={{ wordBreak: 'break-word' }}>Bloque: {details.block_number}</p>
+                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'} style={{ wordBreak: 'break-word' }}>Remitente: {details.from}</p>
+                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'} style={{ wordBreak: 'break-word' }}>Destinatario: {details.to}</p>
+                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'} style={{ wordBreak: 'break-word' }}>Valor: {details.value}</p>
+                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'} style={{ wordBreak: 'break-word' }}>Gas: {details.gas}</p>
                 </>
             )}
         </div>
