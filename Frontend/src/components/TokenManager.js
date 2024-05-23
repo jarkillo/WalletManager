@@ -27,7 +27,8 @@ function TokenManager() {
         };
     }, []);
 
-    const handleAdd = async () => {
+    const handleAdd = async (event) => {
+        event.preventDefault();
         try {
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/tokens/`, {
                 token_name: tokenName,
@@ -35,19 +36,24 @@ function TokenManager() {
                 network: network
             });
             setMessage(response.data.msg);
+            setTokenName('');
+            setTokenAddress('');
         } catch (error) {
             setMessage('Error añadiendo el token: ' + (error.response?.data?.detail || 'Error desconocido'));
         }
     };
 
-    const handleDelete = async () => {
+    const handleDelete = async (event) => {
+        event.preventDefault();
         try {
             const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/tokens/${tokenAddress}`, {
                 params: { network: network }
             });
             setMessage(response.data.msg);
+            setTokenName('');
+            setTokenAddress('');
         } catch (error) {
-            setMessage('Error eliminado el token: ' + (error.response?.data?.detail || 'Error desconocido'));
+            setMessage('Error eliminando el token: ' + (error.response?.data?.detail || 'Error desconocido'));
         }
     };
 
