@@ -20,7 +20,8 @@ body {
 :root {
   --background-color: #f0f0f0;
   --text-color: #333;
-  --generated-text-color: #333; /* Color del texto generado en modo claro */
+  --generated-text-color: #333;
+  /* Color del texto generado en modo claro */
   --navbar-background: linear-gradient(145deg, #636363, #8c8c8c);
   --navbar-border: #555555;
   --button-background: #0056b3;
@@ -34,7 +35,8 @@ body {
 .dark-mode {
   --background-color: #121212;
   --text-color: #ffffff;
-  --generated-text-color: #ffffff; /* Color del texto generado en modo oscuro */
+  --generated-text-color: #ffffff;
+  /* Color del texto generado en modo oscuro */
   --navbar-background: linear-gradient(145deg, #1f1f1f, #3d3d3d);
   --navbar-border: #444444;
   --button-background: #6c757d;
@@ -255,26 +257,26 @@ select:focus {
 .transaction-details-block,
 .transaction-history,
 .saldo-block {
-    background: var(--column-background);
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    margin: 10px;
-    width: 100%;
-    max-width: 400px;
-    transition: transform 0.3s, box-shadow 0.3s;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: pre-wrap;
+  background: var(--column-background);
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin: 10px;
+  width: 100%;
+  max-width: 400px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .cartera-block:hover,
 .transaction-details-block:hover,
 .transaction-history:hover,
 .saldo-block:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -420,4 +422,35 @@ label {
 .cartera-block:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.transaction-container {
+  width: 100%;
+  max-width: 400px;
+  overflow: hidden;
+}
+
+.transaction-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.transaction-item {
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  padding: 10px;
+  overflow-wrap: break-word;
+  /* Permite el corte de palabras largas */
+  word-wrap: break-word;
+  /* Asegura que el texto largo se ajuste dentro del contenedor */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.transaction-item p {
+  margin: 5px 0;
+  word-wrap: break-word;
+  /* Asegura que el texto largo se ajuste dentro del contenedor */
 }
