@@ -98,7 +98,9 @@ This project aims to develop a cryptocurrency wallet manager using Web3 technolo
 
 ChatGPT was used to design the project structure.
 
-![Logo](https://github.com/jarkillo/WalletManager/blob/main/Frontend/src/assets/logo.png)
+<p align="center">
+  <img src="https://github.com/jarkillo/WalletManager/blob/main/Frontend/src/assets/logo.png" alt="Logo">
+</p>
 
 ## 📚 Contents
 - [Planning and Design](#planning-and-design)
