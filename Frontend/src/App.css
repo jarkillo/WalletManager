@@ -339,3 +339,85 @@ button .icon {
 }
 
 /* Estilos adicionales */
+label {
+  display: block;
+  margin-bottom: 5px;
+  text-align: left;
+  font-size: 18px;
+  color: var(--text-color);
+}
+
+.feedback-message {
+  color: #d32f2f;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.token-manager {
+  text-align: center;
+}
+
+.token-manager input {
+  width: calc(100% - 20px);
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.token-manager select {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.token-manager p {
+  margin-bottom: 20px;
+}
+
+.token-manager button {
+  margin: 5px 0;
+}
+
+.transaction-details-block,
+.transaction-history,
+.saldo-block {
+  background: var(--column-background);
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin: 10px;
+  width: 100%;
+  max-width: 400px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.transaction-details-block:hover,
+.transaction-history:hover,
+.saldo-block:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.cartera-block {
+  background: var(--column-background);
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin: 10px;
+  width: 100%;
+  max-width: 400px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.cartera-block:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
