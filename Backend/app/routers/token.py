@@ -4,8 +4,12 @@ from fastapi import APIRouter, HTTPException, Query, Path
 from models.schemas import Token
 from app.services.blockchain import tokens, token_exists
 
+import logging
+
 
 router = APIRouter()
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 @router.post("/tokens/", status_code=201)

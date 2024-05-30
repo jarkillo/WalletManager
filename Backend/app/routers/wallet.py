@@ -13,6 +13,7 @@ from app.services.blockchain import (
 from models.schemas import Transaction
 
 
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
@@ -30,27 +31,21 @@ async def api_send_transaction(transaction: Transaction):
         dict: diccionario con el hash de la transaccion
 
     '''
-
+    logger.info("Recibiendo la transaccion para enviarla a la red")
+    logger.info("Trasaccion firmada: %s", transaction.signed_transaction)
+    logger.info("Red: %s", transaction.network)
+    logger.info("Transaccion: %s", transaction)
     logger.info(
-        "Conectado a la red endpoint {network}. para enviar transaccion")
+        "Conectado a la red endpoint %s. para enviar transaccion", transaction.network)
     try:
-        logger.info("Conectado a la red endpoint %s", transaction['network'])
+        logger.info("Probando a enviar la transacción a send_transaction")
         tx_hash = send_transaction(
             transaction.signed_transaction, transaction.network)
+        logger.info("Se ha recibido el hash de la transaccion %s", tx_hash)
+
         return {"transaction_hash": tx_hash}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e)) from e
-
-
-# Antiguo endpoint para mostrar el saldo
-
-# @router.get("/wallet/balance/{address}")
-# async def api_get_balance(address: str, network: str = 'mainnet'):
-#     try:
-#         balance = get_balance(address, network)
-#         return {"balance": balance}
-#     except Exception as e:
-#         raise HTTPException(status_code=400, detail=str(e))
 
 
 @router.post("/transaction/details")

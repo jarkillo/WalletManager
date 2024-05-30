@@ -1,8 +1,11 @@
+/* global BigInt */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ethers, parseEther } from 'ethers';
+import { ethers } from 'ethers';
 import Button from './button';
 import { faPaperPlane, faGasPump, faEdit } from '@fortawesome/free-solid-svg-icons';
+
+console.log('Infura Project ID:', process.env.REACT_APP_INFURA_KEY); // Verifica que esta línea imprima el ID correctamente
 
 function SendTransaction() {
     const [network, setNetwork] = useState('sepolia');
@@ -18,6 +21,15 @@ function SendTransaction() {
     const [maxFeePerGas, setMaxFeePerGas] = useState('');
     const [isEditingGas, setIsEditingGas] = useState(false);
     const [darkMode, setDarkMode] = useState(false);
+
+    const infuraKey = process.env.REACT_APP_INFURA_KEY;
+
+    const getProvider = () => {
+        const networkUrl = network === 'sepolia'
+            ? `https://sepolia.infura.io/v3/${infuraKey}`
+            : `https://mainnet.infura.io/v3/${infuraKey}`;
+        return new ethers.JsonRpcProvider(networkUrl);
+    };
 
     useEffect(() => {
         const darkModePreference = localStorage.getItem('darkMode') === 'true';
@@ -44,13 +56,13 @@ function SendTransaction() {
         }
 
         setIsLoading(true);
-        const provider = new ethers.BrowserProvider(window.ethereum);
+        const provider = getProvider();
         const wallet = new ethers.Wallet(privateKey, provider);
 
         try {
             const transactionDetails = {
                 to: toAddress,
-                value: parseEther(amount.toString()),
+                value: ethers.parseEther(amount.toString()),
                 from: wallet.address
             };
 
@@ -77,34 +89,50 @@ function SendTransaction() {
 
     const handleSendTransaction = async () => {
         setIsLoading(true);
-        const provider = new ethers.BrowserProvider(window.ethereum);
+        const provider = getProvider();
         const wallet = new ethers.Wallet(privateKey, provider);
 
         try {
             const transaction = {
                 nonce: await provider.getTransactionCount(wallet.address, 'latest'),
-                gasLimit: ethers.toBigInt(gasLimit),
-                maxPriorityFeePerGas: ethers.toBigInt(ethers.parseUnits(maxPriorityFeePerGas, 'gwei')),
-                maxFeePerGas: ethers.toBigInt(ethers.parseUnits(maxFeePerGas, 'gwei')),
+                gasLimit: BigInt(gasLimit),
+                maxPriorityFeePerGas: BigInt(ethers.parseUnits(maxPriorityFeePerGas, 'gwei')),
+                maxFeePerGas: BigInt(ethers.parseUnits(maxFeePerGas, 'gwei')),
                 to: toAddress,
-                value: ethers.toBigInt(ethers.parseEther(amount.toString()).toString()),
+                value: BigInt(ethers.parseEther(amount.toString()).toString()),
                 chainId: network === 'sepolia' ? 11155111 : 1
             };
 
-            const feeData = await provider.getFeeData();
-            transaction.maxPriorityFeePerGas = feeData.maxPriorityFeePerGas;
-            transaction.maxFeePerGas = feeData.maxFeePerGas;
-
+            // Sign the transaction
             const signedTransaction = await wallet.signTransaction(transaction);
 
+            // Ensure the signed transaction starts with '0x'
+            if (!signedTransaction.startsWith('0x')) {
+                throw new Error('La transacción firmada debe comenzar con 0x');
+            }
+
+            // Send the signed transaction via POST request
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/wallet/transfer`, {
                 signed_transaction: signedTransaction,
                 network
             });
+
+            // Handle the response
             setTransactionHash(response.data.transaction_hash);
             setTransactionMessage('Transacción completada correctamente.');
         } catch (error) {
-            const errorMessage = error.response?.data?.detail || 'Error desconocido';
+            let errorMessage;
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                errorMessage = `Error del servidor: ${error.response.data.detail || 'Error desconocido'}`;
+            } else if (error.request) {
+                // The request was made but no response was received
+                errorMessage = 'No se recibió respuesta del servidor';
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                errorMessage = `Error en la configuración de la solicitud: ${error.message}`;
+            }
             setTransactionMessage('Error al enviar la transacción: ' + errorMessage);
             console.error('Error sending transaction:', error);
         } finally {
@@ -125,15 +153,15 @@ function SendTransaction() {
                 </label>
                 <label>
                     Clave privada de tu cartera:
-                    <input type="password" value={privateKey} onChange={e => setPrivateKey(e.target.value)} className="input-field"/>
+                    <input type="password" value={privateKey} onChange={e => setPrivateKey(e.target.value)} className="input-field" />
                 </label>
                 <label>
                     Cartera de destino:
-                    <input type="text" value={toAddress} onChange={e => setToAddress(e.target.value)} className="input-field"/>
+                    <input type="text" value={toAddress} onChange={e => setToAddress(e.target.value)} className="input-field" />
                 </label>
                 <label>
                     Cantidad (ETH):
-                    <input type="number" value={amount} onChange={e => setAmount(e.target.value)} className="input-field"/>
+                    <input type="number" value={amount} onChange={e => setAmount(e.target.value)} className="input-field" />
                 </label>
                 <Button icon={faGasPump} type="submit" disabled={isLoading}>Estimar Gas</Button>
                 {isLoading && <p>Calculando...</p>}
@@ -147,15 +175,15 @@ function SendTransaction() {
                             <div>
                                 <label>
                                     Límite de Gas:
-                                    <input type="number" value={gasLimit} onChange={e => setGasLimit(e.target.value)} className="input-field"/>
+                                    <input type="number" value={gasLimit} onChange={e => setGasLimit(e.target.value)} className="input-field" />
                                 </label>
                                 <label>
                                     Tarifa de Prioridad Máxima por Gas:
-                                    <input type="number" value={maxPriorityFeePerGas} onChange={e => setMaxPriorityFeePerGas(e.target.value)} className="input-field"/>
+                                    <input type="number" value={maxPriorityFeePerGas} onChange={e => setMaxPriorityFeePerGas(e.target.value)} className="input-field" />
                                 </label>
                                 <label>
                                     Tarifa Máxima por Gas:
-                                    <input type="number" value={maxFeePerGas} onChange={e => setMaxFeePerGas(e.target.value)} className="input-field"/>
+                                    <input type="number" value={maxFeePerGas} onChange={e => setMaxFeePerGas(e.target.value)} className="input-field" />
                                 </label>
                             </div>
                         )}

@@ -29,6 +29,9 @@ services:
     environment:
       - REACT_APP_BACKEND_URL=http://localhost:8000
 
+    env_file:
+      - ./token.env
+
     networks:
       - app-network
 
