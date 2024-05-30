@@ -48,6 +48,12 @@ Se ha utilizado ChatGPT para diseñar la estructura del proyecto.
 - **VSCode Docker Extension**: Instalar la extensión de Docker en VSCode (Docker, Docker compose, Docker explorer, Docker Extension Pack, Docker Run).
 - **Cuenta de GitHub**: Crear una cuenta de GitHub si no tiene una y loguearse a través de VSCode.
 - **Instalar Docker Desktop**: Instalar Docker Desktop en su PC [Descargar aquí](https://www.docker.com/products/docker-desktop/).
+- **Crear un archivo token.env**: Se requiere un archivo token.env en la raiz del proyecto con las siguientes variables:
+
+- INFURA_PROJECT_ID=API DE INFURA
+- ETHERSCAN_PROJECT_ID=API DE ETHERSCAN
+- REACT_APP_INFURA_KEY=API DE INFURA DE NUEVO
+
 
 ## 🛠️ Herramientas y Tecnologías Utilizadas
 - **Backend**: Python, FastAPI, Web3.py
@@ -139,6 +145,11 @@ ChatGPT was used to design the project structure.
 - **VSCode Docker Extension**: Install Docker extension in VSCode (Docker, Docker compose, Docker explorer, Docker Extension Pack, Docker Run).
 - **GitHub Account**: Create a GitHub account if you do not have one and log in through VSCode.
 - **Install Docker Desktop**: Install Docker Desktop on your PC [Download here](https://www.docker.com/products/docker-desktop/).
+- **Token.env**: Need a token.env file at the main folder with:
+  
+- INFURA_PROJECT_ID=INFURA API
+- ETHERSCAN_PROJECT_ID=ETHERSCAN API
+- REACT_APP_INFURA_KEY=INFURA API
 
 ## 🛠️ Tools and Technologies Used
 - **Backend**: Python, FastAPI, Web3.py
