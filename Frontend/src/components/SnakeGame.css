@@ -1,3 +1,5 @@
+/* SnakeGame.css */
+
 .snake-game {
     display: flex;
     flex-direction: column;
@@ -18,6 +20,8 @@
     height: 400px;
     background-color: #111;
     border: 1px solid #555;
+    z-index: 100;
+    /* Ajustar z-index para que esté detrás del modal */
 }
 
 .snake-segment,
@@ -36,4 +40,56 @@
     color: #fff;
     font-size: 20px;
     margin-bottom: 10px;
+}
+
+.game-over-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: visible;
+    /* Ensure the modal is visible */
+    opacity: 1;
+    /* Ensure full opacity */
+    z-index: 2000;
+    /* Ensure the modal is on top */
+}
+
+.game-over-content {
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: #fff;
+}
+
+.game-over-content h2 {
+    margin-top: 0;
+}
+
+.game-over-content table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+}
+
+.game-over-content table th,
+.game-over-content table td {
+    border: 1px solid #555;
+    padding: 5px;
+}
+
+.game-over-content button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background: #0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #000;
 }
