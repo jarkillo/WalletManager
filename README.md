@@ -50,9 +50,9 @@ Se ha utilizado ChatGPT para diseñar la estructura del proyecto.
 - **Instalar Docker Desktop**: Instalar Docker Desktop en su PC [Descargar aquí](https://www.docker.com/products/docker-desktop/).
 - **Crear un archivo token.env**: Se requiere un archivo token.env en la raiz del proyecto con las siguientes variables:
 
-- INFURA_PROJECT_ID=<API DE INFURA>
-- ETHERSCAN_PROJECT_ID=<API DE ETHERSCAN>
-- REACT_APP_INFURA_KEY=<API DE INFURA DE NUEVO>
+- INFURA_PROJECT_ID=API DE INFURA
+- ETHERSCAN_PROJECT_ID=API DE ETHERSCAN
+- REACT_APP_INFURA_KEY=API DE INFURA DE NUEVO
 
 
 ## 🛠️ Herramientas y Tecnologías Utilizadas
@@ -147,9 +147,9 @@ ChatGPT was used to design the project structure.
 - **Install Docker Desktop**: Install Docker Desktop on your PC [Download here](https://www.docker.com/products/docker-desktop/).
 - **Token.env**: Need a token.env file at the main folder with:
   
-- INFURA_PROJECT_ID=<INFURA API>
-- ETHERSCAN_PROJECT_ID=<ETHERSCAN API>
-- REACT_APP_INFURA_KEY=<INFURA API>
+- INFURA_PROJECT_ID=INFURA API
+- ETHERSCAN_PROJECT_ID=ETHERSCAN API
+- REACT_APP_INFURA_KEY=INFURA API
 
 ## 🛠️ Tools and Technologies Used
 - **Backend**: Python, FastAPI, Web3.py
