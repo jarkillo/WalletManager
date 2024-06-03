@@ -273,8 +273,8 @@ def get_transaction_details(transaction_hash: str, network: str):
         "block_number": transaction.blockNumber,
         "from": transaction["from"],
         "to": transaction["to"],
-        "value": transaction["value"]/(100000000000000000),
-        "gas": transaction["gas"]/(10000)
+        "value": transaction["value"]/(1000000000000000000),
+        "gas": transaction["gas"]
     }
 
     return transaction_details
