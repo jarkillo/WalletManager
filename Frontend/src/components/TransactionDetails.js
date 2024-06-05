@@ -83,7 +83,7 @@ function TransactionDetails() {
                     <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'} style={{ wordBreak: 'break-word' }}>Bloque: {details.block_number}</p>
                     <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'} style={{ wordBreak: 'break-word' }}>Remitente: {details.from}</p>
                     <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'} style={{ wordBreak: 'break-word' }}>Destinatario: {details.to}</p>
-                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'} style={{ wordBreak: 'break-word' }}>Valor: {details.value}</p>
+                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'} style={{ wordBreak: 'break-word' }}>Valor (ETH): {details.value}</p>
                     <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'} style={{ wordBreak: 'break-word' }}>Gas: {details.gas}</p>
                 </>
             )}
