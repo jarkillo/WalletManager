@@ -274,7 +274,8 @@ def get_transaction_details(transaction_hash: str, network: str):
         "from": transaction["from"],
         "to": transaction["to"],
         "value": transaction["value"]/(1000000000000000000),
-        "gas": transaction["gas"]/(1000000000)
+        "gas": transaction["gas"],
+        "gasPrice": transaction["gasPrice"]/(1000000000)
     }
 
     return transaction_details
