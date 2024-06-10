@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ethers } from 'ethers'; // Importamos ethers.js
+import { ethers } from 'ethers';
+import { Line } from 'react-chartjs-2';
 import Button from './button';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 function TransactionRecords() {
     const [walletAddress, setWalletAddress] = useState('');
     const [network, setNetwork] = useState('sepolia');
-    const [transactionsDays, setTransactionsDays] = useState(30); // Nuevo estado para el número de días
+    const [transactionsDays, setTransactionsDays] = useState(30);
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -38,7 +39,7 @@ function TransactionRecords() {
         setWalletAddress(event.target.value);
     };
 
-    const handleTransactionsDaysChange = (event) => { // Nuevo manejador para el cambio de días
+    const handleTransactionsDaysChange = (event) => {
         setTransactionsDays(event.target.value);
     };
 
@@ -50,7 +51,7 @@ function TransactionRecords() {
             const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/transaction/summary/${walletAddress}`, {
                 params: {
                     network: network,
-                    transactions_days: transactionsDays // Incluimos el número de días en los parámetros
+                    transactions_days: transactionsDays
                 }
             });
             setTransactions(response.data);
@@ -60,6 +61,25 @@ function TransactionRecords() {
             setTransactions([]);
         }
         setLoading(false);
+    };
+
+    const generateChartData = () => {
+        const labels = transactions.map((transaction, index) => `Tx ${index + 1}`);
+        const values = transactions.map(transaction => parseFloat(ethers.formatEther(transaction.value)));
+
+        return {
+            labels,
+            datasets: [
+                {
+                    label: 'Valor de Transacciones (ETH)',
+                    data: values,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: false,
+                    tension: 0.1 // Para suavizar las líneas de la gráfica
+                }
+            ]
+        };
     };
 
     return (
@@ -79,30 +99,37 @@ function TransactionRecords() {
                 </label>
                 <label className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>
                     Días de Transacciones:
-                    <input type="number" value={transactionsDays} onChange={handleTransactionsDaysChange} className="input-field" /> {/* Nuevo campo para el número de días */}
+                    <input type="number" value={transactionsDays} onChange={handleTransactionsDaysChange} className="input-field" />
                 </label>
                 <Button icon={faSearch} type="submit" disabled={loading}>
                     {loading ? 'Cargando...' : 'Consultar Transacciones'}
                 </Button>
             </form>
-            {error && <p className={darkMode ? 'generated-text-dark' : 'generated - text - light'}>{error}</p>}
+            {error && <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>{error}</p>}
             <div className="transaction-container">
                 {transactions.length > 0 ? (
-                    <ul className="transaction-list">
-                        {transactions.map((transaction, index) => (
-                            <li key={index} className="transaction-item">
-                                <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>Hash: {transaction.hash}</p>
-                                <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>Desde: {transaction.from}</p>
-                                <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>Hasta: {transaction.to}</p>
-                                <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>Valor: {ethers.formatEther(transaction.value)} ETH</p> {/* Convertimos de wei a ETH */}
-                            </li>
-                        ))}
-                    </ul>
+                    <div className="transaction-list-container">
+                        <ul className="transaction-list">
+                            {transactions.map((transaction, index) => (
+                                <li key={index} className="transaction-item">
+                                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>Hash: {transaction.hash}</p>
+                                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>Desde: {transaction.from}</p>
+                                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>Hasta: {transaction.to}</p>
+                                    <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>Valor: {ethers.formatEther(transaction.value)} ETH</p>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 ) : (
                     <p className={darkMode ? 'generated-text-dark' : 'generated-text-light'}>No se encontraron transacciones.</p>
                 )}
             </div>
-        </div >
+            {transactions.length > 0 && (
+                <div className="chart-container">
+                    <Line data={generateChartData()} />
+                </div>
+            )}
+        </div>
     );
 }
 
